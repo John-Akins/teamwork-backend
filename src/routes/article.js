@@ -7,4 +7,4 @@ const router = express.Router()
 router.get("/", articleCtrl.getAllArticles)
 //router.get("/", auth, articleCtrl.getAllArticles)
 
-module.exports = router
+module.exports = router 

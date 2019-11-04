@@ -11,7 +11,7 @@ pool.on("error", (err) => {
 
 exports.queryAll = (queryString) =>  {
 	return new Promise((resolve, reject) => {
-		pool.connect((err, client, done) => {	
+		pool.connect((err, client, done) => {
 			if(err){
 				reject({
 					error: "QueryError" + err.stack
@@ -31,15 +31,15 @@ exports.queryAll = (queryString) =>  {
 	})
 }
 
-exports.queryWhere = (queryString, queryParam) =>  {
+exports.queryWhere = (query) =>  {
 	return new Promise((resolve, reject) => {
-		pool.connect((err, client, done) => {	
+		pool.connect((err, client, done) => {
 			if(err){
 				reject({
 					error: "QueryError" + err.stack
 				})
-			}				
-			client.query(queryString, queryParam, (err,result) => {
+			}			
+			client.query(query, (err,result) => {
 			//call `done()` to release the client back to the pool
 				done()
 				if(err){

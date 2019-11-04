@@ -1,28 +1,24 @@
 const Request = require("request")
+const server = require("../src/app")
 
-describe("admin or employee sign in", function()  {
-	let server
-	beforeAll(() => {
-		server = require("../src/app")
-	})
-	afterAll(() => {
-		server.close()
-	})
-	describe("incorrect username and/or password", () => {
+describe("admin or employee sign in", () =>  {
+	describe("incorrect email and/or password", () => {
 		const data = {}
 		beforeAll((done) => {
 			Request.post({
 				url: "http://localhost:8080/api/v1/auth/signin",
 				method: "POST",
-				json: {
-					username: "username",
+				body: {
+					email: "email",
 					password: "password"
-				}
+				},
+				json: true
 			}, 
 			(error, response, body) => {
+				console.log("body: ")
+				console.log(body)
 				data.status = response.statusCode
-				data.body = body
-				data.headers = response.headers
+				data.body = response.body
 				done()
 			})
 		})		
@@ -30,32 +26,32 @@ describe("admin or employee sign in", function()  {
 			expect(data.status).toBe(401)
 		})
 		it("should return relevant error message", () => {
-			expect(data.body.data).toBe("incorrect username or password")
+			expect(data.body.error).toBe("incorrect email or password")
 		})
 	})
-	describe("correct username and password", () => {
+	describe("correct email and password", () => {
 		const data = {}
 		beforeAll((done) => {
 			Request.post({
 				url: "http://localhost:8080/api/v1/auth/signin",
 				method: "POST",
-				json: {
-					username: "username",
+				body: {
+					email: "lovelace@gmail.com",
 					password: "password"
-				}
-			}, 
+				},
+				json: true
+			},
 			(error, response, body) => {
 				data.status = response.statusCode
-				data.body = body
-				data.headers = response.headers
+				data.bodyData = body.data
 				done()
 			})
 		})		
 		it("should return 200 status code", () => {
-			expect(data.status).toBe(200)	
+			expect(data.status).toBe(200)
 		})
 		it("should sign the response header with JWT", () => {
-			expect(data.headers.userId).toBe(10001)	
+			expect(data.bodyData.userId).toBe(10001)
 		})
 	})
 })
