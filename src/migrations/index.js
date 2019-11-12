@@ -93,15 +93,12 @@ dbMigration.fillDummyData = () => {
     const len = dummyQueries.length
     for (let i = 0; i < len; i++) {
         dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
-        console.log("fill dummy data")
-        console.log(dummyQueries[i].query)        
-        const query = {
-            name:  `create-${dummyQueries[i].table}`,
-            text: dummyQueries[i].query
-        }
         
-        db.query(query)
+        db.query(dummyQueries[i].query)
         .then((response) => {
+            console.log("fill dummy data")
+            console.log(dummyQueries[i].query)        
+    
             console.log("table insert response")
             console.log(response)
             dbMigration.dummyQueriesExecuted = dbMigration.dummyQueriesExecuted && true            
