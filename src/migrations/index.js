@@ -108,7 +108,7 @@ dbMigration.fillDummyData = () => {
         dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
         const query = {
             name: "create-user",
-            text: dummyQueries[i]
+            text: dummyQueries[i].query
         }
         db.query(query)
         .then((response) => {
