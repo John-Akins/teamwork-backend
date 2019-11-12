@@ -108,9 +108,13 @@ dbMigration.fillDummyData = () => {
         dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
         db.query(dummyQueries[i])
         .then((response) => {
+            console.log("table insert response")
+            console.log(response)
             dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true            
         })
         .catch((error) => {
+            console.log("table insert error")
+            console.log(error)
             dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && false
         })
     }
