@@ -1,7 +1,7 @@
-const express = require("express")
-//import auth from "../middleware/auth.js"
-const authCtrl = require("../controllers/auth")
-const inputValidator = require("../middleware/input-validator")
+import express from "express"
+import auth from "../middleware/auth"
+import authController  from "../controllers/auth"
+import inputValidator from "../middleware/input-validator"
 
 const router = express.Router()
 
@@ -17,6 +17,27 @@ const router = express.Router()
 * @apiSuccess (200) {Object} mixed `User` object
 */
 
-router.post("/signin", inputValidator.signin, authCtrl.signin)
+router.post("/signin", inputValidator.signin, authController.signin)
 
-module.exports = router
+/**
+* @api {post} /api/auth/create-user
+* @apiName Create user
+* @apiPermission admin
+* @apiGroup Auth
+*
+* @apiParam  {String} [firstName] Firstname
+* @apiParam  {String} [lastName] Lastname
+* @apiParam  {String} [email] Email
+* @apiParam  {String} [address] Address
+* @apiParam  {String} [password] Password
+* @apiParam  {String} [gender] Gender
+* @apiParam  {String} [jobRole] JobRole
+* @apiParam  {String} [department] Department
+* @apiParam  {Boolean} [isAdmin] isAdmin
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
+router.post("/create-user", auth.adminOnly, inputValidator.createUser, authController.createUser)
+
+export default router
