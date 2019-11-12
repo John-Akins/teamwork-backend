@@ -11,6 +11,8 @@ dbMigration.tableExists = (table) => {
             resolve(true)
         })
         .catch((error) => {
+            console.log("table exists func")
+            console.log(error)
             reject(false)
         })
     })
@@ -62,11 +64,14 @@ dbMigration.createTablesIfNotExists = () => {
             .catch(error => {
                 console.log("table does not exists")
                 db.query(tableQuery)
-                .then(() => {
+                .then((resp) => {
+                    console.log("resp")
+                    console.log(resp)
                     console.log("table created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
-                .catch( () => {
+                .catch( (error) => {
+                    console.log(error)
                     console.log("table not created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
