@@ -106,7 +106,11 @@ dbMigration.fillDummyData = () => {
     const len = dummyQueries.length
     for (let i = 0; i < len; i++) {
         dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
-        db.query(dummyQueries[i])
+        const query = {
+            name: "create-user",
+            text: dummyQueries[i]
+        }
+        db.query(query)
         .then((response) => {
             console.log("table insert response")
             console.log(response)
