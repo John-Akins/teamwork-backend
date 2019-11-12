@@ -1,12 +1,15 @@
 import { Pool } from 'pg'
 import configJson from '../config/config';
+console.log("process.env.NODE_ENV")
+console.log(process.env.NODE_ENV)
 
-const env = ( process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim()
+const env = ( typeof process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim()
 
 const { database, username, password, host } = configJson[env]
 
 const connectionString = `postgressql://${username}:${password}@${host}:5432/${database}`
 
+console.log(connectionString)
 const pool = new Pool({connectionString : connectionString})
 
 // the pool will emit an error on behalf of any idle clients it contains

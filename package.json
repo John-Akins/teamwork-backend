@@ -4,7 +4,7 @@
   "description": "secure Backend RESTful services",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./build && babel -d ./build/src ./src -s",
+    "build": "rm -rf ./build && babel -d .build/src ./src -s",
     "dev": "nodemon --exec babel-node .build/src/server.js",
     "dbmigrate": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/index.js --timeout 20000 --exit",
     "test": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/api/ --timeout 20000 --exit",
