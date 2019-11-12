@@ -77,11 +77,11 @@ dbMigration.dummyQueries = [
     },
     {
         table: "feedComments",
-        query:"INSERT INTO  feedComments (\"feedId\", \"commentId\", \"feedType\", \"comment\", \"commentOn\", \"commentBy\", \"isFlagged\") values (10001, 10001,'article', 'Very nice', '2019-10-10', 10001, f), (10002, 10002,	'article', 'Very nice', '2019-10-10', 10001, f)"
+        query:"INSERT INTO  feedComments (\"feedId\", \"commentId\", \"feedType\", \"comment\", \"commentOn\", \"commentBy\", \"isFlagged\") values (10001, 10001,'article', 'Very nice', '2019-10-10', 10001, FALSE), (10002, 10002,	'article', 'Very nice', '2019-10-10', 10001, FALSE)"
     },
     {
         table: "users",
-        query: "INSERT INTO users(\"userId\", \"firstName\", \"lastName\", \"email\", \"address\", \"password\", \"gender\", \"jobRole\", \"department\", \"isAdmin\", \"isNewAccount\") values (10001, 'Ada Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	t,	f), (10002,	'Ada Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	f,	f)"
+        query: "INSERT INTO users(\"userId\", \"firstName\", \"lastName\", \"email\", \"address\", \"password\", \"gender\", \"jobRole\", \"department\", \"isAdmin\", \"isNewAccount\") values (10001, 'Ada Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	TRUE,	FALSE), (10002,	'Ada Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	FALSE,	FALSE)"
     }
 
 ]
