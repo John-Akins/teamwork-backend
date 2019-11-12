@@ -4,6 +4,7 @@ const dbMigration = {}
 
 dbMigration.tableExists = (table) => {
     return new Promise((resolve, reject) => {
+        console.log("checking")
         const query = `SELECT * FROM ${table}`
         db.query(query)
         .then(() => {
@@ -55,16 +56,23 @@ dbMigration.createTablesIfNotExists = () => {
             dbMigration.tableExists(table)
             .then(res => {
                 dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && res
+                console.log("table exists")
+                console.log(res)
             })
             .catch(error => {
+                console.log("table does not exists")
                 db.query(tableQuery)
                 .then(() => {
+                    console.log("table created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
                 .catch( () => {
+                    console.log("table not created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
             })
+            console.log("dbMigration.hasCreatedTables")
+            console.log(dbMigration.hasCreatedTables)
         }
         return dbMigration.hasCreatedTables
 }
