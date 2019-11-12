@@ -57,7 +57,6 @@ dbMigration.createTablesIfNotExists = () => {
                 dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && res
             })
             .catch(error => {
-                console.log("table does not exists")
                 db.query(tableQuery)
                 .then((resp) => {
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
@@ -93,24 +92,23 @@ dbMigration.fillDummyData = () => {
     const dummyQueries = dbMigration.dummyQueries
     const len = dummyQueries.length
     for (let i = 0; i < len; i++) {
-        dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
-        const query = {
-            name: "create-user",
-            text: dummyQueries[i].query
-        }
-        db.query(query)
+        console.log("fill dummy data")
+        console.log(dummyQueries[i].query)        
+        dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
+
+        db.query(dummyQueries[i].query)
         .then((response) => {
             console.log("table insert response")
             console.log(response)
-            dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true            
+            dbMigration.dummyQueriesExecuted = dbMigration.dummyQueriesExecuted && true            
         })
         .catch((error) => {
             console.log("table insert error")
             console.log(error)
-            dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && false
+            dbMigration.dummyQueriesExecuted = dbMigration.dummyQueriesExecuted && false
         })
     }
-    return dbMigration.hasCreatedTables;
+    return dbMigration.dummyQueriesExecuted;
 }
 
 export default dbMigration
