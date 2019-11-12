@@ -4,15 +4,12 @@ const dbMigration = {}
 
 dbMigration.tableExists = (table) => {
     return new Promise((resolve, reject) => {
-        console.log("checking")
         const query = `SELECT * FROM ${table}`
         db.query(query)
         .then(() => {
             resolve(true)
         })
         .catch((error) => {
-            console.log("table exists func")
-            console.log(error)
             reject(false)
         })
     })
@@ -58,26 +55,17 @@ dbMigration.createTablesIfNotExists = () => {
             dbMigration.tableExists(table)
             .then(res => {
                 dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && res
-                console.log("table exists")
-                console.log(res)
             })
             .catch(error => {
                 console.log("table does not exists")
                 db.query(tableQuery)
                 .then((resp) => {
-                    console.log("resp")
-                    console.log(resp)
-                    console.log("table created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
                 .catch( (error) => {
-                    console.log(error)
-                    console.log("table not created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
             })
-            console.log("dbMigration.hasCreatedTables")
-            console.log(dbMigration.hasCreatedTables)
         }
         return dbMigration.hasCreatedTables
 }
@@ -86,15 +74,15 @@ dbMigration.dummyQueries = [
 
     {
         table: "articles",
-        query: "INSERT INTO articles (title, articleId, createdOn, createdBy, article) values ('Old lady tale', 10001, '2019-10-12', 10001, 'One nice Old Lady Tale '),('Quick brown fox', 10002, '2019-11-12',10002, 'One Hell of a quick brown fox'), ('Ada Lovelace', 10003, '2019-10-12',	10002, 'A computer science fairy tale')"
+        query: "INSERT INTO articles (\"title\", \"articleId\", \"createdOn\", \"createdBy\", \"article\") values ('Old lady tale', 10001, '2019-10-12', 10001, 'One nice Old Lady Tale '),('Quick brown fox', 10002, '2019-11-12',10002, 'One Hell of a quick brown fox'), ('Ada Lovelace', 10003, '2019-10-12',	10002, 'A computer science fairy tale')"
     },
     {
         table: "feedComments",
-        query:"INSERT INTO  feedComments (feedId, commentId, feedType, comment, commentOn, commentBy, isFlagged) values (10001, 10001,'article', 'Very nice', '2019-10-10', 10001, f), (10002, 10002,	'article', 'Very nice', '2019-10-10', 10001, f)"
+        query:"INSERT INTO  feedComments (\"feedId\", \"commentId\", \"feedType\", \"comment\", \"commentOn\", \"commentBy\", \"isFlagged\") values (10001, 10001,'article', 'Very nice', '2019-10-10', 10001, f), (10002, 10002,	'article', 'Very nice', '2019-10-10', 10001, f)"
     },
     {
         table: "users",
-        query: "INSERT INTO  users (userId, firstName, lastName, email, address, password, gender, jobRole, department, isAdmin, isNewAccount) values (10001, 'Ada Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	t,	f), (10002,	'Ada Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	f,	f)"
+        query: "INSERT INTO users(\"userId\", \"firstName\", \"lastName\", \"email\", \"address\", \"password\", \"gender\", \"jobRole\", \"department\", \"isAdmin\", \"isNewAccount\") values (10001, 'Ada Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	t,	f), (10002,	'Ada Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	f,	f)"
     }
 
 ]
