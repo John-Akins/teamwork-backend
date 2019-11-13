@@ -53,68 +53,7 @@ dbMigration.createTables = () => {
         }
         return dbMigration.hasCreatedTables
 }
-/*
-import db from "../db"
 
-const dbMigration = {}
-
-dbMigration.tableExists = (table) => {
-    return new Promise((resolve, reject) => {
-        const query = `SELECT * FROM ${table}`
-        db.query(query)
-        .then(() => {
-            resolve(true)
-        })
-        .catch((error) => {
-            reject(false)
-        })
-    })
-}
-
-dbMigration.tablesAndQueries = [
-    {
-        table: "users", 
-        query: 'CREATE TABLE users ( "userId" bigint NOT NULL, "firstName" character varying(30) NOT NULL, "lastName" character varying NOT NULL, "email" character varying NOT NULL, "address" character varying NOT NULL, "password" character varying NOT NULL, "gender" character varying NOT NULL, "jobRole" character varying NOT NULL, "department" character varying NOT NULL, "isAdmin" boolean NOT NULL, "isNewAccount" boolean DEFAULT true NOT NULL )'
-    },
-
-    {
-        table: "articles",
-        query: 'CREATE TABLE articles ( "title" character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, "article" character(1000) NOT NULL )'
-    },
-
-    {
-        table: "feedComments",
-        query: 'CREATE TABLE "feedComments" ( "feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, "comment" character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean )'
-    },
-
-    {
-        table: "feedFlags",
-        query: 'CREATE TABLE "feedFlags" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) )'
-    },
-
-    {
-        table: "gifs",
-        query: 'CREATE TABLE gifs ( "gifId" bigint NOT NULL, "title" character(100) NOT NULL, "imageUrl" character(100) NOT NULL, "createdOn" date NOT NULL, "createdBy" character(20)[] NOT NULL )'
-    }
-]
-
-dbMigration.hasCreatedTables = false
-
-dbMigration.createTables = () => {
-        const tablesAndQueries = dbMigration.tablesAndQueries
-        for (let i = 0; i < tablesAndQueries.length; i++) 
-        {
-            const tableQuery = tablesAndQueries[i].query
-                db.query(tableQuery)
-                .then((resp) => {
-                })
-                .catch( (error) => {
-                    return false
-                })
-        }
-        return true
-}
-*/
 dbMigration.dummyQueries = [
 
     {
@@ -136,7 +75,7 @@ dbMigration.dummyQueries = [
     },
     {
         table: "users",
-        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Turan\', \'turan@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
     },
 
     {
