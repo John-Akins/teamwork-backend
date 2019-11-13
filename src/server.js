@@ -1,5 +1,8 @@
-const http = require("http")    // import Node native http package
-const app = require("./app")
+import http from "http"    // import Node native http package
+import app from "./app"
+import config from 'dotenv';
+
+config.config()
 
 // returns a valid port 
 // whether port is passed as number or a string
@@ -53,4 +56,5 @@ server.on("listening", () => {
 	console.log("Listening on " + bind)
 })
 
-server.listen(port) //set server to listen with either production or local port
+//set server to listen with either production or local port
+server.listen(port) 
