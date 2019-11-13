@@ -1,5 +1,7 @@
 import db from "../db"
 
+const dbMigration = {}
+
 dbMigration.tablesAndQueries = [
     {
         table: "users", 
