@@ -66,41 +66,33 @@ dbMigration.dummyQueries = [
 
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  ($1, $2, $3,	$4, $5)',
-        values: ['Ada Lovelace', 10003, '2019-10-12',	10002, 'A computer science fairy tale']
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\')',
 
     },
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  ($1, $2, $3,	$4, $5)',
-        values: ['Quick brown fox', 10002, '2019-11-12',10002, 'One Hell of a quick brown fox']
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Quick brown fox\', 10002, \'2019-11-12\',10002, \'One Hell of a quick brown fox\')'
     },
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  ($1, $2, $3,	$4, $5)',
-
-        values: ['Ada Lovelace', 10003, '2019-10-12',	10002, 'A computer science fairy tale']
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\')'
     },
     {
         table: "users",
-        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-        values: [10001, 'Ada', 'Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	true,	false]
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10001, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	TRUE,	FALSE)',
     },
     {
         table: "users",
-        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-        values: [10002, 'Ada', 'Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	false,	false]
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
     },
 
     {
         table: "feedComments",
-        query: 'INSERT INTO  "feedComments" ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values ($1, $2, $3, $4, $5, $6, $7)',
-        values: [10001, 10001,'article', 'Very nice', '2019-10-10', 10001, false]
+        query: 'INSERT INTO  "feedComments" ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values (10001, 10001, \'article\', \'Very nice\', \'2019-10-10\', 10001, FALSE)'
     },
     {
         table: "feedComments",
-        query: 'INSERT INTO  "feedComments" ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values ($1, $2, $3, $4, $5, $6, $7)',
-        values:[10002, 10002,	'article', 'Very nice', '2019-10-10', 10001, false]
+        query: 'INSERT INTO  "feedComments" ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values (10002, 10002, \'article\', \'Very nice\', \'2019-10-10\', 10001, FALSE)'
     }
 
 ]
@@ -111,11 +103,7 @@ dbMigration.fillDummyData = () => {
     const dummyQueries = dbMigration.dummyQueries
     const len = dummyQueries.length
     for (let i = 0; i < len; i++) {
-        const query = {
-            text: dummyQueries[i].query,
-            values: dummyQueries[i].values
-        }
-        db.queryWhere(query)
+        db.queryWhere(dummyQueries[i].query)
         .then((response) => {
             dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
 
