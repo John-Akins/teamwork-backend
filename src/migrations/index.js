@@ -83,12 +83,12 @@ dbMigration.dummyQueries = [
     },
     {
         table: "users",
-        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, %9, $10, $11)',
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
         values: [10001, 'Ada', 'Lovelace', 'lovelace@gmail.com', 'LOvelace street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa', 'female',	'Software Engineer', 'IT',	true,	false]
     },
     {
         table: "users",
-        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, %9, $10, $11)',
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
         values: [10002, 'Ada', 'Turan', 'turan@gmail.com', 'Turan street', '$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa',	'male',	'Software Engineer', 'IT',	false,	false]
     },
 

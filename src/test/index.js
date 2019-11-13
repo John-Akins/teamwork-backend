@@ -8,7 +8,7 @@ describe('Database Migrations', () => {
     describe('Schema Migrations', () => {
         const data = {}
         before( (done) => {
-            data.response = dbMigration.createTablesIfNotExists()
+            data.response = dbMigration.createTables()
             done();
         })
     
