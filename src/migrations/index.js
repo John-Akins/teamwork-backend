@@ -51,15 +51,12 @@ dbMigration.createTables = () => {
             const tableQuery = tablesAndQueries[i].query
                 db.query(tableQuery)
                 .then((resp) => {
-                    dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
-                    dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
                 .catch( (error) => {
-                    dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
-                    dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
+                    return false
                 })
         }
-        return dbMigration.hasCreatedTables
+        return true
 }
 
 dbMigration.dummyQueries = [
@@ -97,7 +94,7 @@ dbMigration.dummyQueries = [
 
 ]
 
-dbMigration.dummyQueriesExecuted = false
+
 
 dbMigration.fillDummyData = () => {
     const dummyQueries = dbMigration.dummyQueries
@@ -105,7 +102,6 @@ dbMigration.fillDummyData = () => {
     for (let i = 0; i < len; i++) {
         db.queryWhere(dummyQueries[i].query)
         .then((response) => {
-            dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
             db.queryAll("SELECT * FROM" + dummyQueries[i].table)
             .then((res)=> {
                 console.log(res)
@@ -113,17 +109,14 @@ dbMigration.fillDummyData = () => {
             .catch((err) => {
                 console.log(err)
             })
-            
+
             console.log("fill dummy data")
             console.log(dummyQueries[i].query)        
     
             console.log("table insert response")
             console.log(response)
-            dbMigration.dummyQueriesExecuted = dbMigration.dummyQueriesExecuted && true            
         })
         .catch((error) => {
-            dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
-
             console.log("table insert error")
             console.log(error)
             return false
