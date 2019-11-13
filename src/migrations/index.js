@@ -102,14 +102,6 @@ dbMigration.fillDummyData = () => {
     for (let i = 0; i < len; i++) {
         db.queryWhere(dummyQueries[i].query)
         .then((response) => {
-            db.queryAll("SELECT * FROM " + dummyQueries[i].table)
-            .then((res)=> {
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
             console.log("fill dummy data")
             console.log(dummyQueries[i].query)        
     
@@ -120,6 +112,13 @@ dbMigration.fillDummyData = () => {
             console.log("table insert error")
             console.log(error)
             return false
+        })
+        db.query("SELECT * FROM " + dummyQueries[i].table)
+        .then((res)=> {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
         })
     }
     return true
