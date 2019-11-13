@@ -15,12 +15,12 @@ dbMigration.tablesAndQueries = [
 
     {
         table: "feedComments",
-        query: 'CREATE TABLE "feedComments" ( "feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean )'
+        query: 'CREATE TABLE \"feedComments\" ( "feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean )'
     },
 
     {
         table: "feedFlags",
-        query: 'CREATE TABLE "feedFlags" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) )'
+        query: 'CREATE TABLE \"feedFlags\" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) )'
     },
 
     {
@@ -41,15 +41,13 @@ dbMigration.createTables = () => {
 
                 db.query(tableQuery)
                 .then(() => {
-                    console.log("table created")
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
-                .catch( () => {
-                    console.log("table not created")
+                .catch( (e) => {
+                    console.log("table create error")
+                    console.log(e)
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
-            console.log("dbMigration.hasCreatedTables")
-            console.log(dbMigration.hasCreatedTables)
         }
         return dbMigration.hasCreatedTables
 }
@@ -97,23 +95,12 @@ dbMigration.fillDummyData = () => {
     for (let i = 0; i < len; i++) {
         db.queryWhere(dummyQueries[i].query)
         .then((response) => {
-            console.log("fill dummy data")
-            console.log(dummyQueries[i].query)        
-    
-            console.log("table insert response")
-            console.log(response)
+
         })
         .catch((error) => {
             console.log("table insert error")
             console.log(error)
             return false
-        })
-        db.query("SELECT * FROM " + dummyQueries[i].table)
-        .then((res)=> {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
         })
     }
     return true
