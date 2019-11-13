@@ -22,9 +22,7 @@ describe("admin or employee sign in", () =>  {
 				data.body = response.body
 				done();
 			});
-			console.log("data :::")
-			console.log(data)
-		})		
+		})
 
 		it("should return 401 status code", () => {
 			expect(data.status).to.equal(401)
@@ -46,7 +44,7 @@ describe("admin or employee sign in", () =>  {
 			.end((error, response) => {
 				data.status = response.statusCode
 				data.body = response.body
-				console.log("data :::")
+				console.log(":::: correct email and password data :::")
 				console.log(data)
 				done();
 			});

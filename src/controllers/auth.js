@@ -29,6 +29,8 @@ authController.signin = (req, res) => {
 		.then((user) => {
 			if(user[0] === undefined)
 			{
+				console.log(":::::::::::::::: NOT A USER")
+				console.log(user)	
 				return res.status(401).json({
 					status: "error",
 					error: "incorrect email or password"
@@ -36,20 +38,21 @@ authController.signin = (req, res) => {
 			}
 			else
 			{
+				console.log(":::::::::::::::: IS A USER")
+				console.log(user)
 				const userId = user[0].userId 
 				const isAdmin = user[0].isAdmin
 				bcrypt.compare(userPassword, user[0].password)
 					.then((valid) => {
 						if(!valid)
 						{
+							console.log(":::::::::::::::: IS A USER ::::::: INCORRECT PASSWORD")
 							return res.status(401).json({
 								status: "error",
 								error: "incorrect email or password"
 							})
-						} 
-						const token = jwt.sign({userId: userId, isAdmin: isAdmin},"$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf",
-							{expiresIn: "24h"}
-						)
+						}
+						const token = jwt.sign({userId: userId, isAdmin: isAdmin},"$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf",{expiresIn: "24h"})
 						res.status(200).json({
 							status : "success",
 							data : {
@@ -68,7 +71,7 @@ authController.signin = (req, res) => {
 			}
 		})
 		.catch((error) => {
-			res.status(403).json({
+			res.status(500).json({
 				status: "error",
 				error: "server error"
 			})
