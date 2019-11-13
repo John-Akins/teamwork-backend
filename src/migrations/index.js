@@ -31,7 +31,7 @@ dbMigration.tablesAndQueries = [
 
 dbMigration.hasCreatedTables = false
 
-dbMigration.createTablesIfNotExists = () => {
+dbMigration.createTables = () => {
         const tablesAndQueries = dbMigration.tablesAndQueries
         for (let i = 0; i < tablesAndQueries.length; i++) 
         {
