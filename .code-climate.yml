@@ -2,4 +2,4 @@ plugins:
   eslint:
    	enabled: true
 exclude_patterns:
-- "build/"
+- ".build/"
