@@ -102,7 +102,7 @@ dbMigration.fillDummyData = () => {
     for (let i = 0; i < len; i++) {
         db.queryWhere(dummyQueries[i].query)
         .then((response) => {
-            db.queryAll("SELECT * FROM" + dummyQueries[i].table)
+            db.queryAll("SELECT * FROM " + dummyQueries[i].table)
             .then((res)=> {
                 console.log(res)
             })
