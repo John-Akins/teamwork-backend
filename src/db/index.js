@@ -75,16 +75,22 @@ db.queryAll = (queryString) =>  {
 	})
 }
 
-db.queryWhere = (query) =>  {
+db.queryWhere = (queryString) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
+			console.log("POOL error")
+			console.log(err)
 			if(err)
 			{
 				reject({
 					error: 'QueryError' + err.stack
 				})
-			}
-			client.query(query, (err,result) => {
+			}				
+			client.query(queryString, (err,result) => {
+				console.log("Client error")
+				console.log(err)
+				console.log("Client restult")
+				console.log(result)
 				done()
 				if(err)
 				{
@@ -92,7 +98,7 @@ db.queryWhere = (query) =>  {
 						error: 'QueryError' + err.stack
 					})
 				}
-				resolve(result.rows)
+				resolve(result)
 			})
 		})
 	})

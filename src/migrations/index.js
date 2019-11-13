@@ -44,19 +44,11 @@ dbMigration.tablesAndQueries = [
 
 dbMigration.hasCreatedTables = false
 
-dbMigration.createTablesIfNotExists = () => {
+dbMigration.createTables = () => {
         const tablesAndQueries = dbMigration.tablesAndQueries
         for (let i = 0; i < tablesAndQueries.length; i++) 
         {
-            const table = tablesAndQueries[i].table
             const tableQuery = tablesAndQueries[i].query
-            // check if table exists
-            dbMigration.tableExists(table)
-            .then(res => {
-                dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
-                dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && res
-            })
-            .catch(error => {
                 db.query(tableQuery)
                 .then((resp) => {
                     dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
@@ -66,7 +58,6 @@ dbMigration.createTablesIfNotExists = () => {
                     dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
-            })
         }
         return dbMigration.hasCreatedTables
 }
@@ -119,8 +110,12 @@ dbMigration.dummyQueriesExecuted = false
 dbMigration.fillDummyData = () => {
     const dummyQueries = dbMigration.dummyQueries
     const len = dummyQueries.length
-    for (let i = 0; i < len; i++) {        
-        db.query(dummyQueries[i].query)
+    for (let i = 0; i < len; i++) {
+        const query = {
+            text: dummyQueries[i].query,
+            values: dummyQueries[i].values
+        }
+        db.queryWhere(query)
         .then((response) => {
             dbMigration.dummyQueriesExecuted = (i === 0) ? true : dbMigration.dummyQueriesExecuted
 
@@ -139,7 +134,7 @@ dbMigration.fillDummyData = () => {
             dbMigration.dummyQueriesExecuted = dbMigration.dummyQueriesExecuted && false
         })
     }
-    return dbMigration.dummyQueriesExecuted;
+    return dbMigration.dummyQueriesExecuted
 }
 
 export default dbMigration
