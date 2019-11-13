@@ -27,10 +27,9 @@ authController.signin = (req, res) => {
 	}
 	db.queryWhere(query)
 		.then((user) => {
-			if(user[0] === undefined)
+
+			if(user.rows[0] === undefined)
 			{
-				console.log(":::::::::::::::: NOT A USER")
-				console.log(user)	
 				return res.status(401).json({
 					status: "error",
 					error: "incorrect email or password"
@@ -38,15 +37,12 @@ authController.signin = (req, res) => {
 			}
 			else
 			{
-				console.log(":::::::::::::::: IS A USER")
-				console.log(user)
-				const userId = user[0].userId 
-				const isAdmin = user[0].isAdmin
-				bcrypt.compare(userPassword, user[0].password)
+				const userId = user.rows[0].userId 
+				const isAdmin = user.rows[0].isAdmin
+				bcrypt.compare(userPassword, user.rows[0].password)
 					.then((valid) => {
 						if(!valid)
 						{
-							console.log(":::::::::::::::: IS A USER ::::::: INCORRECT PASSWORD")
 							return res.status(401).json({
 								status: "error",
 								error: "incorrect email or password"
@@ -57,8 +53,8 @@ authController.signin = (req, res) => {
 							status : "success",
 							data : {
 								token : token,
-								userId: user[0].userId,
-								jobRole: user[0].jobRole
+								userId: user.rows[0].userId,
+								jobRole: user.rows[0].jobRole
 							}
 						})           						
 					})
@@ -89,7 +85,7 @@ const emailExists = (email) => {
 		}
 		db.queryWhere(query)
 			.then((user) => {
-				if(user[0] !== undefined)
+				if(user.rows[0] !== undefined)
 				{
 					resolve(true)
 				}

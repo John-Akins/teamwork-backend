@@ -62,7 +62,7 @@ db.queryAll = (queryString) =>  {
 						error: 'QueryError' + err.stack
 					})
 				}
-				resolve(result.rows)
+				resolve(result)
 			})
 		})
 	})

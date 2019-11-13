@@ -17,6 +17,7 @@ before_script:
   - psql -c 'CREATE database teamwork_test;' -U postgres
   - psql -c "CREATE USER test WITH PASSWORD 'root';" -U postgres
   - npm run build
+  - npm run dbmigrate 
 
 script:
   - npm run test
