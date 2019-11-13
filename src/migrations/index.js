@@ -93,7 +93,7 @@ dbMigration.fillDummyData = () => {
     const dummyQueries = dbMigration.dummyQueries
     const len = dummyQueries.length
     for (let i = 0; i < len; i++) {
-        db.queryWhere(dummyQueries[i].query)
+        db.query(dummyQueries[i].query)
         .then((response) => {
 
         })
