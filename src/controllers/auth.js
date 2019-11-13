@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { validationResult } from "express-validator"
-import responseUtility from "../utilities/response"
+import responseUtility from "../utilities/responseUtility"
 import db from "../db"
 
 const authController = {}

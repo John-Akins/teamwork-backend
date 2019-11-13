@@ -1,4 +1,4 @@
-const responsUtility = {}
+const responseUtility = {}
 responseUtility.success = (res, data) => {
     return res.status(200).json({
         status: "success",
@@ -11,4 +11,4 @@ responseUtility.error = (res, code, msg) => {
         error: msg
     });
 }
-export default responsUtility
+export default responseUtility

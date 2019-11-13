@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import responseUtility from "../utilities/response"
+import responseUtility from "../utilities/responseUtility"
 
 const auth = {}
 
