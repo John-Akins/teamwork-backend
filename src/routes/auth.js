@@ -1,6 +1,4 @@
 import express from "express"
-import auth from "../middleware/auth"
-import authController  from "../controllers/auth"
 import inputValidator from "../middleware/input-validator"
 
 const router = express.Router()
@@ -18,6 +16,9 @@ const router = express.Router()
 */
 
 router.post("/signin", inputValidator.signin, authController.signin)
+
+import auth from "../middleware/auth"
+import authController  from "../controllers/auth"
 
 /**
 * @api {post} /api/auth/create-user
