@@ -1,76 +1,45 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { validationResult } from "express-validator"
-
+import responseUtility from "../utilities/responsUtility"
 import db from "../db"
 
 const authController = {}
+const tokenSecret = "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf"
 
 authController.signin = (req, res) => {
-	// Get input validation status
 	const errors = validationResult(req)
-	if (!errors.isEmpty()) 
-	{
-		return res.status(422).json({
-			status: "error",
-			error: errors.array()
-		})				
+	if (!errors.isEmpty()) {
+		return responseUtility.error(res, 422, errors.array())
 	}
-
-	const userEmail = req.body.email
-	const userPassword = req.body.password	
 
 	const query = {
-		name: "fetch-user",
 		text: "SELECT * FROM users WHERE email = $1",
-		values: [userEmail]
+		values: [req.body.email]
 	}
-	db.queryWhere(query)
+	db.query(query)
 		.then((user) => {
+			if (user.rows[0] === undefined) {
+			    return	responseUtility.error(res, 401, "incorrect email or password")
+			}
 
-			if(user.rows[0] === undefined)
-			{
-				return res.status(401).json({
-					status: "error",
-					error: "incorrect email or password"
+			bcrypt.compare(req.body.password, user.rows[0].password)
+				.then((valid) => {
+					if(!valid) {
+						responseUtility.error(res, 401, "incorrect email or password")
+					}
+
+					const token = jwt.sign({userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin}, tokenSecret, {expiresIn: "24h"})
+					const data = { token : token, userId: user.rows[0].userId, jobRole: user.rows[0].jobRole }		
+
+					responseUtility.success(res, 401, data)
 				})
-			}
-			else
-			{
-				const userId = user.rows[0].userId 
-				const isAdmin = user.rows[0].isAdmin
-				bcrypt.compare(userPassword, user.rows[0].password)
-					.then((valid) => {
-						if(!valid)
-						{
-							return res.status(401).json({
-								status: "error",
-								error: "incorrect email or password"
-							})
-						}
-						const token = jwt.sign({userId: userId, isAdmin: isAdmin},"$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf",{expiresIn: "24h"})
-						res.status(200).json({
-							status : "success",
-							data : {
-								token : token,
-								userId: user.rows[0].userId,
-								jobRole: user.rows[0].jobRole
-							}
-						})           						
-					})
-					.catch((error)  => {
-						res.status(401).json({
-							status: "error",
-							error: "incorrect email or password",
-						})                    
-					})
-			}
+				.catch((error)  => {
+					responseUtility.error(res, 401, "incorrect email or password")
+				})
 		})
 		.catch((error) => {
-			res.status(500).json({
-				status: "error",
-				error: "server error"
-			})
+			responseUtility.error(res, 500, "server error")
 		})
 }
 
@@ -105,10 +74,7 @@ authController.createUser = (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty())
 	{
-		return res.status(422).json({	
-			status: "error",
-			error: errors.array()
-		})
+		return responseUtility.error(res, 422, errors.array())
 	}
 	
 	const { firstName, lastName, email, address, password, gender, jobRole, department, isAdmin } = req.body
@@ -117,56 +83,33 @@ authController.createUser = (req, res) => {
 		.then((isDuplicate) => {
 			if(isDuplicate === true)
 			{
-				return res.status(402).json({
-					status: "error",
-					error: "this email already exists"
-				})
+				return responseUtility.error(res, 402, "this email already exists")
 			}
-			else
-			{
-				const userId = new Date().getTime()
-				const token = (! req.headers.authorization) ? "" : req.headers.authorization.split()[1]
-				bcrypt.hash(password, 10).then(
-					(hash) => {
-						const query = {
-							name: "create-user",
+
+			const userId = new Date().getTime()
+			const token = (! req.headers.authorization) ? "" : req.headers.authorization.split()[1]
+			bcrypt.hash(password, 10)
+			.then((hash) => {
+					const query = {
 							text: "INSERT INTO users(\"userId\", \"firstName\", \"lastName\", \"email\", \"address\", \"password\", \"gender\", \"jobRole\", \"department\", \"isAdmin\", \"isNewAccount\") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-							values: [userId, firstName, lastName, email, address, hash, gender, jobRole, department, isAdmin, true]
-						}
-						db.queryWhere(query)
-							.then(() => {
-								res.status(200).json({
-									status : "success",
-									data : {
-										message: "User account successfully created",
-										token : token,
-										userId: userId,
-										jobRole: jobRole
-									}
-								})		
-							})
-							.catch((error) => {
-								res.status(500).json({
-									status: "error",
-									error: "Internal server error "  + error
-								})	
-							})		
-					})
-					.catch((error) => {
-						res.status(500).json({
-							status: "error",
-							error: error
+						values: [userId, firstName, lastName, email, address, hash, gender, jobRole, department, isAdmin, true]
+					}
+					db.queryWhere(query)
+						.then(() => {
+							const data = { message: "User account successfully created", token : token, userId: userId, jobRole: jobRole }
+							responseUtility.success(res, 401, data)
 						})
-					})
-			}
+						.catch((error) => {
+							responseUtility.error(res, 500, "server error")
+						})		
+				})
+				.catch((error) => {
+					responseUtility.error(res, 500, "server error")
+				})
 		})
 		.catch((error) => {
-			res.status(500).json({
-				status: "error",
-				error: error
-			})
+			responseUtility.error(res, 500, "server error")
 		})
-
 }
 
 export default authController
