@@ -19,11 +19,12 @@ authController.signin = (req, res) => {
 
 	const userEmail = req.body.email
 	const userPassword = req.body.password	
-
+	console.log(":::::::::::: userEmail")
+	console.log(userEmail)	
 	const query = {
 		name: "fetch-user",
-		text: "SELECT * FROM users WHERE email = $1",
-		values: [userEmail]
+		text: "SELECT * FROM users"// WHERE email = $1",
+//		values: [userEmail]
 	}
 	db.queryWhere(query)
 		.then((user) => {
