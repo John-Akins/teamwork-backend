@@ -18,8 +18,10 @@ before_script:
   - psql -c "CREATE USER test WITH PASSWORD 'root';" -U postgres
   - npm run build
   - npm run dbmigrate 
+  - npm run datadump
 
 script:
   - npm run test
+
 after_success:
   - npm run coverage
