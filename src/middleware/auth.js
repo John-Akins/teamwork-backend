@@ -2,11 +2,12 @@ import jwt from "jsonwebtoken"
 import responseUtility from "../utilities/responseUtility"
 
 const auth = {}
+const tokenSecret = "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf"
 
 auth.allUsers = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(" ")[1]
-		const decodedToken = jwt.verify(token, "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf")
+		const decodedToken = jwt.verify(token, tokenSecret)
 		try{
 			const { userId } = decodedToken
 			if( req.body.userId && req.body.userId !== userId ) {
@@ -28,7 +29,7 @@ auth.allUsers = (req, res, next) => {
 auth.adminOnly = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(" ")[1]
-		const decodedToken = jwt.verify(token, "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf")
+		const decodedToken = jwt.verify(token, tokenSecret)
 		const { userId, isAdmin } = decodedToken
 		try {
 			if( req.body.userId && req.body.userId !== userId ) {
