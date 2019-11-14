@@ -24,63 +24,14 @@ const db = {}
 db.query = (queryString) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
-			if(err)
-			{
+			if(err) {
 				reject({
 					error: 'QueryError' + err.stack
 				})
 			}				
 			client.query(queryString, (err,result) => {
 				done()
-				if(err)
-				{
-					reject({
-						error: 'QueryError' + err.stack
-					})
-				}
-				resolve(result)
-			})
-		})
-	})
-}
-
-db.queryAll = (queryString) =>  {
-	return new Promise((resolve, reject) => {
-		pool.connect((err, client, done) => {
-			if(err)
-			{
-				reject({
-					error: 'QueryError' + err.stack
-				})
-			}				
-			client.query(queryString, (err,result) => {
-			//call `done()` to release the client back to the pool
-				done()
-				if(err)
-				{
-					reject({
-						error: 'QueryError' + err.stack
-					})
-				}
-				resolve(result)
-			})
-		})
-	})
-}
-
-db.queryWhere = (queryString) =>  {
-	return new Promise((resolve, reject) => {
-		pool.connect((err, client, done) => {
-			if(err)
-			{
-				reject({
-					error: 'QueryError' + err.stack
-				})
-			}				
-			client.query(queryString, (err,result) => {
-				done()
-				if(err)
-				{
+				if(err) {
 					reject({
 						error: 'QueryError' + err.stack
 					})

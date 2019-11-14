@@ -1,65 +1,55 @@
 import jwt from "jsonwebtoken"
+import responseUtility from "../utilities/responseUtility"
 
 const auth = {}
+const tokenSecret = "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf"
 
 auth.allUsers = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(" ")[1]
-		const decodedToken = jwt.verify(token, "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf")
+		const decodedToken = jwt.verify(token, tokenSecret)
 		try{
 			const { userId } = decodedToken
-			if( req.body.userId && req.body.userId !== userId )
-			{
+			if( req.body.userId && req.body.userId !== userId ) {
 				throw "Invalid user ID"
 			}
-			else
-			{
+			else {
 				next()
 			}
 		}
 		catch(e) {
-			res.status(401).json({
-				error: e
-			})
+			return	responseUtility.error(res, 401, "Unauthorized request")
 		}
 	}
 	catch(e) {
-		res.status(401).json({
-			error: "Unauthorized request" + e
-		})
+		return	responseUtility.error(res, 401, "Unauthorized request")
 	}
 }
 
 auth.adminOnly = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(" ")[1]
-		const decodedToken = jwt.verify(token, "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf")
+		const decodedToken = jwt.verify(token, tokenSecret)
 		const { userId, isAdmin } = decodedToken
+
+	
 		try {
-			if( req.body.userId && req.body.userId !== userId )
-			{
+			if( req.body.userId && req.body.userId !== userId ) {
 				throw "Invalid user ID"
 			}
-			if( isAdmin !== true )
-			{
+			if( isAdmin !== true ) {
 				throw "Elevated access rights required"
 			}
-			else
-			{
+			else {
 				next()
 			}
 		}
 		catch(e) {
-			res.status(401).json({
-				error: e
-			})
+			return	responseUtility.error(res, 401, e)
 		}
 	}
 	catch(e) {
-		console.log(e)
-		res.status(401).json({
-			error: "Unauthorized request"
-		})
+		return	responseUtility.error(res, 401, "Unauthorized request 2")
 	}
 }
 
