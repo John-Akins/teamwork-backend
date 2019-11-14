@@ -32,7 +32,7 @@ authController.signin = (req, res) => {
 					const token = jwt.sign({userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin}, tokenSecret, {expiresIn: "24h"})
 					const data = { token : token, userId: user.rows[0].userId, jobRole: user.rows[0].jobRole }		
 
-					responseUtility.success(res, 401, data)
+					responseUtility.success(res, data)
 				})
 				.catch((error)  => {
 					responseUtility.error(res, 401, "incorrect email or password")
@@ -97,7 +97,7 @@ authController.createUser = (req, res) => {
 					db.queryWhere(query)
 						.then(() => {
 							const data = { message: "User account successfully created", token : token, userId: userId, jobRole: jobRole }
-							responseUtility.success(res, 401, data)
+							responseUtility.success(res, data)
 						})
 						.catch((error) => {
 							responseUtility.error(res, 500, "server error")

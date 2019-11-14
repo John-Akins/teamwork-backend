@@ -42,6 +42,10 @@ describe("admin or employee sign in", () =>  {
 				password: "password"
 			})
 			.end((error, response) => {
+				console.log("error")
+				console.log(error)
+				console.log("response")
+				console.log(response)
 				data.status = response.statusCode
 				data.body = response.body
 				done();
