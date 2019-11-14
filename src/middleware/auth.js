@@ -31,9 +31,7 @@ auth.adminOnly = (req, res, next) => {
 		const token = req.headers.authorization.split(" ")[1]
 		const decodedToken = jwt.verify(token, tokenSecret)
 		const { userId, isAdmin } = decodedToken
-		console.log("body user Id::::"+req.body.userId)
-		console.log("token user Id::::"+userId)
-		console.log("Is Admin::::"+isAdmin)
+
 	
 		try {
 			if( req.body.userId && req.body.userId !== userId ) {
@@ -47,9 +45,7 @@ auth.adminOnly = (req, res, next) => {
 			}
 		}
 		catch(e) {
-			console.log("e::::::::::")
-			console.log(e)
-			return	responseUtility.error(res, 401, "Unauthorized request 1")
+			return	responseUtility.error(res, 401, e)
 		}
 	}
 	catch(e) {
