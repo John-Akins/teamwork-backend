@@ -147,8 +147,6 @@ describe("create user", () => {
 				password: "password"
 			})
 			.end((error, response) => {
-				console.log("response.body:::::::::::::::::")
-				console.log(response.body)
 				userSecrets.data = response.body.data
 				done();
 			});
@@ -180,8 +178,6 @@ describe("create user", () => {
 					data.body = response.body
 					done();
 				});
-				console.log("User Data:::::::::::::::::")
-				console.log(userSecrets.data)
 			})
 
 			it("should return 401 status code", () => {
