@@ -93,7 +93,7 @@ describe("create user", () => {
 				expect(data.status).to.equal(422)
 			})
 			it("should return an error array", () => {
-				expect(data.body.status).to.be.an('array')
+				expect(data.body.error).to.be.an('array')
 			})
 		})
 
@@ -125,11 +125,11 @@ describe("create user", () => {
 				});
 			})
 
-			it("should return 402 status code", () => {
+			it("should return 400 status code", () => {
 				expect(data.status).to.equal(200)
 			})
 			it("should return relevant error message", () => {
-				expect(data.body.message).eql("User account successfully created")
+				expect(data.body.data.message).eql("User account successfully created")
 			})
 		})
 
