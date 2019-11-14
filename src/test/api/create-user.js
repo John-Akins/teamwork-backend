@@ -156,7 +156,7 @@ describe("create user", () => {
 
 		describe("user not an admin", () => {
 			const data = {}
-\			before((done) => {
+			before((done) => {
 				chai.request(app)
 				.post('/api/v1/auth/create-user')
 				.set({
