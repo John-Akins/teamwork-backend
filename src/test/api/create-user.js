@@ -93,9 +93,46 @@ describe("create user", () => {
 				expect(data.status).to.equal(422)
 			})
 			it("should return an error array", () => {
-				expect(data.body.error).to.be.an('array')
+				expect(data.body.status).to.be.an('array')
 			})
 		})
+
+		describe("input new user", () => {
+			const data = {}
+			before((done) => {
+				chai.request(app)
+				.post('/api/v1/auth/create-user')
+				.set({
+					'Accept': 'application/json',
+					"Authorization": `token: ${adminSecrets.data.token}`
+				})
+				.send({
+					userId: adminSecrets.data.userId,
+					firstName: "akins",
+					lastName: "akin",
+					email: "turana@gmail.com",
+					address: "akins street", 
+					password: "dfjdskjfsk",
+					gender: "male",
+					jobRole: "Engineer",
+					department: "IT",
+					isAdmin: true
+				})
+				.end((error, response) => {
+					data.status = response.statusCode
+					data.body = response.body
+					done();
+				});
+			})
+
+			it("should return 402 status code", () => {
+				expect(data.status).to.equal(200)
+			})
+			it("should return relevant error message", () => {
+				expect(data.body.message).eql("User account successfully created")
+			})
+		})
+
 	})
 
 	describe("user create employee", () => {

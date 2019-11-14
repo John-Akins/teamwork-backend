@@ -52,7 +52,7 @@ const emailExists = (email) => {
 			text: "SELECT * FROM users WHERE email = $1",
 			values: [email],
 		}
-		db.queryWhere(query)
+		db.query(query)
 			.then((user) => {
 				if(user.rows[0] !== undefined)
 				{
@@ -94,7 +94,7 @@ authController.createUser = (req, res) => {
 							text: "INSERT INTO users(\"userId\", \"firstName\", \"lastName\", \"email\", \"address\", \"password\", \"gender\", \"jobRole\", \"department\", \"isAdmin\", \"isNewAccount\") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
 						values: [userId, firstName, lastName, email, address, hash, gender, jobRole, department, isAdmin, true]
 					}
-					db.queryWhere(query)
+					db.query(query)
 						.then(() => {
 							const data = { message: "User account successfully created", token : token, userId: userId, jobRole: jobRole }
 							responseUtility.success(res, data)
