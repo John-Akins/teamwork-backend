@@ -125,7 +125,7 @@ describe("create user", () => {
 				});
 			})
 
-			it("should return 400 status code", () => {
+			it("should return 200 status code", () => {
 				expect(data.status).to.equal(200)
 			})
 			it("should return relevant error message", () => {
@@ -156,7 +156,7 @@ describe("create user", () => {
 
 		describe("user not an admin", () => {
 			const data = {}
-			before((done) => {
+\			before((done) => {
 				chai.request(app)
 				.post('/api/v1/auth/create-user')
 				.set({
@@ -180,6 +180,8 @@ describe("create user", () => {
 					data.body = response.body
 					done();
 				});
+				console.log("User Data:::::::::::::::::")
+				console.log(userSecrets.data)
 			})
 
 			it("should return 401 status code", () => {
