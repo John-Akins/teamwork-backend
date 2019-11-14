@@ -43,12 +43,13 @@ auth.adminOnly = (req, res, next) => {
 			}
 		}
 		catch(e) {
+			console.log("e")
+			console.log(e)
 			return	responseUtility.error(res, 401, "Unauthorized request 2")
 		}
 	}
 	catch(e) {
-		console.log(e)
-		return	responseUtility.error(res, 401, "Unauthorized request 2")
+		return	responseUtility.error(res, 401, "Unauthorized request")
 	}
 }
 
