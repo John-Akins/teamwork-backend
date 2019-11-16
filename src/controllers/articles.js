@@ -1,6 +1,5 @@
 import { validationResult } from "express-validator"
 import responseUtility from "../utilities/responseUtility"
-
 import db from "../db"
 
 const articlesController = {}
@@ -41,7 +40,7 @@ articlesController.editArticle = (req, res) => {
     const token = req.headers.authorization.split()[1]
 
     const query = {
-			text: 'UPDATE articles SET title=$1, article=$2, "isEdited"=FALSE WHERE  "articleId"=$3 ',
+			text: 'UPDATE articles SET title=$1, article=$2, "isEdited"=TRUE WHERE  "articleId"=$3 ',
 			values: [title, article, articleId]
 		}
 	
@@ -54,6 +53,66 @@ articlesController.editArticle = (req, res) => {
 				console.log(error)
 				responseUtility.error(res, 500, "server error")
 			})
+}
+
+articlesController.flagArticle = (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()){
+		return responseUtility.error(res, 422, errors.array())
+	}	
+	
+    const token = req.headers.authorization.split()[1]
+	const randomId = new Date().getTime()
+	const dateTime = new Date()
+	
+	const queryArray = [ 	
+		{
+			text: 'UPDATE articles SET "isFlagged"=TRUE WHERE  "articleId"=$1 ',
+			values: [ req.params.articleId ]
+		},
+		{
+			text: 'INSERT INTO "flaggedFeeds"( "flagId", "feedId", "feedType", "flaggedOn", "flaggedBy") VALUES ($1, $2, $3, $4, $5)',
+			values: [randomId, req.params.articleId, "article", dateTime, req.body.userId]
+		}
+	]
+
+	db.transactQuery(queryArray)
+		.then(() => {
+			const data = { message: "Article successfully flagged as inappropriate", token : token, userId: req.body.userId, isAdmin: req.body.isAdmin }
+			responseUtility.success(res, data)
+		})
+		.catch((error) => {
+			responseUtility.error(res, 500, "server error")
+		})
+}
+
+articlesController.deleteFlaggedArticle = (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()){
+		return responseUtility.error(res, 422, errors.array())
+	}	
+	
+	const queryArray = [ 	
+		{
+			text: 'DELETE FROM articles WHERE  "articleId"=$1 ',
+			values: [ req.params.articleId ]
+		},
+		{
+			text: 'DELETE FROM "flaggedFeeds" WHERE "articleId"=$1 ',
+			values: [ req.params.articleId ]
+		}
+	]
+
+	db.transactQuery(queryArray)
+		.then(() => {
+			const data = { 
+				message: "Article successfully flagged as inappropriate", token : req.headers.authorization.split()[1], userId: req.body.userId, isAdmin: req.body.isAdmin 
+			}
+			responseUtility.success(res, data)
+		})
+		.catch((error) => {
+			responseUtility.error(res, 500, "server error")
+		})
 }
 
 articlesController.getArticlesByTag = (req, res) => {

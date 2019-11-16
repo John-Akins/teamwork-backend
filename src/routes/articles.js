@@ -27,16 +27,38 @@ router.post("/", auth.allUsers, inputValidator.createArticle, articlesController
 * @apiPermission authorized users
 * @apiGroup articles
 *
-* @apiParam  {String} [userId] userId
-* @apiParam  {String} [title] title
-* @apiParam  {String} [article] article
-* @apiParam  {Boolean} [isAdmin] isAdmin
+* @apiParam  {String} [articleId] articleId
+*
+* @apiBody  {String} [userId] userId
+* @apiBody  {String} [title] title
+* @apiBody  {String} [article] article
+* @apiBody  {Boolean} [isAdmin] isAdmin
 *
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.editArticle , articlesController.editArticle)
+router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.editArticle, articlesController.editArticle)
 
+/**
+* @api {get} /api/articles/<:tag>
+* @apiName Flag article 
+* @apiPermission authorized users
+* @apiGroup articles
+*
+* @apiParam  {String} [articleId] articleId
+*
+* @apiBody  {String} [userId] userId
+* @apiBody  {String} [title] title
+* @apiBody  {String} [article] article
+* @apiBody  {String} [id] id
+* @apiBody  {String} [authorId] authorId
+* @apiBody  {String} [userId] userId
+* @apiBody  {Boolean} [isAdmin] isAdmin
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
+router.patch("/:articleId/flag", auth.allUsers, inputValidator.getArticlesById, articlesController.flagArticle)
 
 /**
 * @api {get} /api/articles/<:articleId>
@@ -44,6 +66,7 @@ router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputVal
 * @apiPermission authorized users
 * @apiGroup articles
 *
+* @apiParam  {String} [articleId] articleId
 *
 * @apiSuccess (200) {Object} mixed `Response` object
 */
@@ -69,6 +92,12 @@ router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag, article
 * @apiPermission authorized users
 * @apiGroup articles
 *
+* @apiParam  {String} [articleId] articleId*
+*
+* @apiBody  {String} [userId] userId
+* @apiBody  {String} [id] id
+* @apiBody  {String} [authorId] authorId
+* @apiBody  {Boolean} [isAdmin] isAdmin
 *
 * @apiSuccess (200) {Object} mixed `Response` object
 */

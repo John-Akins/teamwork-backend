@@ -15,4 +15,8 @@ testQueries.getMaxArticle = () => {
 	})
 }
 
+testQueries.flagArticle = () => {
+	
+}
+
 export default testQueries
