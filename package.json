@@ -4,11 +4,11 @@
   "description": "secure Backend RESTful services",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./build && babel -d .build/src ./src -s",
-    "dev": "nodemon --exec babel-node .build/src/server.js",
+    "build": "rm -rf ./build && babel -d build/src ./src -s",
+    "dev": "set NODE_ENV=travis && nodemon --exec babel-node src/server.js",
     "dbmigrate": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/index.js --timeout 20000 --exit",
     "datadump": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/datadump.js --timeout 20000 --exit",
-    "test": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/api/ --timeout 20000 --exit",
+    "test": "set NODE_ENV=travis && nyc --require @babel/register  mocha ./src/test/api/articles/ --timeout 20000 --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "npm run generate-lcov && npm run coveralls-coverage"

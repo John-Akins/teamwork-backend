@@ -1,11 +1,9 @@
-const { body,sanitizeBody } = require("express-validator")
+import { param, sanitizeParam, body, sanitizeBody } from "express-validator"
 
 const inputValidator = {}
 
 inputValidator.signin = [
-	body("email", "please enter a valid email").not().isEmpty().isEmail(), 
-	body("password", "minimum of 8 characters required").not().isEmpty().isLength({ min: 8 }),
-	sanitizeBody("email").trim().escape(),
+	body("email", "please enter a valid email").not().isEmpty().isEmail(),sanitizeBody("email").trim().escape(),
 	sanitizeBody("password").trim().escape()
 ]
 
@@ -28,6 +26,44 @@ inputValidator.createUser = [
 	sanitizeBody("jobRole").trim().escape(),
 	sanitizeBody("department").trim().escape(),
 	sanitizeBody("password").trim().escape(),
+	sanitizeBody("isAdmin").toBoolean()
+]
+
+inputValidator.createArticle = [
+	body("title",).not().isEmpty().isLength({ max: 100 }),
+	body("article").not().isEmpty().isLength({ max: 1000 }),
+
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("article").trim().escape(),
+	sanitizeBody("title").trim().escape(),
+	sanitizeBody("isAdmin").toBoolean()
+]
+
+inputValidator.editArticle = [
+	body("title",).not().isEmpty().isLength({ max: 100 }),
+	body("article").not().isEmpty().isLength({ max: 1000 }),
+
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("id").trim().escape(),
+	sanitizeBody("createdBy").trim().escape(),
+	sanitizeBody("article").trim().escape(),
+	sanitizeBody("title").trim().escape(),
+	sanitizeBody("isAdmin").toBoolean()
+]
+
+inputValidator.getArticlesByTag = [
+	param("tag",).not().isEmpty().isLength({ max: 50 }),
+
+	sanitizeParam("tag").trim().escape(),
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("isAdmin").toBoolean()
+]
+
+inputValidator.getArticlesById = [
+	param("articleId",).not().isEmpty(),
+
+	sanitizeParam("articleId").trim().escape(),
+	sanitizeBody("userId").trim().escape(),
 	sanitizeBody("isAdmin").toBoolean()
 ]
 
