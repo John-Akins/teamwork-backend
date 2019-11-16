@@ -4,6 +4,29 @@ import db from "../db"
 
 const articlesController = {}
 
+const isFlagged = (articleId) => {	
+	return new Promise((resolve, reject) => {
+	const query = {
+				text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 AND "isFlagged" = TRUE',
+				values: [articleId]
+		}
+
+		db.query(query)
+			.then((response) => {
+				const data = response.rows
+				if(data[0] !== undefined && typeof data[0].title === 'string'){
+					resolve(true)
+				}
+				resolve(false)
+			})
+			.catch((error) => {
+				console.log(" error ::::::::::::::")
+				console.log(error)
+				reject(false)
+			})
+		})
+}
+
 articlesController.createArticle = (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()){
@@ -91,28 +114,38 @@ articlesController.deleteFlaggedArticle = (req, res) => {
 	if (!errors.isEmpty()){
 		return responseUtility.error(res, 422, errors.array())
 	}	
-	
-	const queryArray = [ 	
-		{
-			text: 'DELETE FROM articles WHERE  "articleId"=$1 ',
-			values: [ req.params.articleId ]
-		},
-		{
-			text: 'DELETE FROM "flaggedFeeds" WHERE "articleId"=$1 ',
-			values: [ req.params.articleId ]
-		}
-	]
-
-	db.transactQuery(queryArray)
-		.then(() => {
-			const data = { 
-				message: "Article successfully flagged as inappropriate", token : req.headers.authorization.split()[1], userId: req.body.userId, isAdmin: req.body.isAdmin 
+	isFlagged(req.params.articleId)
+	.then((isFlagged) => {
+		if( isFlagged === false){
+			return responseUtility.error(res, 401, "You cannot delete an unflagged article, want to flag as inappropriate?")		
+		}		
+		const queryArray = [ 	
+			{
+				text: 'DELETE FROM articles WHERE  "articleId"=$1',
+				values: [ req.params.articleId ]
+			},
+			{
+				text: 'DELETE FROM "flaggedFeeds" WHERE "articleId"=$1 ',
+				values: [ req.params.articleId ]
 			}
-			responseUtility.success(res, data)
-		})
-		.catch((error) => {
-			responseUtility.error(res, 500, "server error")
-		})
+		]
+	
+		db.transactQuery(queryArray)
+			.then(() => {
+				const data = { 
+					message: "Article successfully deleted", token : req.headers.authorization.split()[1], userId: req.body.userId, isAdmin: req.body.isAdmin 
+				}
+				responseUtility.success(res, data)
+			})
+			.catch((error) => {
+				console.log(error)
+				responseUtility.error(res, 500, "server error 1")
+			})
+	})
+	.catch((error) => {
+		console.log(error)
+		responseUtility.error(res, 500, "server error 2")		
+	})
 }
 
 articlesController.getArticlesByTag = (req, res) => {

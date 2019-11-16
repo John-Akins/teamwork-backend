@@ -92,7 +92,7 @@ router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag, article
 * @apiPermission authorized users
 * @apiGroup articles
 *
-* @apiParam  {String} [articleId] articleId*
+* @apiParam  {String} [articleId] articleId
 *
 * @apiBody  {String} [userId] userId
 * @apiBody  {String} [id] id
@@ -103,5 +103,22 @@ router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag, article
 */
 
 router.delete("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.getArticlesById, articlesController.deleteArticlesById)
+
+/**
+* @api {delet} /api/articles/flagged/<:articleId>
+* @apiName Delete article by id
+* @apiPermission admin only
+* @apiGroup articles
+*
+* @apiParam  {String} [articleId] articleId
+*
+* @apiBody  {String} [userId] userId
+* @apiBody  {String} [id] id
+* @apiBody  {Boolean} [isAdmin] isAdmin
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
+router.delete("/flagged/:articleId", auth.adminOnly, inputValidator.getArticlesById, articlesController.deleteFlaggedArticle)
 
 export default router

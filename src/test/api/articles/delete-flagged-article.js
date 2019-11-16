@@ -7,13 +7,13 @@ import testQueries from '../../../utilities/testQueryUtility'
 chai.use(chatHttp)
 const { expect } = chai
 
-testQueries.getMaxArticle()
+testQueries.createAndFlagArticle()
     .then((response) => {
         const article = {}
         article.body = response    
-        describe('delete article', () => {
-            describe('user owns article', () => {
-                const articleOwnerSecrets = {}
+        describe('delete flagged article', () => {
+            describe('user is an admin', () => {
+                const userSecrets = {}
                 const data = {}
             
                 before((done) => {
@@ -26,20 +26,20 @@ testQueries.getMaxArticle()
                             password: "password"
                         })
                         .end((error, response) => {
-                            articleOwnerSecrets.data = response.body.data
+                            userSecrets.data = response.body.data
                             done()
                         })
                     })
                     before((done) => {
                         chai.request(app)
-                        .delete(`/api/v1/articles/${article.body.id}`)
+                        .delete(`/api/v1/articles/flagged/${article.body.id}`)
                         .set({
                             'Accept': 'application/json',
-                            "Authorization": `token: ${articleOwnerSecrets.data.token}`
+                            "Authorization": `token: ${userSecrets.data.token}`
                         })
                         .send({
-                            userId: articleOwnerSecrets.data.userId,
-                            isAdmin: articleOwnerSecrets.data.isAdmin,
+                            userId: userSecrets.data.userId,
+                            isAdmin: userSecrets.data.isAdmin,
                             id: article.body.id,
                             authorId: article.body.authorId,
                         })
@@ -56,12 +56,12 @@ testQueries.getMaxArticle()
                         expect(data.body.data.message).to.eql('Article successfully deleted')
                     })
                 })
-                describe('user doesnt own article', () => {
+
+                describe('user is not an admin', () => {
                     const userSecret = {}    
                     const data = {}
                 
                     before((done) => {
-                            //login, not article owner
                             chai.request(app)
                             .post('/api/v1/auth/signin')
                             .set('Accept', 'application/json')
@@ -77,7 +77,7 @@ testQueries.getMaxArticle()
             
                     before((done) => {
                             chai.request(app)
-                            .delete(`/api/v1/articles/${article.body.id}`)
+                            .delete(`/api/v1/articles/flagged/${article.body.id}`)
                             .set({
                                 'Accept': 'application/json',
                                 "Authorization": `token: ${userSecret.data.token}`
@@ -85,7 +85,6 @@ testQueries.getMaxArticle()
                             .send({
                                 userId: userSecret.data.userId,
                                 id: article.body.id,
-                                authorId: article.body.authorId,
                                 isAdmin: userSecret.data.isAdmin
                             })
                             .end((error, response) => {
@@ -98,15 +97,61 @@ testQueries.getMaxArticle()
                             expect(data.status).to.equal(401)
                         })
                         it("should return relevant error message", () => {
-                            expect(data.body.error).eql("Only admin or account owner can edit/delete this article, want to flag as inappropriate?")
+                            expect(data.body.error).eql("Elevated access rights required")
                         })        
                 })
+
+                describe('article is not flagged', () => {
+                    const userSecret = {}    
+                    const data = {}
+                
+                    before((done) => {
+                            //login, not article owner
+                            chai.request(app)
+                            .post('/api/v1/auth/signin')
+                            .set('Accept', 'application/json')
+                            .send({
+                                email: "lovelace@gmail.com",
+                                password: "password"
+                            })
+                            .end((error, response) => {
+                                userSecret.data = response.body.data
+                                done()
+                            })
+                        })
+            
+                    before((done) => {
+                            chai.request(app)
+                            .delete('/api/v1/articles/flagged/10001')
+                            .set({
+                                'Accept': 'application/json',
+                                "Authorization": `token: ${userSecret.data.token}`
+                            })
+                            .send({
+                                userId: userSecret.data.userId,
+                                id: 10001,
+                                isAdmin: userSecret.data.isAdmin
+                            })
+                            .end((error, response) => {
+                                data.status = response.statusCode
+                                data.body = response.body
+                                done()
+                            })
+                        })
+                        it("should return 401 status code", () => {
+                            expect(data.status).to.equal(401)
+                        })
+                        it("should return relevant error message", () => {
+                            expect(data.body.error).eql("You cannot delete an unflagged article, want to flag as inappropriate?")
+                        })        
+                })
+
                 describe('user is unauthorized', () => {
                     const maliciousSecret = {token: "d@u30ur8038###(09@)(@(29299safosfshaj", userId: 10001, isAdmin: true}
                     const data = {}
                     before((done) => {
                         chai.request(app)
-                        .delete(`/api/v1/articles/${article.body.id}`)
+                        .delete(`/api/v1/articles/flagged/${article.body.id}`)
                         .set({
                             'Accept': 'application/json',
                             "Authorization": `token: ${maliciousSecret.token}`
