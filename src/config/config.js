@@ -10,20 +10,8 @@ module.exports = {
   },
 
   travis: {
-/**
-    database: 'teamwork',
-    username: 'postgres',
- */
     database: 'teamwork_test',
     username: 'test',
-    password: 'root',
-    host: '127.0.0.1',
-    dialect: 'postgres'
-  },
-
-  test: {
-    database: 'teamwork_test',
-    username: 'postgres',
     password: 'root',
     host: '127.0.0.1',
     dialect: 'postgres'

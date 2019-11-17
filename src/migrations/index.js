@@ -20,8 +20,8 @@ dbMigration.tablesAndQueries = [
     },
 
     {
-        table: "feedFlags",
-        query: 'CREATE TABLE "feedFlags" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT feedFlags_pkey PRIMARY KEY ("flagId")   )'
+        table: "flaggedFeeds",
+        query: 'CREATE TABLE "flaggedFeeds" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT feedFlags_pkey PRIMARY KEY ("flagId")   )'
     },
 
     {
@@ -31,7 +31,7 @@ dbMigration.tablesAndQueries = [
 
     {
         table: "articleTags",
-        query: 'CREATE TABLE "articleTags" (Id bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT articleTags_pkey PRIMARY KEY (id)  )'
+        query: 'CREATE TABLE "articleTags" (id bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT articleTags_pkey PRIMARY KEY (id)  )'
     },
 
     {
@@ -52,7 +52,9 @@ dbMigration.createTables = () => {
             const tableQuery = tablesAndQueries[i].query
 
                 db.query(tableQuery)
-                .then(() => {
+                .then((response) => {
+                    console.log("table create response")
+                    console.log(response)
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
                 .catch( (e) => {
@@ -109,13 +111,12 @@ dbMigration.fillDummyData = () => {
         .then((response) => {
             db.query(`SELECT * FROM ${dummyQueries[i].table}`)
 			.then((response) => {
-				console.log(response.rows[0])
+                console.log("table insert response")
+                console.log(response.rows[0])
 			})
 			.catch((error) => {
 				console.log({status: "error", error: error})
 			})
-            console.log("table insert response")
-            console.log(Response)
         })
         .catch((error) => {
             console.log("table insert error")
