@@ -21,10 +21,10 @@ pool.on('error', (err) => {
 
 const db = {}
 
-db.query = (queryString) =>  {
+db.query = (queryString, table = '') =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
-			console.log("dbError ::::::::")
+			console.log("dbError ::::::::"+ table)
 			console.log(err)
 			if(err) {
 				reject({
@@ -33,7 +33,7 @@ db.query = (queryString) =>  {
 			}				
 			client.query(queryString, (err,result) => {
 				done()
-				console.log("QueryError ::::::::")
+				console.log("QueryError ::::::::"+ table)
 				console.log(err)
 				if(err) {
 					reject({

@@ -56,7 +56,7 @@ dbMigration.createTables = () => {
             const table = tablesAndQueries[i].table
             const tableQuery = tablesAndQueries[i].query
 
-            db.query(tableQuery)
+            db.query(tableQuery, i)
                 .then((response) => {
                     console.log("table create response")
                     console.log(response)
