@@ -49,6 +49,8 @@ dbMigration.createTables = () => {
         console.log(tablesAndQueries.length)
         for (let i = 0; i < tablesAndQueries.length; i++) 
         {
+            console.log("iteration:::::")
+            console.log(i)
             dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
             const table = tablesAndQueries[i].table
             const tableQuery = tablesAndQueries[i].query
@@ -72,16 +74,12 @@ dbMigration.dummyQueries = [
 
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\')',
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10001, \'2019-10-12\',	10002, \'A computer science fairy tale\')',
 
     },
     {
         table: "articles",
         query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article", "isEdited", "isFlagged") values  (\'Quick brown fox\', 10002, \'2019-11-12\',10002, \'One Hell of a quick brown fox\', FALSE, FALSE)'
-    },
-    {
-        table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article", "isEdited", "isFlagged") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\', FALSE, FALSE)'
     },
     {
         table: "users",

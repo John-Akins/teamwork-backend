@@ -24,13 +24,21 @@ const db = {}
 db.query = (queryString) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
+			console.log("dbError ::::::::")
+			console.log(err)
+			console.log(err.stack)
 			if(err) {
 				reject({
-					error: 'QueryError' + err.stack
+					error: 'dbError' + err.stack
 				})
 			}				
 			client.query(queryString, (err,result) => {
 				done()
+				console.log("QueryError ::::::::")
+				console.log(err)
+				console.log(err.stack)
+				console.log("result ::::::::")
+				console.log(result)
 				if(err) {
 					reject({
 						error: 'QueryError' + err.stack
