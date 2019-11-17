@@ -1,3 +1,6 @@
+import { Pool } from 'pg'
+import configJson from '../config/config';
+
 console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
