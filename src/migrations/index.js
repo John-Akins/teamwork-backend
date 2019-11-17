@@ -74,8 +74,7 @@ dbMigration.dummyQueries = [
 
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10001, \'2019-10-12\',	10001, \'A computer science fairy tale\')',
-
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10001, \'2019-10-12\',	10001, \'A computer science fairy tale\')'
     },
     {
         table: "articles",
@@ -83,11 +82,23 @@ dbMigration.dummyQueries = [
     },
     {
         table: "users",
-        query: 'INSERT INTO "users" ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10001, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	TRUE,	FALSE)',
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10001, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	TRUE,	FALSE)'
     },
     {
         table: "users",
-        query: 'INSERT INTO "users" ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Turan\', \'turan@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
+        query: 'INSERT INTO users ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Turan\', \'turan@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
+    },
+    {
+        table: "tags",
+        query: 'INSERT INTO tags ("id", "name") values (10001, \'news\')'
+    },
+    {
+        table: "tags",
+        query: 'INSERT INTO tags ("id", "name") values (10002, \'productivity\')'
+    },
+    {
+        table: "tags",
+        query: 'INSERT INTO tags ("id", "name") values (10003, \'creativity\')'
     }
 
 ]
