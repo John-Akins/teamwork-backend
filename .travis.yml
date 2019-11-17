@@ -15,7 +15,7 @@ env:
 
 before_script:
   - psql -c 'CREATE database teamwork_test;' -U postgres
-  - psql -c "create USER postgres WITH PASSWORD 'root';" -U postgres
+  - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
   - npm run build
   - npm run dbmigrate 
   - npm run datadump
