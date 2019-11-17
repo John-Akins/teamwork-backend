@@ -1,6 +1,3 @@
-import { Pool } from 'pg'
-import configJson from '../config/config';
-
 console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
@@ -21,14 +18,12 @@ pool.on('error', (err) => {
 
 const db = {}
 
-db.pool = pool
-
 db.query = (queryString) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
 			if(err) {
 				reject({
-					error: 'DBrror' + err.stack
+					error: 'QueryError' + err.stack
 				})
 			}				
 			client.query(queryString, (err,result) => {
