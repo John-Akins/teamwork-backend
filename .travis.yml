@@ -13,12 +13,13 @@ env:
   global:
   - NODE_ENV=travis
 
+  addons:
+  postgresql: "12"
+
 before_script:
-  - psql -c 'DROP database teamworktest;' -U postgres
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
-  - npm run dbmigrate 
-  - npm run datadump
+  - psql -U postgres --password = "root" < migrations/teamwork.sql
 
 script:
   - npm run test
