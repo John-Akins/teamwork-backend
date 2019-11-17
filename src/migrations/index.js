@@ -54,7 +54,8 @@ dbMigration.createTables = () => {
             dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
             const table = tablesAndQueries[i].table
             const tableQuery = tablesAndQueries[i].query
-
+            console.log("table:::::::::")
+            console.log(tablesAndQueries[i].table)
                 db.query(tableQuery)
                 .then((response) => {
                     console.log("table create response")
@@ -66,21 +67,6 @@ dbMigration.createTables = () => {
                     console.log(e)
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
                 })
-
-            if(tablesAndQueries[i].table === 'tags'){
-                console.log(':::::::::::: tags ::::::::::::::::')
-                db.query("SELECT * FROM tags")
-                .then((response) => {
-                    console.log("tags table create response")
-                    console.log(response)
-                    dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
-                })
-                .catch( (e) => {
-                    console.log("tags table create error")
-                    console.log(e)
-                    dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && error
-                })
-            }
         }
         return dbMigration.hasCreatedTables
 }
