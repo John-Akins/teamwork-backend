@@ -107,6 +107,13 @@ dbMigration.fillDummyData = () => {
     for (let i = 0; i < len; i++) {
         db.query(dummyQueries[i].query)
         .then((response) => {
+            db.query(`SELECT * FROM ${dummyQueries[i].table}`)
+			.then((response) => {
+				console.log(response.rows[0])
+			})
+			.catch((error) => {
+				console.log({status: "error", error: error})
+			})
             console.log("table insert response")
             console.log(Response)
         })
