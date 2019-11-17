@@ -11,7 +11,7 @@ dbMigration.tablesAndQueries = [
 
     {
         table: "articles",
-        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL, "isEdited", "isFlagged", CONSTRAINT articles_pkey PRIMARY KEY ("articleId")    )'
+        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL, "isEdited" boolean, "isFlagged" boolean, CONSTRAINT articles_pkey PRIMARY KEY ("articleId")    )'
     },
 
     {
