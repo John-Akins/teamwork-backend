@@ -19,7 +19,7 @@ env:
 before_script:
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
-  - psql -U postgres --password = "root" < migrations/teamwork.sql
+  - psql -c migrations/teamwork.sql
 
 script:
   - npm run test
