@@ -6,22 +6,22 @@ dbMigration.tablesAndQueries = [
 
     {
         table: "users", 
-        query: 'CREATE TABLE users ( "userId" bigint NOT NULL, "firstName" character varying(30) NOT NULL, "lastName" character varying NOT NULL, email character varying NOT NULL, address character varying NOT NULL, password character varying NOT NULL, gender character varying NOT NULL, "jobRole" character varying NOT NULL, department character varying NOT NULL, "isAdmin" boolean NOT NULL, "isNewAccount" boolean DEFAULT true NOT NULL,  CONSTRAINT feedComments_pkey PRIMARY KEY ("userId")    )'
+        query: 'CREATE TABLE users ( "userId" bigint NOT NULL, "firstName" character varying(30) NOT NULL, "lastName" character varying NOT NULL, email character varying NOT NULL, address character varying NOT NULL, password character varying NOT NULL, gender character varying NOT NULL, "jobRole" character varying NOT NULL, department character varying NOT NULL, "isAdmin" boolean NOT NULL, "isNewAccount" boolean DEFAULT true NOT NULL,  CONSTRAINT users_pkey PRIMARY KEY ("userId")    )'
     },
 
     {
         table: "articles",
-        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL,  CONSTRAINT feedComments_pkey PRIMARY KEY ("articleId")    )'
+        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL,  CONSTRAINT articles_pkey PRIMARY KEY ("articleId")    )'
     },
 
     {
         table: "feedComments",
-        query: 'CREATE TABLE "feedComments" ( id bigint NOT NULL,"feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean,  CONSTRAINT feedComments_pkey PRIMARY KEY (id)   )'
+        query: 'CREATE TABLE "feedComments" ( id bigint NOT NULL,"feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean,  CONSTRAINT "feedComments_pkey" PRIMARY KEY (id)   )'
     },
 
     {
         table: "flaggedFeeds",
-        query: 'CREATE TABLE "flaggedFeeds" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT feedFlags_pkey PRIMARY KEY ("flagId")   )'
+        query: 'CREATE TABLE "flaggedFeeds" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT "flaggedFeeds_pkey" PRIMARY KEY ("flagId")   )'
     },
 
     {
@@ -31,7 +31,7 @@ dbMigration.tablesAndQueries = [
 
     {
         table: "articleTags",
-        query: 'CREATE TABLE "articleTags" (id bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT articleTags_pkey PRIMARY KEY (id)  )'
+        query: 'CREATE TABLE "articleTags" (id bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT "articleTags_pkey" PRIMARY KEY (id)  )'
     },
 
     {
