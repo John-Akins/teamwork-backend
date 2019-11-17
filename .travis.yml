@@ -14,7 +14,6 @@ env:
   - NODE_ENV=travis
 
 before_script:
-  - psql -c 'DROP database teamworktest;'
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
   - npm run dbmigrate 
@@ -22,6 +21,7 @@ before_script:
 
 script:
   - npm run test
+  - psql -c 'DROP database teamworktest;'
 
-after_success:
+  after_success:
   - npm run coverage
