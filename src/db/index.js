@@ -35,8 +35,6 @@ db.query = (queryString) =>  {
 				done()
 				console.log("QueryError ::::::::")
 				console.log(err)
-				console.log("result ::::::::")
-				console.log(result)
 				if(err) {
 					reject({
 						error: 'QueryError' + err.stack
