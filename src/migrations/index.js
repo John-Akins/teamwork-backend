@@ -47,16 +47,21 @@ dbMigration.createTables = () => {
         const tablesAndQueries = dbMigration.tablesAndQueries
         console.log("tablesAndQueries.length:::::")
         console.log(tablesAndQueries.length)
-        for (let i = 0; i < tablesAndQueries.length; i++) 
+        const length = tablesAndQueries.length
+        for (let i = 0; i < length; i++) 
         {
             console.log("iteration:::::")
             console.log(i)
+
             dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
+
             const table = tablesAndQueries[i].table
             const tableQuery = tablesAndQueries[i].query
+
             console.log("table:::::::::")
-            console.log(tablesAndQueries[i].table)
-                db.query(tableQuery)
+            console.log(table)
+
+            db.query(tableQuery)
                 .then((response) => {
                     console.log("table create response")
                     console.log(response)
