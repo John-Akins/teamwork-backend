@@ -51,7 +51,7 @@ dbMigration.createTables = () => {
 
             db.query(tableQuery, table)
                 .then((response) => {
-                    console.log("table create response")
+                    console.log("table create response :::::::::::::::")
                     console.log(response)
                     dbMigration.hasCreatedTables = dbMigration.hasCreatedTables && true
                 })
