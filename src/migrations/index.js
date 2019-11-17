@@ -45,6 +45,8 @@ dbMigration.hasCreatedTables = false
 
 dbMigration.createTables = () => {
         const tablesAndQueries = dbMigration.tablesAndQueries
+        console.log("tablesAndQueries.length:::::")
+        console.log(tablesAndQueries.length)
         for (let i = 0; i < tablesAndQueries.length; i++) 
         {
             dbMigration.hasCreatedTables = (i === 0) ? true : dbMigration.hasCreatedTables
