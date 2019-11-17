@@ -26,7 +26,6 @@ db.query = (queryString) =>  {
 		pool.connect((err, client, done) => {
 			console.log("dbError ::::::::")
 			console.log(err)
-			console.log(err.stack)
 			if(err) {
 				reject({
 					error: 'dbError' + err.stack
@@ -36,7 +35,6 @@ db.query = (queryString) =>  {
 				done()
 				console.log("QueryError ::::::::")
 				console.log(err)
-				console.log(err.stack)
 				console.log("result ::::::::")
 				console.log(result)
 				if(err) {
