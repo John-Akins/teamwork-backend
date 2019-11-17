@@ -10,7 +10,7 @@ module.exports = {
   },
 
   travis: {
-    database: 'teamworktest',
+    database: 'teamwork-test',
     username: 'postgres',
     password: 'root',
     host: '127.0.0.1',
