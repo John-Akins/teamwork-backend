@@ -38,7 +38,7 @@ describe('edit article', () => {
                     .end((error, response) => {
                         article.body = response.body.data
                         console.log("response :::::::::::")
-                        console.log(response)
+                        console.log(response.body.data)
                         done()
                     })
                 })

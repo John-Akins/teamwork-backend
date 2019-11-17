@@ -19,3 +19,8 @@ before_script:
   - npm run dbmigrate 
   - npm run datadump
 
+script:
+  - npm run test
+
+after_success:
+  - npm run coverage
