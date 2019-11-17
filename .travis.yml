@@ -21,7 +21,6 @@ before_script:
 
 script:
   - npm run test
-  - psql -c 'DROP database teamworktest;'
 
   after_success:
   - npm run coverage
