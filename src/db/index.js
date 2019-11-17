@@ -4,7 +4,7 @@ import configJson from '../config/config';
 console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
-const env = ( process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim()
+const env = ( process.env.NODE_ENV === undefined) ? 'test' : process.env.NODE_ENV.trim()
 
 const { database, username, password, host } = configJson[env]
 
