@@ -13,8 +13,8 @@ env:
   global:
   - NODE_ENV=travis
 
-  before_script:
-  - psql -c 'CREATE database teamworktest;' -U postgres
+before_script:
+  - psql -c 'CREATE database teamwork_test;' -U postgres
   - psql -c "create USER postgres WITH PASSWORD 'root';" -U postgres
   - npm run build
   - npm run dbmigrate 
