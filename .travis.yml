@@ -13,14 +13,15 @@ env:
   global:
   - NODE_ENV=travis
 
-before_script:
+  before_script:
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
+  - npm run build
   - npm run dbmigrate 
   - npm run datadump
 
 script:
   - npm run test
 
-  after_success:
+after_success:
   - npm run coverage
