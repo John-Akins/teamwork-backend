@@ -5,32 +5,32 @@ const dbMigration = {}
 dbMigration.tablesAndQueries = [
     {
         table: "users", 
-        query: 'CREATE TABLE users ( "userId" bigint NOT NULL, "firstName" character varying(30) NOT NULL, "lastName" character varying NOT NULL, email character varying NOT NULL, address character varying NOT NULL, password character varying NOT NULL, gender character varying NOT NULL, "jobRole" character varying NOT NULL, department character varying NOT NULL, "isAdmin" boolean NOT NULL, "isNewAccount" boolean DEFAULT true NOT NULL )'
+        query: 'CREATE TABLE users ( "userId" bigint NOT NULL, "firstName" character varying(30) NOT NULL, "lastName" character varying NOT NULL, email character varying NOT NULL, address character varying NOT NULL, password character varying NOT NULL, gender character varying NOT NULL, "jobRole" character varying NOT NULL, department character varying NOT NULL, "isAdmin" boolean NOT NULL, "isNewAccount" boolean DEFAULT true NOT NULL,  CONSTRAINT feedComments_pkey PRIMARY KEY ("userId")    )'
     },
 
     {
         table: "articles",
-        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL )'
+        query: 'CREATE TABLE articles ( title character(100) NOT NULL, "articleId" bigint NOT NULL, "createdOn" date NOT NULL, "createdBy" character varying(20) NOT NULL, article character(1000) NOT NULL,  CONSTRAINT feedComments_pkey PRIMARY KEY ("articleId")    )'
     },
 
     {
         table: "feedComments",
-        query: 'CREATE TABLE \"feedComments\" ( "id" bigint NOT NULL,"feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean,  CONSTRAINT feedComments_pkey PRIMARY KEY (id)   )'
+        query: 'CREATE TABLE "feedComments" ( id bigint NOT NULL,"feedId" bigint NOT NULL, "commentId" bigint NOT NULL, "feedType" character(20) NOT NULL, comment character(500) NOT NULL, "commentOn" date NOT NULL, "commentBy" bigint NOT NULL, "isFlagged" boolean,  CONSTRAINT feedComments_pkey PRIMARY KEY (id)   )'
     },
 
     {
         table: "feedFlags",
-        query: 'CREATE TABLE \"feedFlags\" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT feedFlags_pkey PRIMARY KEY (flagId)   )'
+        query: 'CREATE TABLE "feedFlags" ( "flagId" bigint NOT NULL, "feedId" bigint NOT NULL, "feedType" character(20) NOT NULL, "flaggedOn" date, "flaggedBy" character(20) NOT NULL,  CONSTRAINT feedFlags_pkey PRIMARY KEY ("flagId")   )'
     },
 
     {
         table: "gifs",
-        query: 'CREATE TABLE gifs ( "gifId" bigint NOT NULL, title character(100) NOT NULL, "imageUrl" character(100) NOT NULL, "createdOn" date NOT NULL, "createdBy" character(20)[] NOT NULL,  CONSTRAINT gifs_pkey PRIMARY KEY (gifId)   )'
+        query: 'CREATE TABLE gifs ( "gifId" bigint NOT NULL, title character(100) NOT NULL, "imageUrl" character(100) NOT NULL, "createdOn" date NOT NULL, "createdBy" character(20)[] NOT NULL,  CONSTRAINT gifs_pkey PRIMARY KEY ("gifId")   )'
     },
 
     {
         table: "articleTags",
-        query: 'CREATE TABLE \"articleTags\" ("Id" bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT articleTags_pkey PRIMARY KEY (id)  )'
+        query: 'CREATE TABLE "articleTags" (Id bigint NOT NULL, "tagId" bigint NOT NULL, "articleId" bigint NOT NULL,  CONSTRAINT articleTags_pkey PRIMARY KEY (id)  )'
     },
 
     {
@@ -68,16 +68,11 @@ dbMigration.dummyQueries = [
 
     {
         table: "articles",
-        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\'), (\'Quick brown fox\', 10002, \'2019-11-12\',10002, \'One Hell of a quick brown fox\'), ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\')'
+        query: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article") values  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\'), (\'Quick brown fox\', 10002, \'2019-11-12\',10002, \'One Hell of a quick brown fox\'),  (\'Ada Lovelace\', 10003, \'2019-10-12\',	10002, \'A computer science fairy tale\')'
     },
     {
         table: "users",
         query: 'INSERT INTO "users" ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10001, \'Ada\', \'Lovelace\', \'lovelace@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	TRUE,	FALSE), ("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") values (10002, \'Ada\', \'Turan\', \'turan@gmail.com\', \'LOvelace street\', \'$2b$10$dTlK9RWsDFxj0jvAARftqeonxRuBVTQVKpsbvk9tt.MsFcjnTjpxa\', \'female\',	\'Software Engineer\', \'IT\',	FALSE,	FALSE)'
-    },
-
-    {
-        table: "feedComments",
-        query: 'INSERT INTO  "feedComments" ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values (10001, 10001, \'article\', \'Very nice\', \'2019-10-10\', 10001, FALSE), ("feedId", "commentId", "feedType", "comment", "commentOn", "commentBy", "isFlagged") values (10002, 10002, \'article\', \'Very nice\', \'2019-10-10\', 10001, FALSE)'
     }
 
 ]
