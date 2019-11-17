@@ -21,7 +21,7 @@ pool.on('error', (err) => {
 
 const db = {}
 
-db.query = (queryString, table = '') =>  {
+db.query = (queryString, table) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
 			console.log("dbError ::::::::"+ table)
