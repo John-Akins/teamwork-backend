@@ -46,6 +46,7 @@ db.query = (queryString) =>  {
 }
 
 const queryShouldAbort = ( client, err ) => {
+	console.log('Error in transaction:::::: ')
 	console.log(err)
 	if (err) {
 	  console.error('Error in transaction', err.stack)
@@ -100,7 +101,6 @@ db.tablesMigrate = (queryArray) => {
 				for (let i = 0; i < len; i++) {
 					console.log("BEGIN ::::::::"+i)
 					if (queryShouldAbort(client, err)) return
-						console.log(err)
 						client.query(queryArray[i].text, (err, res) => {
 							console.log("query err")
 							console.log(err)
@@ -108,7 +108,8 @@ db.tablesMigrate = (queryArray) => {
 				}
 				console.log('FISHED')
 				if (queryShouldAbort(client, err)) return
-					client.query('COMMIT', err => {
+				console.log('WILL COMMIT')
+				client.query('COMMIT', err => {
 						console.log('COMMIT')
 						console.log(err)
 						if (err) {
