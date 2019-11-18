@@ -31,7 +31,7 @@ dbMigration.tablesAndQueries = [
 
 
 dbMigration.createTables =  () => {
-    db.tablesMigrate(dbMigration.tablesAndQueries[0].text)
+    db.tablesMigrate(dbMigration.tablesAndQueries)
     .then((response) => {
         console.log("table create response :::::::::::::::")
         console.log(response)
