@@ -95,7 +95,32 @@ db.tablesMigrate = (queryArray) => {
 			if(err) {
 				reject({ error: 'DBrror' + err.stack })
 			}			
-			client.query('BEGIN', err => {
+				const len = queryArray.length
+				for (let i = 0; i < len; i++) {
+					console.log("BEGIN ::::::::"+i)		
+					client.query(queryArray[i].text, (err,result) => {
+						console.log("QueryError ::::::::")
+						console.log(err)
+						if(err) {
+							reject({
+								error: 'QueryError' + err.stack
+							})
+						}
+						resolve(result)
+					})
+				}
+				console.log('FISHED')
+				resolve('done')
+				done()
+		})
+	})
+}
+
+export default db
+
+/**
+ * 
+ * 			client.query('BEGIN', err => {
 				console.log("BEGIN ::::::::")
 				const len = queryArray.length
 				for (let i = 0; i < len; i++) {
@@ -120,8 +145,4 @@ db.tablesMigrate = (queryArray) => {
 						done()
 					})
 			})
-		})
-	})
-}
-
-export default db
+ */
