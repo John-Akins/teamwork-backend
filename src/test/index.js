@@ -4,6 +4,7 @@ import dbMigration from '../migrations/'
 
 const { expect } = chai;
 
+
 describe('Database Migrations', () => {
     describe('Schema Migrations', () => {
         const data = {}

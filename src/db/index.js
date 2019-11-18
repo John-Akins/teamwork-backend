@@ -5,15 +5,18 @@ console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
 const env = ( process.env.NODE_ENV === undefined ) ? 'development' : process.env.NODE_ENV.trim()
-
-const { database, username, password, host } = configJson[env]
-
-const connectionString = `postgressql://${username}:${password}@${host}:5432/${database}`
+const connection = {}
+if( env === 'elephantsql' ) {
+	connection.String = 'postgres://qulzkjox:1pRx-JXE-Ixnq6x2a1_tB35VS2lmiUNl@manny.db.elephantsql.com:5432/qulzkjox'	
+} else {
+	const { database, username, password, host } = configJson[env]
+	connection.String = `postgressql://${username}:${password}@${host}:5432/${database}`
+}
 
 console.log("connectionString ::::::: ")
-console.log(connectionString)
+console.log(connection.String)
 
-const pool = new Pool({connectionString : connectionString})
+const pool = new Pool({connectionString : connection.String})
 
 pool.on('error', (err) => {
 	console.error('Unexpected error on idle client', err)
@@ -89,6 +92,7 @@ db.transactQuery = (queryArray) => {
 	})
 }
 
+/*
 db.tablesMigrate = (queryArray) => {
 	return new Promise((resolve, reject) => {
 		pool.connect(( err, client, done ) => {
@@ -124,5 +128,6 @@ db.tablesMigrate = (queryArray) => {
 		})
 	})
 }
+*/
 
 export default db

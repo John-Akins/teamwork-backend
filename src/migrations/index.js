@@ -2,6 +2,8 @@ import db from "../db"
 
 const dbMigration = {}
 
+/*
+
 dbMigration.tablesAndQueries = [
 
     {
@@ -43,7 +45,7 @@ dbMigration.createTables =  () => {
         return false
     })
 }
-
+*/
 dbMigration.dummyQueries = [
 
     {

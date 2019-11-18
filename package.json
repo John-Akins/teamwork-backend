@@ -6,7 +6,6 @@
   "scripts": {
     "build": "rm -rf ./build && babel -d build/src ./src -s",
     "dev": "nodemon --exec babel-node src/server.js",
-    "dbmigrate": "nyc --require @babel/register  mocha ./src/test/index.js --timeout 20000 --exit",
     "datadump": "nyc --require @babel/register  mocha ./src/test/datadump.js --timeout 20000 --exit",
     "test": "nyc --require @babel/register  mocha ./src/test/api/articles/ --timeout 40000 --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",

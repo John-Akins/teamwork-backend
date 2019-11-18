@@ -11,14 +11,13 @@ services:
 
 env:
   global:
-  - NODE_ENV=travis
+  - NODE_ENV=elephantsqp
 
 before_script:
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c 'DROP database teamworktest;' -U postgres
   - psql -c 'CREATE database teamworktest;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'root';" -U postgres
-  - npm run dbmigrate 
   - npm run datadump
 
 script:
