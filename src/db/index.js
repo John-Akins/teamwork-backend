@@ -95,23 +95,22 @@ db.tablesMigrate = (queryArray) => {
 			if(err) {
 				reject({ error: 'DBrror' + err.stack })
 			}			
-				const len = queryArray.length
-				for (let i = 0; i < len; i++) {
-					console.log("BEGIN ::::::::"+i)		
-					client.query(queryArray[i].text, (err,result) => {
-						console.log("QueryError ::::::::")
-						console.log(err)
-						if(err) {
-							reject({
-								error: 'QueryError' + err.stack
-							})
-						}
-						resolve(result)
-					})
-				}
-				console.log('FISHED')
-				resolve('done')
-				done()
+			const len = queryArray.length
+			for (let i = 0; i < len; i++) {
+				console.log("BEGIN ::::::::"+i)		
+				client.query(queryArray[i].text, (err,result) => {
+					console.log("QueryError ::::::::")
+					console.log(err)
+					if(err) {
+						reject({
+							error: 'QueryError' + err.stack
+						})
+					}
+				})
+			}
+			console.log('FIniSHED')
+			resolve('done')
+			done()
 		})
 	})
 }
