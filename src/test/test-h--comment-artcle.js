@@ -9,6 +9,8 @@ const { expect } = chai
 
 testQueries.getMaxArticle()
     .then((response) => {
+        console.log("response ::::::: c")
+        console.log(response)
         const article = {}
         article.body = response    
         describe('comment on article', () => {
@@ -33,19 +35,16 @@ testQueries.getMaxArticle()
                 })
 
 
-                describe('comment more than 800 characters', () => {
-                    const userSecret = {}    
-                    const data = {}
-                            
+                describe('comment more than 800 characters', () => {                            
                     before((done) => {
                         chai.request(app)
                         .delete(`/api/v1/articles/${article.body.id}/comment`)
                         .set({
                             'Accept': 'application/json',
-                            "Authorization": `token: ${userSecret.data.token}`
+                            "Authorization": `token: ${userSecrets.data.token}`
                         })
                         .send({
-                            userId: userSecret.data.userId,
+                            userId: userSecrets.data.userId,
                             id: article.body.id,
                             comment: comment
                         })
@@ -64,18 +63,16 @@ testQueries.getMaxArticle()
                 })
 
                 describe('comment correctly formatted', () => {
-                    const userSecret = {}    
-                    const data = {}
                             
                     before((done) => {
                             chai.request(app)
                             .delete(`/api/v1/articles/${article.body.id}/comment`)
                             .set({
                                 'Accept': 'application/json',
-                                "Authorization": `token: ${userSecret.data.token}`
+                                "Authorization": `token: ${userSecrets.data.token}`
                             })
                             .send({
-                                userId: userSecret.data.userId,
+                                userId: userSecrets.data.userId,
                                 id: article.body.id,
                                 comment: "awesome !"
                             })
