@@ -42,7 +42,6 @@ dbMigration.createTables =  () => {
         console.log(e)
         return false
     })
-    return 'did not execute'
 }
 
 dbMigration.dummyQueries = [
