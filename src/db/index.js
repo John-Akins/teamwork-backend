@@ -86,18 +86,19 @@ db.transactQuery = (queryArray) => {
 }
 
 db.tablesMigrate = (queryArray) => {
+	console.log(queryArray)
 	return new Promise((resolve, reject) => {
 		pool.connect(( err, client, done ) => {
 			console.log("dbError ::::::::")
 			console.log(err)
-			console.log("client ::::::::")
-			console.log(client)
 			if(err) {
 				reject({ error: 'DBrror' + err.stack })
 			}			
 			client.query('BEGIN', err => {
+				console.log("BEGIN ::::::::")
 				const len = queryArray.length
 				for (let i = 0; i < len; i++) {
+					console.log("BEGIN ::::::::"+i)
 					if (queryShouldAbort(client, err)) return
 						client.query(queryArray[i].text, (err, res) => {
 							console.log("Query error")
