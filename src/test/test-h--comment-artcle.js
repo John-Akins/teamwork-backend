@@ -9,8 +9,6 @@ const { expect } = chai
 
 testQueries.getMaxArticle()
     .then((response) => {
-        console.log("response ::::::: c")
-        console.log(response)
         const article = {}
         article.body = response    
         describe('comment on article', () => {
@@ -35,10 +33,10 @@ testQueries.getMaxArticle()
                 })
 
 
-                describe('comment more than 800 characters', () => {                            
+                describe('comment more than 800 characters', () => {       
                     before((done) => {
                         chai.request(app)
-                        .delete(`/api/v1/articles/${article.body.id}/comment`)
+                        .post(`/api/v1/articles/${article.body.id}/comment`)
                         .set({
                             'Accept': 'application/json',
                             "Authorization": `token: ${userSecrets.data.token}`
@@ -54,19 +52,18 @@ testQueries.getMaxArticle()
                             done()
                         })
                     })
-                    it("should return 401 status code", () => {
-                        expect(data.status).to.equal(401)
+                    it("should return 422 status code", () => {
+                        expect(data.status).to.equal(422)
                     })
                     it("should return relevant error message", () => {
-                        expect(data.body.error).eql("maximum characer exceeded for comment, maximum of 800 characters allowed")
+                        expect(data.body.error).to.be.an("array")
                     })        
                 })
 
-                describe('comment correctly formatted', () => {
-                            
+                describe('comment correctly formatted', () => {                            
                     before((done) => {
                             chai.request(app)
-                            .delete(`/api/v1/articles/${article.body.id}/comment`)
+                            .post(`/api/v1/articles/${article.body.id}/comment`)
                             .set({
                                 'Accept': 'application/json',
                                 "Authorization": `token: ${userSecrets.data.token}`
@@ -83,7 +80,7 @@ testQueries.getMaxArticle()
                             })
                         })
                         it("should return 200 status code", () => {
-                            expect(data.status).to.equal(401)
+                            expect(data.status).to.equal(200)
                         })
                         it("should return relevant error message", () => {
                             expect(data.body.data.message).eql("comment posted succesfully")
@@ -96,7 +93,7 @@ testQueries.getMaxArticle()
                 const data = {}
                 before((done) => {
                     chai.request(app)
-                    .delete(`/api/v1/articles/${article.body.id}/comment`)
+                    .post(`/api/v1/articles/${article.body.id}/comment`)
                     .set({
                         'Accept': 'application/json',
                         "Authorization": `token: ${maliciousSecret.token}`

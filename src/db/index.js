@@ -52,7 +52,7 @@ db.query = (queryString) =>  {
 	})
 }
 
-const queryShouldAbort = ( client, err ) => {
+const queryShouldAbort = ( client, err, done ) => {
 	console.log('Error in transaction:::::: ')
 	console.log(err)
 	if (err) {
@@ -77,12 +77,13 @@ db.transactQuery = (queryArray) => {
 			}			
 			client.query('BEGIN', err => {
 				for (let i = 0; i < len; i++) {
-					if (queryShouldAbort(client, err)) return
+					if (queryShouldAbort(client, err, done)) return
 						client.query(queryArray[i].text, queryArray[i].values, (err, res) => { })										
 				}
-				if (queryShouldAbort(client, err)) return
+				if (queryShouldAbort(client, err, done)) return
 			  		client.query('COMMIT', err => {
 						if (err) {
+							done()
 							console.log('Error committing transaction', err.stack)
 							reject({error: 'Error committing transaction', data: err.stack})
 						}

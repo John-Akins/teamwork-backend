@@ -66,7 +66,7 @@ articlesController.commentArticle = (req, res) => {
     const token = req.headers.authorization.split()[1]
 
     const query = {
-			text: 'INSERT INTO "feedComments" (id, "feedId", "feedType", comment, "commentOn", "commentBy", "isFlagged") values  ($1, $2, article, $3, $4, $5,FALSE)',
+			text: 'INSERT INTO "feedComments" (id, "feedId", "feedType", comment, "commentOn", "commentBy", "isFlagged") values  ($1, $2, \'article\', $3, $4, $5,FALSE)',
 			values: [randId, id, comment, dateTime, userId]
 		}
 	
