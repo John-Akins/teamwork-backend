@@ -1,8 +1,8 @@
 import chai from 'chai'
 import chatHttp from 'chai-http'
 import 'chai/register-should'
-import app from '../../../app'
-import testQueries from '../../../utilities/testQueryUtility'
+import app from '../app'
+import testQueries from '../utilities/testQueryUtility'
 
 chai.use(chatHttp)
 const { expect } = chai

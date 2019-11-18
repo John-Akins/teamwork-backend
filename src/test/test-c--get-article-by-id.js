@@ -1,12 +1,12 @@
 import chai from 'chai'
 import chatHttp from 'chai-http'
 import 'chai/register-should'
-import app from '../../../app'
+import app from '../app'
 
 chai.use(chatHttp);
 const { expect } = chai;
 
-describe('get articles by tag', () => {
+describe('get articles by id', () => {
     const adminSecrets = {}
     before((done) => {
         chai.request(app)
@@ -26,7 +26,7 @@ describe('get articles by tag', () => {
         const data = {}
         before((done) => {
             chai.request(app)
-            .get('/api/v1/articles/tags/news')
+            .get('/api/v1/articles/10001')
             .set({
                 'Accept': 'application/json',
                 "Authorization": `token: ${adminSecrets.data.token}`
@@ -40,7 +40,7 @@ describe('get articles by tag', () => {
                 data.body = response.body
                 done()
             })
-        })        
+        })     
 
         it("should return 200 status code", () => {
 			expect(data.status).to.equal(200)                
@@ -49,38 +49,7 @@ describe('get articles by tag', () => {
 			expect(data.body.status).to.eql('success')
         })
         it("should return an array of articles", () => {
-            expect(data.body.data).to.be.an('array')
-        })
-
-        describe("tag exceeds 50 characters", () => {
-            const data = {}
-            before((done) => {
-                chai.request(app)
-                .get('/api/v1/articles/tags/newsoeojeffdkfndknfkdnfkndknfkdnfkdnfkndkfnsdknfdnfskjnfsdjnfkjnfdjnfjnjdsfjdskjfnskjdfjsdfkjsdfjsbdfjbsdfkjsdfkjbdjbj')
-                .set({
-                    'Accept': 'application/json',
-                    "Authorization": `token: ${adminSecrets.data.token}`
-                })
-                .send({
-                    userId: adminSecrets.data.userId,
-                    isAdmin: adminSecrets.data.isAdmin
-                })
-                .end((error, response) => {
-                    data.status = response.statusCode
-                    data.body = response.body
-                    done()
-                })
-            })        
-    
-            it("should return error status", () => {
-                expect(data.body.status).to.eql('error')
-            })
-            it("should return 422 status code", () => {
-				expect(data.status).to.equal(422)                
-            })
-            it("should return an error array ", () => {
-				expect(data.body.error).to.be.an('array')
-            })
+            expect(data.body.data).to.be.an('object')
         })
 
     })
@@ -90,7 +59,7 @@ describe('get articles by tag', () => {
         const data = {}
         before((done) => {
             chai.request(app)
-            .get('/api/v1/articles/tags/news')
+            .get('/api/v1/articles/10001')
             .set({
                 'Accept': 'application/json',
                 "Authorization": `token: ${maliciousSecret.token}`

@@ -5,7 +5,7 @@ console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
 const env = ( process.env.NODE_ENV === undefined ) ? 'development' : process.env.NODE_ENV.trim()
-console.log("env")
+console.log("env::")
 console.log(env)
 const connection = {}
 if( env === 'elephantsql' ) {
