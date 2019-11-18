@@ -3,8 +3,8 @@ import chatHttp from 'chai-http'
 import 'chai/register-should'
 import app from '../app'
 
-chai.use(chatHttp);
-const { expect } = chai;
+chai.use(chatHttp)
+const { expect } = chai
 
 describe("create user", () => {
 
@@ -21,8 +21,8 @@ describe("create user", () => {
 			})
 			.end((error, response) => {
 				adminSecrets.data = response.body.data
-				done();
-			});
+				done()
+			})
 		})
 
 		describe("input existing email", () => {
@@ -49,8 +49,8 @@ describe("create user", () => {
 				.end((error, response) => {
 					data.status = response.statusCode
 					data.body = response.body
-					done();
-				});
+					done()
+				})
 			})
 
 			it("should return 402 status code", () => {
@@ -85,8 +85,8 @@ describe("create user", () => {
 				.end((error, response) => {
 					data.status = response.statusCode
 					data.body = response.body
-					done();
-				});
+					done()
+				})
 			})
 
 			it("should return 422 status code", () => {
@@ -99,6 +99,7 @@ describe("create user", () => {
 
 		describe("input new user", () => {
 			const data = {}
+			const id = new Date().getTime()
 			before((done) => {
 				chai.request(app)
 				.post('/api/v1/auth/create-user')
@@ -110,7 +111,7 @@ describe("create user", () => {
 					userId: adminSecrets.data.userId,
 					firstName: "akins",
 					lastName: "akin",
-					email: "turana@gmail.com",
+					email: id+"turana@gmail.com",
 					address: "akins street", 
 					password: "dfjdskjfsk",
 					gender: "male",
@@ -121,8 +122,8 @@ describe("create user", () => {
 				.end((error, response) => {
 					data.status = response.statusCode
 					data.body = response.body
-					done();
-				});
+					done()
+				})
 			})
 
 			it("should return 200 status code", () => {
@@ -148,8 +149,8 @@ describe("create user", () => {
 			})
 			.end((error, response) => {
 				userSecrets.data = response.body.data
-				done();
-			});
+				done()
+			})
 		})
 
 		describe("user not an admin", () => {
@@ -176,8 +177,8 @@ describe("create user", () => {
 				.end((error, response) => {
 					data.status = response.statusCode
 					data.body = response.body
-					done();
-				});
+					done()
+				})
 			})
 
 			it("should return 401 status code", () => {
