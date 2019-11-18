@@ -100,6 +100,7 @@ db.tablesMigrate = (queryArray) => {
 				for (let i = 0; i < len; i++) {
 					console.log("BEGIN ::::::::"+i)
 					if (queryShouldAbort(client, err)) return
+					    console.log(client)
 						client.query(queryArray[i].text, (err, res) => {
 							console.log("Query error")
 							console.log(err)
@@ -109,6 +110,8 @@ db.tablesMigrate = (queryArray) => {
 				}
 				if (queryShouldAbort(client, err)) return
 			  		client.query('COMMIT', err => {
+						console.log('COMMIT')
+						console.log(err)
 						if (err) {
 							console.log('Error committing transaction', err.stack)
 							reject({error: 'Error committing transaction', data: err.stack})
