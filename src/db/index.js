@@ -5,6 +5,8 @@ console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
 const env = ( process.env.NODE_ENV === undefined ) ? 'development' : process.env.NODE_ENV.trim()
+console.log("env")
+console.log(env)
 const connection = {}
 if( env === 'elephantsql' ) {
 	connection.String = 'postgres://qulzkjox:1pRx-JXE-Ixnq6x2a1_tB35VS2lmiUNl@manny.db.elephantsql.com:5432/qulzkjox'	
