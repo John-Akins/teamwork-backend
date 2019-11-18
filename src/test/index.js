@@ -1,6 +1,6 @@
 import chai from 'chai'
 import 'chai/register-should'
-import dbMigration from '../migrations'
+import dbMigration from '../migrations/'
 
 const { expect } = chai;
 
@@ -9,25 +9,12 @@ describe('Database Migrations', () => {
         const data = {}
         before( (done) => {
             data.response = dbMigration.createTables()
-            done();
+            done()
         })
     
         it("should reply with true on success", (done) => {
-            expect(data.response).to.equal(true)
+            expect(data.response).to.equal("success")
             done()
         })	
     })
-    describe('Fill test data', () => {
-        const data = {}
-        before( (done) => {
-            data.response = dbMigration.fillDummyData()
-            done();
-        })
-        it("should return true on success", (done) => {
-            expect(data.response).to.equal(true)
-            done()
-        })	
-    })    
 })
-
-

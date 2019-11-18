@@ -4,15 +4,14 @@ import configJson from '../config/config';
 console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)
 
-const env = ( process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim()
+const env = ( process.env.NODE_ENV === undefined ) ? 'development' : process.env.NODE_ENV.trim()
 
 const { database, username, password, host } = configJson[env]
 
 const connectionString = `postgressql://${username}:${password}@${host}:5432/${database}`
-
+console.log("connectionString ::::::: ")
+console.log(connectionString)
 const pool = new Pool({connectionString : connectionString})
-// the pool will emit an error on behalf of any idle clients it contains
-// if a backend error or network partition happens
 
 pool.on('error', (err) => {
 	console.error('Unexpected error on idle client', err)
@@ -21,10 +20,10 @@ pool.on('error', (err) => {
 
 const db = {}
 
-db.query = (queryString, table) =>  {
+db.query = (queryString) =>  {
 	return new Promise((resolve, reject) => {
 		pool.connect((err, client, done) => {
-			console.log("dbError ::::::::"+ table)
+			console.log("dbError ::::::::")
 			console.log(err)
 			if(err) {
 				reject({
@@ -33,7 +32,7 @@ db.query = (queryString, table) =>  {
 			}				
 			client.query(queryString, (err,result) => {
 				done()
-				console.log("QueryError ::::::::"+ table)
+				console.log("QueryError ::::::::")
 				console.log(err)
 				if(err) {
 					reject({
@@ -81,6 +80,41 @@ db.transactQuery = (queryArray) => {
 						resolve('done')
 						done()
 					})
+			})
+		})
+	})
+}
+
+db.tablesMigrate = (queryArray) => {
+	return new Promise((resolve, reject) => {
+		pool.connect(( err, client, done ) => {
+			console.log("dbError ::::::::")
+			console.log(err)
+			console.log("client ::::::::")
+			console.log(client)
+			if(err) {
+				reject({ error: 'DBrror' + err.stack })
+			}			
+			client.query('BEGIN', err => {
+				const len = queryArray.length
+				for (let i = 0; i < len; i++) {
+					if (queryShouldAbort(client, err)) return
+						client.query(queryArray[i].text, (err, res) => {
+							console.log("Query error")
+							console.log(err)
+							console.log("Query response")
+							console.log(res)
+						})										
+				}
+				if (queryShouldAbort(client, err)) return
+			  		client.query('COMMIT', err => {
+						if (err) {
+							console.log('Error committing transaction', err.stack)
+							reject({error: 'Error committing transaction', data: err.stack})
+						}
+						resolve('done')
+						done()
+				})
 			})
 		})
 	})
