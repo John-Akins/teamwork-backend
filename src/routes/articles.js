@@ -23,6 +23,21 @@ router.post("/", auth.allUsers, inputValidator.createArticle, articlesController
 
 /**
 * @api {get} /api/articles/<:tag>
+* @apiName Comment on article 
+* @apiPermission authorized users
+* @apiGroup articles
+*
+* @apiParam  {String} [userId] userId
+* @apiParam  {String} [id] id
+* @apiParam  {String} [comment] comment
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
+router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articlesController.commentArticle)
+
+/**
+* @api {get} /api/articles/<:tag>
 * @apiName Create article 
 * @apiPermission authorized users
 * @apiGroup articles

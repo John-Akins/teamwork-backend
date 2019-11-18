@@ -39,6 +39,14 @@ inputValidator.createArticle = [
 	sanitizeBody("isAdmin").toBoolean()
 ]
 
+inputValidator.commentArticle = [
+	body("comment",).not().isEmpty().isLength({ max: 80 }),
+
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("comment").trim().escape(),
+	sanitizeBody("id").trim().escape()
+]
+
 inputValidator.editArticle = [
 	body("title",).not().isEmpty().isLength({ max: 100 }),
 	body("article").not().isEmpty().isLength({ max: 1000 }),

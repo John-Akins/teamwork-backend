@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf ./build && babel -d build/src ./src -s",
-    "dev": "nodemon --exec babel-node src/server.js",
-    "test": "nyc --require @babel/register  mocha ./src/test/ --timeout 40000 --exit",
+    "dev": "set NODE_ENV=elephantsql && nodemon --exec babel-node src/server.js",
+    "test": "set NODE_ENV=elephantsql && nyc --require @babel/register  mocha ./src/test/ --timeout 40000 --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "npm run generate-lcov && npm run coveralls-coverage"
