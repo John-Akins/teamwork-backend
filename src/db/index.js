@@ -86,7 +86,6 @@ db.transactQuery = (queryArray) => {
 }
 
 db.tablesMigrate = (queryArray) => {
-	console.log(queryArray)
 	return new Promise((resolve, reject) => {
 		pool.connect(( err, client, done ) => {
 			console.log("dbError ::::::::")
