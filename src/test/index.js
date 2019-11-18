@@ -13,7 +13,7 @@ describe('Database Migrations', () => {
         })
     
         it("should reply with true on success", (done) => {
-            expect("success").to.equal("success")
+            expect(data.response).to.equal("success")
             done()
         })	
     })

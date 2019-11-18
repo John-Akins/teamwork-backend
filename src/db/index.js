@@ -9,8 +9,10 @@ const env = ( process.env.NODE_ENV === undefined ) ? 'development' : process.env
 const { database, username, password, host } = configJson[env]
 
 const connectionString = `postgressql://${username}:${password}@${host}:5432/${database}`
+
 console.log("connectionString ::::::: ")
 console.log(connectionString)
+
 const pool = new Pool({connectionString : connectionString})
 
 pool.on('error', (err) => {
@@ -95,32 +97,7 @@ db.tablesMigrate = (queryArray) => {
 			if(err) {
 				reject({ error: 'DBrror' + err.stack })
 			}			
-			const len = queryArray.length
-			for (let i = 0; i < len; i++) {
-				console.log("BEGIN ::::::::"+i)		
-				client.query(queryArray[i].text, (err,result) => {
-					console.log("QueryError ::::::::")
-					console.log(err)
-					if(err) {
-						reject({
-							error: 'QueryError' + err.stack
-						})
-					}
-				})
-			}
-			console.log('FIniSHED')
-			resolve('done')
-			done()
-		})
-	})
-}
-
-export default db
-
-/**
- * 
- * 			client.query('BEGIN', err => {
-				console.log("BEGIN ::::::::")
+			client.query('BEGIN', err => {
 				const len = queryArray.length
 				for (let i = 0; i < len; i++) {
 					console.log("BEGIN ::::::::"+i)
@@ -130,7 +107,7 @@ export default db
 							console.log(err)
 						})										
 				}
-				console.log('FISHED')
+				console.log('FINISHED')
 				if (queryShouldAbort(client, err)) return
 				console.log('WILL COMMIT')
 				client.query('COMMIT', err => {
@@ -138,10 +115,14 @@ export default db
 						console.log(err)
 						if (err) {
 							console.log('Error committing transaction', err.stack)
-							reject({error: 'Error committing transaction', data: err.stack})
-						}
-						resolve('done')
-						done()
-					})
+						reject({error: 'Error committing transaction', data: err.stack})
+					}
+					resolve('done')
+					done()
+				})
 			})
- */
+		})
+	})
+}
+
+export default db
