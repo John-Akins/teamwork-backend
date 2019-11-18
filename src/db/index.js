@@ -101,7 +101,10 @@ db.tablesMigrate = (queryArray) => {
 					console.log("BEGIN ::::::::"+i)
 					if (queryShouldAbort(client, err)) return
 						console.log(err)
-						client.query(queryArray[i].text, (err, res) => {})										
+						client.query(queryArray[i].text, (err, res) => {
+							console.log("query err")
+							console.log(err)
+						})										
 				}
 				console.log('FISHED')
 				if (queryShouldAbort(client, err)) return
