@@ -67,6 +67,13 @@ inputValidator.getArticlesByTag = [
 	sanitizeBody("isAdmin").toBoolean()
 ]
 
+inputValidator.flagArticleComment = [
+	param("commentId").not().isEmpty().isLength({ max: 50 }),
+
+	sanitizeParam("commentId").trim().escape(),
+	sanitizeBody("userId").trim().escape()
+]
+
 inputValidator.getArticlesById = [
 	param("articleId",).not().isEmpty(),
 

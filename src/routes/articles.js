@@ -52,6 +52,24 @@ router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articl
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
+router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArticleComment, articlesController.flagArticleComment)
+
+/**
+* @api {get} /api/articles/<:tag>
+* @apiName Create article 
+* @apiPermission authorized users
+* @apiGroup articles
+*
+* @apiParam  {String} [articleId] articleId
+*
+* @apiBody  {String} [userId] userId
+* @apiBody  {String} [title] title
+* @apiBody  {String} [article] article
+* @apiBody  {Boolean} [isAdmin] isAdmin
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
 router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.editArticle, articlesController.editArticle)
 
 /**

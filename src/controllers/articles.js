@@ -4,7 +4,7 @@ import db from "../db"
 
 const articlesController = {}
 
-const isFlagged = (articleId) => {	
+const isArticleFlagged = (articleId) => {	
 	return new Promise((resolve, reject) => {
 	const query = {
 				text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 AND "isFlagged" = TRUE',
@@ -15,6 +15,29 @@ const isFlagged = (articleId) => {
 			.then((response) => {
 				const data = response.rows
 				if(data[0] !== undefined && typeof data[0].title === 'string'){
+					resolve(true)
+				}
+				resolve(false)
+			})
+			.catch((error) => {
+				console.log(" error ::::::::::::::")
+				console.log(error)
+				reject(false)
+			})
+		})
+}
+
+const commentExists = (commentId) => {	
+	return new Promise((resolve, reject) => {
+	const query = {
+			text: 'SELECT * FROM "feedComments" WHERE id = $1',
+			values: [commentId]
+		}
+
+		db.query(query)
+			.then((response) => {
+				const data = response.rows
+				if(data[0] !== undefined && typeof data[0].comment === 'string'){
 					resolve(true)
 				}
 				resolve(false)
@@ -53,7 +76,6 @@ articlesController.createArticle = (req, res) => {
 			})
 }
 
-
 articlesController.commentArticle = (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()){
@@ -79,7 +101,6 @@ articlesController.commentArticle = (req, res) => {
 			responseUtility.error(res, 500, "server error")
 		})
 }
-
 
 articlesController.editArticle = (req, res) => {
 	const errors = validationResult(req)
@@ -118,7 +139,7 @@ articlesController.flagArticle = (req, res) => {
 	
 	const queryArray = [ 	
 		{
-			text: 'UPDATE articles SET "isFlagged"=TRUE WHERE  "articleId"=$1 ',
+			text: 'UPDATE articles SET "isFlagged"=TRUE WHERE "articleId"=$1 ',
 			values: [ req.params.articleId ]
 		},
 		{
@@ -137,12 +158,44 @@ articlesController.flagArticle = (req, res) => {
 		})
 }
 
+articlesController.flagArticleComment = (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()){
+		return responseUtility.error(res, 422, errors.array())
+	}	
+
+	commentExists(req.params.commentId)
+		.then((doesCommentExist) => {
+			if(doesCommentExist === false) {
+				return responseUtility.error(res, 401, "Oopsy, comment cannot be found")
+			}
+			
+			const query = {
+					text: 'UPDATE "feedComments" SET "isFlagged"=TRUE WHERE  "id"=$1 ',
+					values: [ req.params.commentId ]
+				}	
+		
+			db.query(query)
+				.then(() => {
+					const data = { message: "Comment successfully flagged as inappropriate", token : req.headers.authorization.split()[1], userId: req.body.userId}
+					responseUtility.success(res, data)
+				})
+				.catch((error) => {
+					console.log(error)
+					responseUtility.error(res, 500, "server error")
+				})
+		})
+		.catch( (error) => {
+			responseUtility.error(res, 500, "server error")
+		})
+}
+
 articlesController.deleteFlaggedArticle = (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()){
 		return responseUtility.error(res, 422, errors.array())
 	}	
-	isFlagged(req.params.articleId)
+	isArticleFlagged(req.params.articleId)
 	.then((isFlagged) => {
 		if( isFlagged === false){
 			return responseUtility.error(res, 401, "You cannot delete an unflagged article, want to flag as inappropriate?")		
@@ -153,7 +206,7 @@ articlesController.deleteFlaggedArticle = (req, res) => {
 				values: [ req.params.articleId ]
 			},
 			{
-				text: 'DELETE FROM "flaggedFeeds" WHERE "articleId"=$1 ',
+				text: 'DELETE FROM "flaggedFeeds" WHERE "feedId"=$1 ',
 				values: [ req.params.articleId ]
 			}
 		]
