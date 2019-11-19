@@ -21,7 +21,28 @@ testQueries.commentOnArticle = () => {
 		const randId = new Date().getTime()
 	
 		const query = {
-				text: 'INSERT INTO "feedComments" (id, "feedId", "feedType", comment, "commentOn", "commentBy", "isFlagged") values  ($1, $2, \'article\', $3, $4, $5,FALSE)',
+				text: 'INSERT INTO "feedComments" (id, "feedId", "feedType", comment, "commentOn", "commentBy", "isFlagged") values  ($1, $2, \'article\', $3, $4, $5, FALSE)',
+				values: [randId, 10001, "comment", dateTime, 10001]
+			}
+		
+			db.query(query)
+			.then((result) => {
+				resolve(randId)
+			})
+			.catch((error) => {
+				reject(error)
+			})		
+	})
+}
+
+
+testQueries.createAndFlagComment = () => {
+	return new Promise((resolve, reject) => {
+		const dateTime = new Date()
+		const randId = new Date().getTime()
+	
+		const query = {
+				text: 'INSERT INTO "feedComments" (id, "feedId", "feedType", comment, "commentOn", "commentBy", "isFlagged") values  ($1, $2, \'article\', $3, $4, $5, TRUE)',
 				values: [randId, 10001, "comment", dateTime, 10001]
 			}
 		

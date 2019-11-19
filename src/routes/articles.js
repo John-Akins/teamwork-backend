@@ -38,6 +38,21 @@ router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articl
 
 /**
 * @api {get} /api/articles/<:tag>
+* @apiName Flag article comment 
+* @apiPermission admin
+* @apiGroup articles
+*
+* @apiParam  {String} [articleId] articleId
+*
+* @apiBody  {String} [userId] userId
+*
+* @apiSuccess (200) {Object} mixed `Response` object
+*/
+
+router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArticleComment, articlesController.flagArticleComment)
+
+/**
+* @api {get} /api/articles/<:tag>
 * @apiName Create article 
 * @apiPermission authorized users
 * @apiGroup articles
@@ -52,7 +67,7 @@ router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articl
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArticleComment, articlesController.flagArticleComment)
+router.delete("/comments/:commentId/flagged", auth.adminOnly, inputValidator.flagArticleComment, articlesController.deleteFlaggedComment)
 
 /**
 * @api {get} /api/articles/<:tag>

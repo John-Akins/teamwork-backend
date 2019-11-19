@@ -4,7 +4,7 @@ import db from "../db"
 
 const articlesController = {}
 
-const isArticleFlagged = (articleId) => {	
+const isArticleFlagged = (articleId) => {
 	return new Promise((resolve, reject) => {
 	const query = {
 				text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 AND "isFlagged" = TRUE',
@@ -20,8 +20,6 @@ const isArticleFlagged = (articleId) => {
 				resolve(false)
 			})
 			.catch((error) => {
-				console.log(" error ::::::::::::::")
-				console.log(error)
 				reject(false)
 			})
 		})
@@ -43,11 +41,40 @@ const commentExists = (commentId) => {
 				resolve(false)
 			})
 			.catch((error) => {
-				console.log(" error ::::::::::::::")
-				console.log(error)
 				reject(false)
 			})
 		})
+}
+
+const commentExistsAndFlagged = (commentId) => {	
+	return new Promise((resolve, reject) => {
+	commentExists(commentId)
+	.then((commentExists) => {
+		if(commentExists === false){
+			resolve({status: "error", msg: "Oopsie, comment cannot be found"})
+		}
+
+		const query = {
+			text: 'SELECT * FROM "feedComments" WHERE id = $1 AND "isFlagged" = TRUE',
+			values: [commentId]
+		}
+
+		db.query(query)
+			.then((response) => {
+				const data = response.rows
+				if(data[0] !== undefined && typeof data[0].comment === 'string'){
+					resolve({status: "success"})
+				}
+				resolve({status: "error", msg: "You cannot delete an unflagged comment, want to flag as inappropriate?"})
+			})
+			.catch((error) => {
+				reject({status: "error", msg: "You cannot delete an unflagged comment, want to flag as inappropriate?"})
+			})
+		})
+		.catch((error) => {
+			reject({status: "error", msg:"Oopsie, comment cannot be found"})
+		})
+	})
 }
 
 articlesController.createArticle = (req, res) => {
@@ -122,7 +149,6 @@ articlesController.editArticle = (req, res) => {
 				responseUtility.success(res, data)
 			})
 			.catch((error) => {
-				console.log(error)
 				responseUtility.error(res, 500, "server error")
 			})
 }
@@ -181,7 +207,36 @@ articlesController.flagArticleComment = (req, res) => {
 					responseUtility.success(res, data)
 				})
 				.catch((error) => {
-					console.log(error)
+					responseUtility.error(res, 500, "server error")
+				})
+		})
+		.catch( (error) => {
+			responseUtility.error(res, 500, "server error")
+		})
+}
+
+articlesController.deleteFlaggedComment = (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()){
+		return responseUtility.error(res, 422, errors.array())
+	}	
+
+	commentExistsAndFlagged(req.params.commentId)
+		.then((response) => {
+			if(response.status !== "success") {
+				return responseUtility.error(res, 401, response.msg)
+			}
+			const query = {
+					text: 'DELETE FROM "feedComments" WHERE  id = $1 ',
+					values: [ req.params.commentId ]
+				}	
+		
+			db.query(query)
+				.then(() => {
+					const data = { message: "Comment successfully deleted", token : req.headers.authorization.split()[1], userId: req.body.userId}
+					responseUtility.success(res, data)
+				})
+				.catch((error) => {
 					responseUtility.error(res, 500, "server error")
 				})
 		})
@@ -219,12 +274,10 @@ articlesController.deleteFlaggedArticle = (req, res) => {
 				responseUtility.success(res, data)
 			})
 			.catch((error) => {
-				console.log(error)
 				responseUtility.error(res, 500, "server error 1")
 			})
 	})
 	.catch((error) => {
-		console.log(error)
 		responseUtility.error(res, 500, "server error 2")		
 	})
 }
