@@ -11,7 +11,6 @@ const isArticleFlagged = (articleId) => {
 				text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 AND "isFlagged" = TRUE',
 				values: [articleId]
 		}
-
 		db.query(query)
 			.then((response) => {
 				const data = response.rows
@@ -41,13 +40,14 @@ articlesController.createArticle = (req, res) => {
 			text: 'INSERT INTO articles (title, "articleId", "createdOn", "createdBy", article, "isEdited") values  ($1, $2, $3, $4, $5, FALSE)',
 			values: [title, articleId, dateTime, userId, article]
 		}
-	
 		db.query(query)
 			.then(() => {
-				const data = { message: "Article successfully posted", articleId: articleId, createdOn: dateTime, title: title,token : token, userId: userId}
+				const data = { message: "Article successfully posted", articleId: articleId, createdOn: dateTime, title: title,token : req.headers.authorization.split()[1], userId: userId}
 				responseUtility.success(res, data)
 			})
-			.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+			.catch(( error ) => { 
+				responseUtility.error(res, 500, "server error") 
+			})
 }
 
 articlesController.commentArticle = (req, res) => {
@@ -59,14 +59,15 @@ articlesController.commentArticle = (req, res) => {
 	const { id, comment, userId } = req.body
     const dateTime = new Date()
 	const randId = new Date().getTime()
-	const token = req.headers.authorization.split()[1]
 	
 	comments.add( id, randId, comment, dateTime,  'article', userId )
 		.then((response) => {
-			const data = { message: "comment posted succesfully", commentId: randId, createdOn: dateTime, token : token, commentBy: userId, userId: userId }
+			const data = { message: "comment posted succesfully", commentId: randId, createdOn: dateTime, token : req.headers.authorization.split()[1], commentBy: userId, userId: userId }
 			return responseUtility.success(res, data)
 		})
-		.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+		.catch(( error ) => { 
+			responseUtility.error(res, 500, "server error") 
+		})
 }
 
 articlesController.editArticle = (req, res) => {
@@ -76,19 +77,19 @@ articlesController.editArticle = (req, res) => {
 	}	
 	
 	const { title, article, userId, isAdmin, articleId } = req.body
-    const token = req.headers.authorization.split()[1]
 
     const query = {
 			text: 'UPDATE articles SET title=$1, article=$2, "isEdited"=TRUE WHERE  "articleId"=$3 ',
 			values: [title, article, articleId]
-		}
-	
+		}	
 		db.query(query)
 			.then(() => {
-				const data = { message: "Article successfully updated", articleId: articleId, title: title, article: article, token : token, userId: userId}
+				const data = { message: "Article successfully updated", articleId: articleId, title: title, article: article, token : req.headers.authorization.split()[1], userId: userId}
 				responseUtility.success(res, data)
 			})
-			.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+			.catch(( error ) => { 
+				responseUtility.error(res, 500, "server error") 
+			})
 }
 
 articlesController.flagArticle = (req, res) => {
@@ -99,6 +100,7 @@ articlesController.flagArticle = (req, res) => {
 
 	const randomId = new Date().getTime()
 	const dateTime = new Date()	
+
 	const queryArray = [ 	
 		{
 			text: 'UPDATE articles SET "isFlagged"=TRUE WHERE "articleId"=$1 ', values: [ req.params.articleId ]
@@ -107,13 +109,14 @@ articlesController.flagArticle = (req, res) => {
 			text: 'INSERT INTO "flaggedFeeds"( "flagId", "feedId", "feedType", "flaggedOn", "flaggedBy") VALUES ($1, $2, $3, $4, $5)', values: [randomId, req.params.articleId, "article", dateTime, req.body.userId]
 		}
 	]
-
 	db.transactQuery(queryArray)
 		.then(() => {
 			const data = { message: "Article successfully flagged as inappropriate", token : req.headers.authorization.split()[1], userId: req.body.userId}
 			responseUtility.success(res, data)
 		})
-		.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+		.catch(( error ) => { 
+			responseUtility.error(res, 500, "server error") 
+		})
 }
 
 articlesController.flagArticleComment = (req, res) => {
@@ -130,7 +133,9 @@ articlesController.flagArticleComment = (req, res) => {
 			const data = { message: "Comment successfully flagged as inappropriate", token : req.headers.authorization.split()[1], userId: req.body.userId}
 			responseUtility.success(res, data)
 		})
-		.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+		.catch(( error ) => { 
+			responseUtility.error(res, 500, "server error") 
+		})
 }
 
 articlesController.deleteFlaggedComment = (req, res) => {
@@ -141,15 +146,15 @@ articlesController.deleteFlaggedComment = (req, res) => {
 
 	comments.deleteFlagged(req.params.commentId)
 		.then((response) => {
-			console.log("response delete flag")
-			console.log(response)
 			if(response !== "success") {
 				return responseUtility.error(res, 401, response.msg)
 			}
 			const data = { message: "Comment successfully deleted", token : req.headers.authorization.split()[1], userId: req.body.userId}
 			responseUtility.success(res, data)
 		})
-		.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+		.catch(( error ) => { 
+			responseUtility.error(res, 500, "server error") 
+		})
 }
 
 articlesController.deleteFlaggedArticle = (req, res) => {
@@ -157,25 +162,31 @@ articlesController.deleteFlaggedArticle = (req, res) => {
 	if ( !errors.isEmpty() ) {
 		return responseUtility.error(res, 422, errors.array())
 	}	
+
 	isArticleFlagged(req.params.articleId)
 	.then((isFlagged) => {
 		if( isFlagged === false){
 			return responseUtility.error(res, 401, "You cannot delete an unflagged article, want to flag as inappropriate?")		
 		}		
 		const queryArray = [ 	
-			{ text: 'DELETE FROM articles WHERE  "articleId"=$1', values: [ req.params.articleId ] }, { text: 'DELETE FROM "flaggedFeeds" WHERE "feedId"=$1 ', values: [ req.params.articleId ] }
+			{ text: 'DELETE FROM articles WHERE  "articleId"=$1', values: [ req.params.articleId ] }, 
+			{ text: 'DELETE FROM "flaggedFeeds" WHERE "feedId"=$1 ', values: [ req.params.articleId ] }
 		]
-	
 		db.transactQuery(queryArray)
 			.then(() => {
 				const data = { 
-					message: "Article successfully deleted", token : req.headers.authorization.split()[1], userId: req.body.userId
+					message: "Article successfully deleted", 
+					token : req.headers.authorization.split()[1], userId: req.body.userId
 				}
 				responseUtility.success(res, data)
 			})
-			.catch(( error ) => {	responseUtility.error(res, 500, "server error")	})
+			.catch(( error ) => { 
+				responseUtility.error(res, 500, "server error") 
+			})
 	})
-	.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+	.catch(( error ) => { 
+		responseUtility.error(res, 500, "server error") 
+	})
 }
 
 articlesController.getArticlesByTag = (req, res) => {
@@ -183,18 +194,17 @@ articlesController.getArticlesByTag = (req, res) => {
 	if ( !errors.isEmpty() ) {
 		return responseUtility.error(res, 422, errors.array())
 	}	
-	
 	const query = {
 				text: 'SELECT a.title, a."articleId" as id, a."createdOn", a."createdBy" as "authorId", a.article FROM articles as a  INNER JOIN "articleTags" ON "articleTags"."articleId" = a."articleId" INNER JOIN tags ON tags.id = "articleTags"."tagId" WHERE tags.name = $1 ORDER BY "createdOn" desc ',
 				values: [req.params.tag]
 		}
-
 		db.query(query)
 			.then((response) => {
-				const data = response.rows
-				responseUtility.success(res, data)
+				responseUtility.success(res, response.rows)
 			})
-			.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+			.catch(( error ) => { 
+				responseUtility.error(res, 500, "server error") 
+			})
 }
 
 articlesController.getArticlesById = (req, res) => {
@@ -209,32 +219,32 @@ articlesController.getArticlesById = (req, res) => {
 		}
 		try {
 			const response = await db.query(query)
-			const data = response.rows
-			data[0].comments = await comments.getByFeedId(req.params.articleId, 'article')
-			responseUtility.success(res, data[0])
+			response.rows[0].comments = await comments.getByFeedId(req.params.articleId, 'article')
+			responseUtility.success(res, response.rows[0])
 		}
-		catch( error ) {	responseUtility.error(res, 500, "server error") }
+		catch( error ) { 
+			responseUtility.error(res, 500, "server error") 
+		}
 	})()	
 }
-
 
 articlesController.deleteArticlesById = (req, res) => {
 	const errors = validationResult(req)
 	if ( !errors.isEmpty() ) {
 		return responseUtility.error(res, 422, errors.array())
 	}	
-	
 	const query = {
 				text: 'DELETE FROM articles WHERE "articleId" = $1 ',
 				values: [req.params.articleId]
 		}
-
 		db.query(query)
 			.then((response) => {
 				const data = {message: "Article successfully deleted"}
 				responseUtility.success(res,  data)
 			})
-			.catch(( error ) => { responseUtility.error(res, 500, "server error") } )
+			.catch(( error ) => { 
+				responseUtility.error(res, 500, "server error") 
+			})
 }
 
 export default articlesController

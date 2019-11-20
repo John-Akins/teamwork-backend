@@ -15,8 +15,8 @@ comments.getByFeedId = (feedId, feedType) => {
 			.then((response) => {
 				if(response.rows[0] !== undefined && typeof response.rows[0].comment === 'string'){
 					resolve(response.rows)
-				}
-				resolve('')
+                }
+				resolve([])
 			})
 			.catch((error) => {
 				reject(false)
