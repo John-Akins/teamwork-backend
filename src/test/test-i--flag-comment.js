@@ -94,7 +94,6 @@ testQueries.commentOnArticle()
                         userId: authorizedUserSecrets.data.userId,
                     })
                     .end((error, response) => {
-                        console.log(response.body)
                         data.status = response.statusCode
                         data.body = response.body
                         done()

@@ -25,6 +25,26 @@ const isArticleFlagged = (articleId) => {
 		})
 }
 
+const getArticleComments = (articleId) => {	
+	return new Promise((resolve, reject) => {
+		const query = {
+			text: 'SELECT * FROM "feedComments" WHERE "feedId" = $1 AND "feedType" = $2',
+			values: [parseInt(articleId),'article']
+		}
+
+		db.query(query)
+			.then((response) => {
+				if(response.rows[0] !== undefined && typeof response.rows[0].comment === 'string'){
+					resolve(response.rows)
+				}
+				resolve('')
+			})
+			.catch((error) => {
+				reject(false)
+			})
+		})
+}
+
 const commentExists = (commentId) => {	
 	return new Promise((resolve, reject) => {
 	const query = {
@@ -89,7 +109,7 @@ articlesController.createArticle = (req, res) => {
     const token = req.headers.authorization.split()[1]
 
     const query = {
-			text: 'INSERT INTO articles ("title", "articleId", "createdOn", "createdBy", "article", "isEdited") values  ($1, $2, $3, $4, $5, FALSE)',
+			text: 'INSERT INTO articles (title, "articleId", "createdOn", "createdBy", article, "isEdited") values  ($1, $2, $3, $4, $5, FALSE)',
 			values: [title, articleId, dateTime, userId, article]
 		}
 	
@@ -308,20 +328,22 @@ articlesController.getArticlesById = (req, res) => {
 	if (!errors.isEmpty()){
 		return responseUtility.error(res, 422, errors.array())
 	}	
-	
-	const query = {
-				text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 ',
-				values: [req.params.articleId]
+	;(async() => {
+		const query = {
+			text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 ',
+			values: [req.params.articleId]
 		}
-
-		db.query(query)
-			.then((response) => {
-				const data = response.rows
-				responseUtility.success(res, data[0])
-			})
-			.catch((error) => {
-				responseUtility.error(res, 500, "server error")
-			})
+	
+		try {
+			const response = await db.query(query)
+			const data = response.rows
+			data[0].comments = await getArticleComments(req.params.articleId)
+			responseUtility.success(res, data[0])
+		}
+		catch(error) {	
+			responseUtility.error(res, 500, "server error") 
+		}
+	})()	
 }
 
 
