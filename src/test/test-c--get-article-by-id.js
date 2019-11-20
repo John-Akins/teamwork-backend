@@ -48,6 +48,9 @@ describe('get articles by id', () => {
         it("should return relevant success message", () => {
 			expect(data.body.status).to.eql('success')
         })
+        it("should return relevant success message", () => {
+			expect(data.body.data.comments).to.be.an('array')
+        })
         it("should return an array of articles", () => {
             expect(data.body.data).to.be.an('object')
         })
