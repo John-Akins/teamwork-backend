@@ -49,7 +49,30 @@ auth.adminOnly = (req, res, next) => {
 		}
 	}
 	catch(e) {
-		return	responseUtility.error(res, 401, "Unauthorized request 2")
+		return	responseUtility.error(res, 401, "Unauthorized request")
+	}
+}
+
+auth.userIdMatchesArticleId = (req, res, next) => {
+	try{
+		const token = req.headers.authorization.split(" ")[1]
+		const decodedToken = jwt.verify(token, tokenSecret)
+		const { userId } = decodedToken
+		
+		try {
+			if( userId && parseInt(userId) !== parseInt(req.body.authorId) ) {
+				throw "Only admin or account owner can edit/delete this article, want to flag as inappropriate?"
+			}
+			else {
+				next()
+			}
+		}
+		catch(e) {
+			return	responseUtility.error(res, 401, e)
+		}
+	}
+	catch(e) {
+		return	responseUtility.error(res, 401, "Unauthorized request")
 	}
 }
 

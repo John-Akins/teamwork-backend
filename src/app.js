@@ -2,6 +2,7 @@ import express from "express"
 import  { json } from "body-parser"
 
 import authRoutes from "./routes/auth"
+import articlesRoutes from "./routes/articles"
 
 const app = express()
 
@@ -15,5 +16,6 @@ app.use((req, res, next) => {
 app.use(json())
 
 app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/articles", articlesRoutes)
 
 export default app

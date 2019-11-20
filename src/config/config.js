@@ -9,22 +9,6 @@ module.exports = {
     dialect: 'postgres'
   },
 
-  travis: {
-    database: 'teamwork_test',
-    username: 'test',
-    password: 'root',
-    host: '127.0.0.1',
-    dialect: 'postgres'
-  },
-
-  test: {
-    database: 'teamwork_test',
-    username: 'postgres',
-    password: 'root',
-    host: '127.0.0.1',
-    dialect: 'postgres'
-  },
-
   production: {
     database: process.env.DB_NAME,
     username: process.env.DB_USER,
@@ -32,4 +16,5 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: 'postgres'
   }
+
 }
