@@ -15,7 +15,6 @@ testQueries.getMaxArticle()
             describe('user owns article', () => {
                 const articleOwnerSecrets = {}
                 const data = {}
-            
                 before((done) => {
                         //login as article owner
                         chai.request(app)
@@ -98,7 +97,7 @@ testQueries.getMaxArticle()
                             expect(data.status).to.equal(401)
                         })
                         it("should return relevant error message", () => {
-                            expect(data.body.error).eql("Only admin or account owner can edit/delete this article, want to flag as inappropriate?")
+                            expect(data.body.error).eql("Only admin or account owner can edit/delete this feed, want to flag as inappropriate?")
                         })        
                 })
                 describe('user is unauthorized', () => {

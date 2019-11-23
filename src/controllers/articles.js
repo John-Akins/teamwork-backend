@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator"
 import responseUtility from "../utilities/responseUtility"
 import db from "../db"
 import comments from "./comments"
@@ -26,15 +25,9 @@ const isArticleFlagged = (articleId) => {
 }
 
 articlesController.createArticle = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}
-
 	const { title, article, userId, isAdmin } = req.body
     const dateTime = new Date()
 	const articleId = new Date().getTime()
-    const token = req.headers.authorization.split()[1]
 
     const query = {
 			text: 'INSERT INTO articles (title, "articleId", "createdOn", "createdBy", article, "isEdited") values  ($1, $2, $3, $4, $5, FALSE)',
@@ -51,11 +44,6 @@ articlesController.createArticle = (req, res) => {
 }
 
 articlesController.commentArticle = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}
-
 	const { id, comment, userId } = req.body
     const dateTime = new Date()
 	const randId = new Date().getTime()
@@ -70,12 +58,7 @@ articlesController.commentArticle = (req, res) => {
 		})
 }
 
-articlesController.editArticle = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
-	
+articlesController.editArticle = (req, res) => {	
 	const { title, article, userId, isAdmin, articleId } = req.body
 
     const query = {
@@ -93,11 +76,6 @@ articlesController.editArticle = (req, res) => {
 }
 
 articlesController.flagArticle = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
-
 	const randomId = new Date().getTime()
 	const dateTime = new Date()	
 
@@ -120,11 +98,6 @@ articlesController.flagArticle = (req, res) => {
 }
 
 articlesController.flagArticleComment = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
-
 	comments.flag(req.params.commentId, 'article')
 		.then((response) => {
 			if(response !== "success") {
@@ -139,11 +112,6 @@ articlesController.flagArticleComment = (req, res) => {
 }
 
 articlesController.deleteFlaggedComment = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
-
 	comments.deleteFlagged(req.params.commentId)
 		.then((response) => {
 			if(response !== "success") {
@@ -158,11 +126,6 @@ articlesController.deleteFlaggedComment = (req, res) => {
 }
 
 articlesController.deleteFlaggedArticle = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
-
 	isArticleFlagged(req.params.articleId)
 	.then((isFlagged) => {
 		if( isFlagged === false){
@@ -190,10 +153,6 @@ articlesController.deleteFlaggedArticle = (req, res) => {
 }
 
 articlesController.getArticlesByTag = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
 	const query = {
 				text: 'SELECT a.title, a."articleId" as id, a."createdOn", a."createdBy" as "authorId", a.article FROM articles as a  INNER JOIN "articleTags" ON "articleTags"."articleId" = a."articleId" INNER JOIN tags ON tags.id = "articleTags"."tagId" WHERE tags.name = $1 ORDER BY "createdOn" desc ',
 				values: [req.params.tag]
@@ -208,10 +167,6 @@ articlesController.getArticlesByTag = (req, res) => {
 }
 
 articlesController.getArticlesById = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
 	;(async() => {
 		const query = {
 			text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 ',
@@ -229,10 +184,6 @@ articlesController.getArticlesById = (req, res) => {
 }
 
 articlesController.deleteArticlesById = (req, res) => {
-	const errors = validationResult(req)
-	if ( !errors.isEmpty() ) {
-		return responseUtility.error(res, 422, errors.array())
-	}	
 	const query = {
 				text: 'DELETE FROM articles WHERE "articleId" = $1 ',
 				values: [req.params.articleId]

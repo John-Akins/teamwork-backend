@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+
 module.exports = {
   development: {
     database: 'teamwork',
@@ -8,7 +9,6 @@ module.exports = {
     host: '127.0.0.1',
     dialect: 'postgres'
   },
-
   production: {
     database: process.env.DB_NAME,
     username: process.env.DB_USER,
@@ -16,5 +16,4 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: 'postgres'
   }
-
 }

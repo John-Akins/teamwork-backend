@@ -1,5 +1,5 @@
 import { Client } from 'pg'
-import configJson from '../config/config';
+import configJson from '../config/db';
 
 console.log("process.env.NODE_ENV")
 console.log(process.env.NODE_ENV)

@@ -31,7 +31,6 @@ auth.adminOnly = (req, res, next) => {
 		const token = req.headers.authorization.split(" ")[1]
 		const decodedToken = jwt.verify(token, tokenSecret)
 		const { userId, isAdmin } = decodedToken
-
 	
 		try {
 			if( req.body.userId && req.body.userId !== userId ) {
@@ -53,7 +52,7 @@ auth.adminOnly = (req, res, next) => {
 	}
 }
 
-auth.userIdMatchesArticleId = (req, res, next) => {
+auth.userIdMatchesAuthorId = (req, res, next) => {
 	try{
 		const token = req.headers.authorization.split(" ")[1]
 		const decodedToken = jwt.verify(token, tokenSecret)
@@ -61,7 +60,7 @@ auth.userIdMatchesArticleId = (req, res, next) => {
 		
 		try {
 			if( userId && parseInt(userId) !== parseInt(req.body.authorId) ) {
-				throw "Only admin or account owner can edit/delete this article, want to flag as inappropriate?"
+				throw "Only admin or account owner can edit/delete this feed, want to flag as inappropriate?"
 			}
 			else {
 				next()
