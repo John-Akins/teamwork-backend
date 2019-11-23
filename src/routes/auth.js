@@ -1,7 +1,8 @@
 import express from "express"
-import inputValidator from "../middleware/input-validator"
+import validator from "../middleware/input-validator"
 import auth from "../middleware/auth"
 import authController  from "../controllers/auth"
+import validateRequest from "../utilities/validateRequest"
 
 const router = express.Router()
 
@@ -17,7 +18,7 @@ const router = express.Router()
 * @apiSuccess (200) {Object} mixed `User` object
 */
 
-router.post("/signin", inputValidator.signin, authController.signin)
+router.post("/signin", validator.signin, authController.signin)
 
 /**
 * @api {post} /api/auth/create-user
@@ -38,6 +39,6 @@ router.post("/signin", inputValidator.signin, authController.signin)
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.post("/create-user", auth.adminOnly, inputValidator.createUser, authController.createUser)
+router.post("/create-user", auth.adminOnly, validator.createUser, validateRequest,authController.createUser)
 
 export default router
