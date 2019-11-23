@@ -1,14 +1,14 @@
-const responseUtility = {}
-responseUtility.success = (res, data) => {
-    return res.status(200).json({
-        status: "success",
-        data: data
+/* eslint-disable linebreak-style */
+
+export default {
+  success: (res, data) => {
+    res.status(200).json({
+      status: 'success',
+      data,
     });
-}
-responseUtility.error = (res, code, msg) => {
-    return res.status(code).json({
-        status: "error",
-        error: msg
-    });
-}
-export default responseUtility
+  },
+  error: (res, code, msg) => res.status(code).json({
+    status: 'error',
+    error: msg,
+  }),
+};

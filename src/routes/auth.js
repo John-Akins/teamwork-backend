@@ -1,10 +1,10 @@
-import express from "express"
-import validator from "../middleware/input-validator"
-import auth from "../middleware/auth"
-import authController  from "../controllers/auth"
-import validateRequest from "../utilities/validateRequest"
+import express from 'express';
+import validator from '../middleware/input-validator';
+import auth from '../middleware/auth';
+import authController from '../controllers/auth';
+import validateRequest from '../utilities/validateRequest';
 
-const router = express.Router()
+const router = express.Router();
 
 /**
 * @api {post} /api/auth/signin
@@ -18,7 +18,7 @@ const router = express.Router()
 * @apiSuccess (200) {Object} mixed `User` object
 */
 
-router.post("/signin", validator.signin, authController.signin)
+router.post('/signin', validator.signin, authController.signin);
 
 /**
 * @api {post} /api/auth/create-user
@@ -39,6 +39,6 @@ router.post("/signin", validator.signin, authController.signin)
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.post("/create-user", auth.adminOnly, validator.createUser, validateRequest,authController.createUser)
+router.post('/create-user', auth.adminOnly, validator.createUser, validateRequest, authController.createUser);
 
-export default router
+export default router;
