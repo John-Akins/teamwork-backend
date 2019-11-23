@@ -1,5 +1,5 @@
-import multer from 'multer'
-
+/* eslint-disable linebreak-style */
+import multer from 'multer';
 
 const storage = multer.memoryStorage({});
 const multerUploads = multer({ storage }).single('image');
