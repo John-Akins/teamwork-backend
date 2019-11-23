@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf ./build && babel -d build/src ./src -s",
+    "start": "set NODE_ENV=elephantsql && nodemon --exec babel-node src/server.js",
     "dev": "set NODE_ENV=elephantsql && nodemon --exec babel-node src/server.js",
     "test": "set NODE_ENV=elephantsql && nyc --require @babel/register  mocha ./src/test/ --timeout 40000 --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
