@@ -8,11 +8,6 @@ const authController = {}
 const tokenSecret = "$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf"
 
 authController.signin = (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		return responseUtility.error(res, 422, errors.array())
-	}
-
 	const query = {
 		text: "SELECT * FROM users WHERE email = $1",
 		values: [req.body.email]
@@ -70,19 +65,12 @@ const emailExists = (email) => {
 }
 
 
-authController.createUser = (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty())
-	{
-		return responseUtility.error(res, 422, errors.array())
-	}
-	
+authController.createUser = (req, res) => {	
 	const { firstName, lastName, email, address, password, gender, jobRole, department, isAdmin } = req.body
 
 	emailExists(email)
 		.then((isDuplicate) => {
-			if(isDuplicate === true)
-			{
+			if(isDuplicate === true)	{
 				return responseUtility.error(res, 402, "this email already exists")
 			}
 

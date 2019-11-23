@@ -39,8 +39,31 @@ inputValidator.createArticle = [
 	sanitizeBody("isAdmin").toBoolean()
 ]
 
+inputValidator.createGif = [
+	body("title",).not().isEmpty().isLength({ max: 100 }),
+
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("title").trim().escape()
+]
+
+inputValidator.deleteGif = [
+	param("gifId",).not().isEmpty().isLength({max: 100}),
+
+	sanitizeParam("gifId").trim().escape(),
+	sanitizeBody("authorId").trim().escape(),
+	sanitizeBody("userId").trim().escape()
+]
+
 inputValidator.commentArticle = [
-	body("comment",).not().isEmpty().isLength({ max: 80 }),
+	body("comment").not().isEmpty().isLength({ max: 80 }),
+
+	sanitizeBody("userId").trim().escape(),
+	sanitizeBody("comment").trim().escape(),
+	sanitizeBody("id").trim().escape()
+]
+
+inputValidator.commentGif = [
+	body("comment").not().isEmpty().isLength({ max: 80 }),
 
 	sanitizeBody("userId").trim().escape(),
 	sanitizeBody("comment").trim().escape(),
@@ -80,6 +103,10 @@ inputValidator.getArticlesById = [
 	sanitizeParam("articleId").trim().escape(),
 	sanitizeBody("userId").trim().escape(),
 	sanitizeBody("isAdmin").toBoolean()
+]
+
+inputValidator.getFeeds = [
+	sanitizeBody("userId").trim().escape()
 ]
 
 export default inputValidator

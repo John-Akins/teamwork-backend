@@ -2,6 +2,7 @@ import express from "express"
 import inputValidator from "../middleware/input-validator"
 import auth from "../middleware/auth"
 import articlesController  from "../controllers/articles"
+import validateRequest from "../utilities/validateRequest"
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ const router = express.Router()
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.post("/", auth.allUsers, inputValidator.createArticle, articlesController.createArticle)
+router.post("/", auth.allUsers, inputValidator.createArticle, validateRequest, articlesController.createArticle)
 
 /**
 * @api {get} /api/articles/<:tag>
@@ -34,7 +35,7 @@ router.post("/", auth.allUsers, inputValidator.createArticle, articlesController
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articlesController.commentArticle)
+router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, validateRequest, articlesController.commentArticle)
 
 /**
 * @api {get} /api/articles/<:tag>
@@ -49,7 +50,7 @@ router.post("/:id/comment", auth.allUsers, inputValidator.commentArticle, articl
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArticleComment, articlesController.flagArticleComment)
+router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArticleComment, validateRequest,  articlesController.flagArticleComment)
 
 /**
 * @api {get} /api/articles/<:tag>
@@ -67,7 +68,7 @@ router.patch("/comments/:commentId/flag", auth.allUsers, inputValidator.flagArti
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.delete("/comments/:commentId/flagged", auth.adminOnly, inputValidator.flagArticleComment, articlesController.deleteFlaggedComment)
+router.delete("/comments/:commentId/flagged", auth.adminOnly, inputValidator.flagArticleComment, validateRequest,  articlesController.deleteFlaggedComment)
 
 /**
 * @api {get} /api/articles/<:tag>
@@ -85,7 +86,7 @@ router.delete("/comments/:commentId/flagged", auth.adminOnly, inputValidator.fla
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.editArticle, articlesController.editArticle)
+router.patch("/:articleId", auth.allUsers, auth.userIdMatchesAuthorId, inputValidator.editArticle, validateRequest,  articlesController.editArticle)
 
 /**
 * @api {get} /api/articles/<:tag>
@@ -106,7 +107,7 @@ router.patch("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputVal
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.patch("/:articleId/flag", auth.allUsers, inputValidator.getArticlesById, articlesController.flagArticle)
+router.patch("/:articleId/flag", auth.allUsers, inputValidator.getArticlesById, validateRequest,  articlesController.flagArticle)
 
 /**
 * @api {get} /api/articles/<:articleId>
@@ -119,7 +120,7 @@ router.patch("/:articleId/flag", auth.allUsers, inputValidator.getArticlesById, 
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.get("/:articleId", auth.allUsers, inputValidator.getArticlesById, articlesController.getArticlesById)
+router.get("/:articleId", auth.allUsers, inputValidator.getArticlesById,  validateRequest, articlesController.getArticlesById)
 
 /**
 * @api {get} /api/articles/tags/<:tag>
@@ -132,7 +133,7 @@ router.get("/:articleId", auth.allUsers, inputValidator.getArticlesById, article
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag, articlesController.getArticlesByTag)
+router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag,  validateRequest, articlesController.getArticlesByTag)
 
 /**
 * @api {delet} /api/articles/<:articleId>
@@ -150,7 +151,7 @@ router.get("/tags/:tag", auth.allUsers, inputValidator.getArticlesByTag, article
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.delete("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputValidator.getArticlesById, articlesController.deleteArticlesById)
+router.delete("/:articleId", auth.allUsers, auth.userIdMatchesAuthorId,  validateRequest, inputValidator.getArticlesById, articlesController.deleteArticlesById)
 
 /**
 * @api {delet} /api/articles/flagged/<:articleId>
@@ -167,6 +168,6 @@ router.delete("/:articleId", auth.allUsers, auth.userIdMatchesArticleId, inputVa
 * @apiSuccess (200) {Object} mixed `Response` object
 */
 
-router.delete("/flagged/:articleId", auth.adminOnly, inputValidator.getArticlesById, articlesController.deleteFlaggedArticle)
+router.delete("/flagged/:articleId", auth.adminOnly, inputValidator.getArticlesById, validateRequest,  articlesController.deleteFlaggedArticle)
 
 export default router

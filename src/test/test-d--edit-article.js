@@ -229,7 +229,7 @@ describe('edit article', () => {
             expect(data.status).to.equal(401)
         })
         it("should return relevant error message", () => {
-            expect(data.body.error).eql("Only admin or account owner can edit/delete this article, want to flag as inappropriate?")
+            expect(data.body.error).eql("Only admin or account owner can edit/delete this feed, want to flag as inappropriate?")
         })        
     })
 

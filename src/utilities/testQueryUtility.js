@@ -15,6 +15,18 @@ testQueries.getMaxArticle = () => {
 	})
 }
 
+testQueries.getMaxGif = () => {
+	return new Promise((resolve, reject) => {
+		db.query('SELECT "gifId" as id, "createdBy" as "authorId" FROM gifs WHERE "gifId" = (SELECT MAX("gifId") FROM gifs)')
+			.then((response) => {
+				resolve(response.rows[0])
+			})
+			.catch((error) => {
+				reject({status: "error", error: error})
+			})
+	})
+}
+
 testQueries.commentOnArticle = () => {
 	return new Promise((resolve, reject) => {
 		const dateTime = new Date()
