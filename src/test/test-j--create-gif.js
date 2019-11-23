@@ -33,12 +33,8 @@ describe('create gif', () => {
                 .set('Authorization', `token: ${userData.token}`)
                 .field('userId', userData.userId)
                 .field('title', "demo")
-                .attach('image', fs.readFileSync(__dirname+'\\test-upload-image\\Gif-008-T_large.gif'),__dirname+'\\test-upload-image\\Gif-008-T_large.gif')        
+                .attach('image', fs.readFileSync(__dirname+'//test-upload-image//Gif-008-T_large.gif'),__dirname+'//test-upload-image//Gif-008-T_large.gif')        
                 .end((error, response) => {
-                    console.log("response.data ::::::::")
-                    console.log(response.data)
-                    console.log("error ::::::::")
-                    console.log(error)
                     res.data = response.body.data
                     done()
                 })
@@ -70,7 +66,7 @@ describe('create gif', () => {
                 .set('Authorization', `token: ${userData.token}`)
                 .field('userId', userData.userId)
                 .field('title', "deafsafsdafdsafsajdfjsahflkasdhfkjsahfkjhsdafkjhasdljfhsadkjhfsadhflkasdhfkjsadhfkjsadhfksdjsdkjhfskajddfldjsalkdjfhsadkljfjhdskfhsadkjlfhsdhfdsakjfdsjfhdskljhfasldkjsadlkjhfjkasdhkjdshfkljsdhdfkjhdskjlfhsakjldhfdskaljhfkldsajhsdkjlfhsaffdasfkasdkfnasdknfkasdnkdskfsaknfdasknfkdsnfkdsanknkfasdknfkdsakfdskfnsakksdnfksnamo")
-                .attach('image', fs.readFileSync(__dirname+'\\test-upload-image\\Gif-008-T_large.gif'),__dirname+'\\test-upload-image\\Gif-008-T_large.gif')        
+                .attach('image', fs.readFileSync(__dirname+'//test-upload-image//Gif-008-T_large.gif'),__dirname+'//test-upload-image//Gif-008-T_large.gif')        
                 .end((error, response) => {
                     res.data = response.body
                     done()
@@ -115,7 +111,7 @@ describe('create gif', () => {
         .set('Authorization', `token: zckskdfnjadjid*w9wqnwkjqwjhwqjeiwqiqw8qw9halnjfd`)
         .field('userId', 101010)
         .field('title', "demo")
-        .attach('image', fs.readFileSync(__dirname+'\\test-upload-image\\Gif-008-T_large.gif'),__dirname+'\\test-upload-image\\Gif-008-T_large.gif')        
+        .attach('image', fs.readFileSync(__dirname+'//test-upload-image//Gif-008-T_large.gif'),__dirname+'//test-upload-image//Gif-008-T_large.gif')        
         .end((response) => {
             it("should return 401 status code", () => {
                 expect(response.body.status).to.equal(401)
