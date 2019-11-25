@@ -8,7 +8,7 @@ const articlesController = {};
 const isArticleFlagged = (articleId) => new Promise((resolve, reject) => {
   const query = {
     text: 'SELECT title, "articleId" as id, "createdOn", "createdBy" as "authorId", article FROM articles WHERE "articleId" = $1 AND "isFlagged" = TRUE',
-    values: [articleId]
+    values: [articleId],
   };
   db.query(query)
     .then((response) => {

@@ -1,5 +1,5 @@
 import express from 'express';
-import  { json, urlencoded } from 'body-parser';
+import { json, urlencoded } from 'body-parser';
 import authRoutes from './routes/auth';
 import articlesRoutes from './routes/articles';
 import gifRoutes from './routes/gif';
