@@ -11,7 +11,7 @@ services:
 
 env:
   global:
-  - NODE_ENV=elephantsql
+  - NODE_ENV=test
 
 script:
   - npm run test

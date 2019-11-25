@@ -41,20 +41,20 @@ comments.existsAndFlagged = async (commentId) => {
     if (commentExists === false) {
       return { status: 'error', msg: 'Oopsie, comment cannot be found' };
     }
-    const query = {	text: 'SELECT * FROM "feedComments" WHERE id = $1 AND "isFlagged" = TRUE',values: [commentId] };
+    const query = { text: 'SELECT * FROM "feedComments" WHERE id = $1 AND "isFlagged" = TRUE', values: [commentId] };
     const response = await db.query(query);
     const data = response.rows;
-    if ( data[0] !== undefined && typeof data[0].comment === 'string' ) {
+    if (data[0] !== undefined && typeof data[0].comment === 'string') {
       return { status: 'success' };
     }
     return { status: 'error', msg: 'You cannot delete an unflagged comment, want to flag as inappropriate?' };
   }
   catch (e) {
-    return  { status: 'error', msg:'Oopsie, comment cannot be found' };
+    return { status: 'error', msg:'Oopsie, comment cannot be found' };
   }
 };
 
-comments.flag = async (commentId, feedType) => {
+comments.flag = async (commentId) => {
   try {
     const commentExists = await comments.exists(commentId);
     if (commentExists === false) {
@@ -62,7 +62,7 @@ comments.flag = async (commentId, feedType) => {
     }
     const query = {
       text: 'UPDATE "feedComments" SET "isFlagged"=TRUE WHERE  "id"=$1 ',
-      values: [ commentId ],
+      values: [commentId],
     };
     await db.query(query);
     return 'success';
@@ -72,7 +72,7 @@ comments.flag = async (commentId, feedType) => {
   }
 };
 
-comments.add = async (id, randId, comment, dateTime,  feedType, userId) => {
+comments.add = async (id, randId, comment, dateTime, feedType, userId) => {
   try {
     const query = {
       name: 'add-comment',
@@ -95,7 +95,7 @@ comments.deleteFlagged = async (commentId) => {
     }
     const query = {
       text: 'DELETE FROM "feedComments" WHERE  id = $1 ',
-      values: [ commentId ],
+      values: [commentId],
     };
     await db.query(query);
     return 'success';
