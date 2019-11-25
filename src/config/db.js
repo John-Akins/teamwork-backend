@@ -1,19 +1,6 @@
 require('dotenv').config();
 
-
 module.exports = {
-  development: {
-    database: 'teamwork',
-    username: 'postgres',
-    password: 'root',
-    host: '127.0.0.1',
-    dialect: 'postgres',
-  },
-  production: {
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
-  },
+  production: 'postgres://qulzkjox:1pRx-JXE-Ixnq6x2a1_tB35VS2lmiUNl@manny.db.elephantsql.com:5432/qulzkjox',
+  test: 'postgres://pllohbki:G5-eisPW1G7robWet8AbmUl4XVRAMoyy@isilo.db.elephantsql.com:5432/pllohbki',
 };

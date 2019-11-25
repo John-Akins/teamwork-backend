@@ -60,7 +60,7 @@ gifController.commentGif = (req, res) => {
   comments.add(id, randId, comment, dateTime, 'gif', userId)
     .then(() => {
       const data = {
-        message: 'comment successfully created', commentId: randId, createdOn: dateTime, token: req.headers.authorization.split()[1], commentBy: userId, userId 
+        message: 'comment successfully created', commentId: randId, createdOn: dateTime, token: req.headers.authorization.split()[1], commentBy: userId, userId,
       };
       return responseUtility.success(res, data);
     })
