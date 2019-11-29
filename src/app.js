@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-app.use('/api/v1/gifs', cloudinary.cloudinaryConfig , gifRoutes);
+app.use('/api/v1/gifs', cloudinary.cloudinaryConfig, gifRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/articles', articlesRoutes);
 app.use('/api/v1/feed', feedRoutes);

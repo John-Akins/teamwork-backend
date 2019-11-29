@@ -5,11 +5,7 @@ const env = (process.env.NODE_ENV === undefined) ? 'development' : process.env.N
 
 const connection = {};
 
-if (env === 'development') {
-  connection.String = 'postgres://qulzkjox:1pRx-JXE-Ixnq6x2a1_tB35VS2lmiUNl@manny.db.elephantsql.com:5432/qulzkjox';
-} else {
-  connection.String = configJson.production;
-}
+connection.String = configJson[env];
 
 const client = new Client({ connectionString: connection.String });
 

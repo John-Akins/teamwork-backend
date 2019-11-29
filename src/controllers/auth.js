@@ -23,7 +23,8 @@ authController.signin = (req, res) => {
             responseUtility.error(res, 401, 'incorrect email or password');
           }
 
-          const token = jwt.sign({ userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin }, tokenSecret, { expiresIn: '24h' });
+          const token = jwt.sign({
+            userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin }, tokenSecret, { expiresIn: '24h' });
           const data = { token, userId: user.rows[0].userId, jobRole: user.rows[0].jobRole };
 
           responseUtility.success(res, data);
@@ -70,16 +71,14 @@ authController.createUser = (req, res) => {
       }
 
       const userId = new Date().getTime();
-      const token = (!req.headers.authorization) ? '' : req.headers.authorization.split()[1];
       bcrypt.hash(password, 10)
         .then((hash) => {
           const query = {
-            text: 'INSERT INTO users("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-            values: [userId, firstName, lastName, email, address, hash, gender, jobRole, department, isAdmin, true],
+            text: 'INSERT INTO users("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "isNewAccount") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',values: [userId, firstName, lastName, email, address, hash, gender, jobRole, department, isAdmin, true],
           };
           db.query(query)
             .then(() => {
-              const data = { message: 'User account successfully created', token, userId, jobRole };
+              const data = { message: 'User account successfully created' };
               responseUtility.success(res, data);
             })
             .catch(() => responseUtility.error(res, 500, 'server error'));
