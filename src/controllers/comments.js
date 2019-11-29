@@ -104,5 +104,4 @@ comments.deleteFlagged = async (commentId) => {
   }
 };
 
-
 export default comments;

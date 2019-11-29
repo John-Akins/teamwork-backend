@@ -4,10 +4,7 @@ import responseUtility from './responseUtility';
 
 const validateRequest = (req, res, next) => {
   const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return responseUtility.error(res, 422, errors.array());
-  }
-  return next();
+  return (!errors.isEmpty()) ? responseUtility.error(res, 422, errors.array()) : next();
 };
 
 export default validateRequest;
