@@ -1,5 +1,5 @@
 import {
- param, sanitizeParam, body, sanitizeBody,
+  param, sanitizeParam, body, sanitizeBody,
 } from 'express-validator';
 
 const inputValidator = {};
@@ -17,7 +17,7 @@ inputValidator.createUser = [
     .isLength({ min: 8 }),
   body('address').not().isEmpty().isLength({ min: 10 }),
   body('gender').not().isEmpty().isLength({ min: 4 }),
-  body('jobRole').not().isEmpty().isLength({ min: 2 }), 
+  body('jobRole').not().isEmpty().isLength({ min: 2 }),
   body('department').not().isEmpty().isLength({ min: 2 }),
   body('password').not().isEmpty().isLength({ min: 8 }),
   body('isAdmin').not().isEmpty().isBoolean(),
@@ -51,7 +51,7 @@ inputValidator.createGif = [
 ];
 
 inputValidator.deleteGif = [
-  param('gifId').not().isEmpty().isLength({max: 100}),
+  param('gifId').not().isEmpty().isLength({ max: 100 }),
 
   sanitizeParam('gifId').trim().escape(),
   sanitizeBody('authorId').trim().escape(),
