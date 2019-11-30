@@ -5,8 +5,8 @@ cache:
   directories:
     - "node_modules"
 install:
-  - npm install
-services:
+  - npm install --build-from-source
+  services:
   - postgresql
 
 env:
