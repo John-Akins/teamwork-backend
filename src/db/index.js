@@ -1,5 +1,6 @@
-require('dotenv').config();
 import { Client } from 'pg';
+
+require('dotenv').config();
 
 const env = (process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim();
 const connection = {};
