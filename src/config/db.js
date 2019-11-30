@@ -1,6 +1,6 @@
 require('dotenv').config();
 
 module.exports = {
-  development: 'postgres://qulzkjox:1pRx-JXE-Ixnq6x2a1_tB35VS2lmiUNl@manny.db.elephantsql.com:5432/qulzkjox',
-  test: 'postgres://pllohbki:G5-eisPW1G7robWet8AbmUl4XVRAMoyy@isilo.db.elephantsql.com:5432/pllohbki',
+  development: 'postgres://qulzkjox:QjAK5pvJYcP2OyeQlpRzRYWMYVJhSA5D@manny.db.elephantsql.com:5432/qulzkjox',
+  test: 'postgres://pllohbki:GUA79dfsfnJrekrIbJ4aA-LZCJQlfGsd@isilo.db.elephantsql.com:5432/pllohbki',
 };
