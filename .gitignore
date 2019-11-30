@@ -1,6 +1,4 @@
 node_modules/
-src/config/
-build/src/config/
 build
 yarn.lock
 yarn-error.log
