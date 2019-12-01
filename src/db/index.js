@@ -16,7 +16,6 @@ const db = {};
 db.query = (queryString) => new Promise((resolve, reject) => {
   client.query(queryString, (err, result) => {
     if (err) {
-      console.log("Error", err)
       reject(new Error({ msg: 'Error executing query', data: err.stack }));
     }
     resolve(result);
@@ -28,7 +27,6 @@ db.transactQuery = (queryArray) => new Promise((resolve, reject) => {
   for (let i = 0; i < len; i += 1) {
     client.query(queryArray[i].text, queryArray[i].values, (err) => {
       if (err) {
-        console.log("Error", err)
         reject(new Error({ msg: 'Error executing query', data: err.stack }));
       }
     });
