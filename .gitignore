@@ -1,7 +1,8 @@
-node_modules
+node_modules/
+build
 yarn.lock
 yarn-error.log
 .package-lock.json
-.nyc-output
-build
-*.env
+.nyc_output
+.coveralls.yml
+.env
