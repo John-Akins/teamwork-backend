@@ -7,7 +7,7 @@ chai.use(chatHttp);
 const { expect } = chai;
 
 describe('get articles by id', () => {
-  const adminSecrets = {};
+  const userSecrets = {};
   before((done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
@@ -17,7 +17,7 @@ describe('get articles by id', () => {
         password: 'password',
       })
       .end((error, response) => {
-        adminSecrets.data = response.body.data;
+        userSecrets.data = response.body.data;
         done();
       });
   });
@@ -29,8 +29,7 @@ describe('get articles by id', () => {
         .get('/api/v1/articles/10001')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${adminSecrets.data.token}`,
-          userId: adminSecrets.data.userId,
+          Authorization: `token: ${userSecrets.data.token} userId: ${userSecrets.data.userId}`
         })
         .send()
         .end((error, response) => {
@@ -62,8 +61,7 @@ describe('get articles by id', () => {
         .get('/api/v1/articles/10001')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${maliciousSecret.token}`,
-          userId: 10001,
+          Authorization: `token: ${maliciousSecret.token} userId: 10001`,
         })
         .send()
         .end((error, response) => {

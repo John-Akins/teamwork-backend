@@ -30,8 +30,7 @@ describe('create user', () => {
           .post('/api/v1/auth/create-user')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             firstName: 'akins',
@@ -66,8 +65,7 @@ describe('create user', () => {
           .post('/api/v1/auth/create-user')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             firstName: '',
@@ -103,8 +101,7 @@ describe('create user', () => {
           .post('/api/v1/auth/create-user')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             firstName: 'akins',
@@ -157,8 +154,7 @@ describe('create user', () => {
           .post('/api/v1/auth/create-user')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${userSecret.data.token}`,
-            userId: userSecret.data.userId,
+            Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
           })
           .send({
             firstName: 'sola',

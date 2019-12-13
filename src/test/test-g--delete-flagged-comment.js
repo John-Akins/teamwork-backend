@@ -33,8 +33,7 @@ testQueries.createAndFlagComment()
             .delete(`/api/v1/articles/comments/${commentId}/flagged`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -74,8 +73,7 @@ testQueries.createAndFlagComment()
             .delete(`/api/v1/articles/comments/${commentId}/flagged`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -117,8 +115,7 @@ testQueries.createAndFlagComment()
                 .delete(`/api/v1/articles/comments/${articleCommentId}/flagged`)
                 .set({
                   Accept: 'application/json',
-                  Authorization: `token: ${userSecret.data.token}`,
-                  userId: userSecret.data.userId,
+                  Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
                 })
                 .send()
                 .end((error, response) => {
@@ -161,8 +158,7 @@ testQueries.createAndFlagComment()
             .delete('/api/v1/articles/comments/10004/flagged')
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -180,15 +176,14 @@ testQueries.createAndFlagComment()
       });
 
       describe('user is unauthorized', () => {
-        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj', userId: 10001 };
+        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj' };
         const data = {};
         before((done) => {
           chai.request(app)
             .delete(`/api/v1/articles/comments/${commentId}/flagged`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${maliciousSecret.token}`,
-              userId: 10001,
+              Authorization: `token: ${maliciousSecret.token} userId: 10001`,
             })
             .send()
             .end((error, response) => {

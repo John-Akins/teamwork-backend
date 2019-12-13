@@ -29,8 +29,7 @@ describe('edit article', () => {
             .get('/api/v1/articles/10001')
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${articleOwnerSecrets.data.token}`,
-              userId: articleOwnerSecrets.data.userId,
+              Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -47,8 +46,7 @@ describe('edit article', () => {
           .patch('/api/v1/articles/10001')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${articleOwnerSecrets.data.token}`,
-            userId: articleOwnerSecrets.data.userId,
+            Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
           })
           .send({
             id: article.body.id,
@@ -77,8 +75,7 @@ describe('edit article', () => {
           .patch('/api/v1/articles/10001')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${articleOwnerSecrets.data.token}`,
-            userId: articleOwnerSecrets.data.userId,
+            Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
           })
           .send({
             id: article.body.id,
@@ -108,8 +105,7 @@ describe('edit article', () => {
           .patch('/api/v1/articles/10001')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${articleOwnerSecrets.data.token}`,
-            userId: articleOwnerSecrets.data.userId,
+            Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
           })
           .send({
             id: article.body.id,
@@ -138,8 +134,7 @@ describe('edit article', () => {
           .patch('/api/v1/articles/10001')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${articleOwnerSecrets.data.token}`,
-            userId: articleOwnerSecrets.data.userId,
+            Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
           })
           .send({
             id: article.body.id,
@@ -183,8 +178,7 @@ describe('edit article', () => {
             .get('/api/v1/articles/10001')
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -199,8 +193,7 @@ describe('edit article', () => {
         .patch('/api/v1/articles/10001')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${userSecret.data.token}`,
-          userId: userSecret.data.userId,
+          Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
         })
         .send({
           id: article.body.id,
@@ -231,8 +224,7 @@ describe('edit article', () => {
         .patch('/api/v1/articles/10001')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${maliciousSecret.token}`,
-          userId: 10001,
+          Authorization: `token: ${maliciousSecret.token} userId: 10001`,
         })
         .send({
           title: 'Lorium Ipsium',

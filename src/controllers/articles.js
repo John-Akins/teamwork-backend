@@ -30,12 +30,12 @@ articlesController.createArticle = (req, res) => {
 
   const query = {
     text: 'INSERT INTO articles (title, "articleId", "createdOn", "createdBy", article, "isEdited") values  ($1, $2, $3, $4, $5, FALSE)',
-    values: [title, articleId, dateTime, req.headers.userid, article],
+    values: [title, articleId, dateTime, req.headers.authorization.split(' ')[3], article],
   };
   db.query(query)
     .then(() => {
       const data = {
-        message: 'Article successfully posted', articleId, createdOn: dateTime, title, createdBy: req.headers.userid,
+        message: 'Article successfully posted', articleId, createdOn: dateTime, title, createdBy: req.headers.authorization.split(' ')[3],
       };
       responseUtility.success(res, data);
     })
@@ -49,10 +49,10 @@ articlesController.commentArticle = (req, res) => {
   const dateTime = new Date();
   const randId = new Date().getTime();
 
-  comments.add(id, randId, comment, dateTime, 'article', req.headers.userid)
+  comments.add(id, randId, comment, dateTime, 'article', req.headers.authorization.split(' ')[3])
     .then(() => {
       const data = {
-        message: 'comment posted succesfully', commentId: randId, createdOn: dateTime, commentBy: req.headers.userid,
+        message: 'comment posted succesfully', commentId: randId, createdOn: dateTime, commentBy: req.headers.authorization.split(' ')[3],
       };
       return responseUtility.success(res, data);
     })
@@ -85,7 +85,7 @@ articlesController.flagArticle = (req, res) => {
       text: 'UPDATE articles SET "isFlagged"=TRUE WHERE "articleId"=$1 ', values: [req.params.articleId],
     },
     {
-      text: 'INSERT INTO "flaggedFeeds"( "flagId", "feedId", "feedType", "flaggedOn", "flaggedBy") VALUES ($1, $2, $3, $4, $5)', values: [randomId, req.params.articleId, 'article', dateTime, req.headers.userid],
+      text: 'INSERT INTO "flaggedFeeds"( "flagId", "feedId", "feedType", "flaggedOn", "flaggedBy") VALUES ($1, $2, $3, $4, $5)', values: [randomId, req.params.articleId, 'article', dateTime, req.headers.authorization.split(' ')[3]],
     },
   ];
   db.transactQuery(queryArray)

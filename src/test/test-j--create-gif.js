@@ -30,11 +30,11 @@ describe('create gif', () => {
         const userData = userSecret.data;
         chai.request(app)
           .post('/api/v1/gifs')
-          .set('Authorization', `token: ${userData.token}`)
-          .set('userId', userData.userId)
+          .set('Authorization', `token: ${userData.token} userId: ${userData.userId}`)
           .field('title', 'demo')
           .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
           .end((error, response) => {
+            console.log('response.body article: ', response.body)
             res.data = response.body.data;
             done();
           });
@@ -63,8 +63,7 @@ describe('create gif', () => {
         const userData = userSecret.data;
         chai.request(app)
           .post('/api/v1/gifs')
-          .set('Authorization', `token: ${userData.token}`)
-          .set('userId', userData.userId)
+          .set('Authorization', `token: ${userData.token} userId: ${userData.userId}`)
           .field('title', 'deafsafsdafdsafsajdfjsahflkasdhfkjsahfkjhsdafkjhasdljfhsadkjhfsadhflkasdhfkjsadhfkjsadhfksdjsdkjhfskajddfldjsalkdjfhsadkljfjhdskfhsadkjlfhsdhfdsakjfdsjfhdskljhfasldkjsadlkjhfjkasdhkjdshfkljsdhdfkjhdskjlfhsakjldhfdskaljhfkldsajhsdkjlfhsaffdasfkasdkfnasdknfkasdnkdskfsaknfdasknfkdsnfkdsanknkfasdknfkdsakfdskfnsakksdnfksnamo')
           .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
           .end((error, response) => {
@@ -87,8 +86,7 @@ describe('create gif', () => {
         const userData = userSecret.data;
         chai.request(app)
           .post('/api/v1/gifs')
-          .set('Authorization', `token: ${userData.token}`)
-          .set('userId', userData.userId)
+          .set('Authorization', `token: ${userData.token} userId: ${userData.userId}`)
           .field('title', 'demo')
           .end((error, response) => {
             res.data = response.body;
