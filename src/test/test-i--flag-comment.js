@@ -35,8 +35,7 @@ testQueries.commentOnArticle()
               .patch('/api/v1/articles/comments/10003/flag')
               .set({
                 Accept: 'application/json',
-                Authorization: `token: ${authorizeduserSecret.data.token}`,
-                userId: authorizeduserSecret.data.userId,
+                Authorization: `token: ${authorizeduserSecret.data.token} userId: ${authorizeduserSecret.data.userId}`,
               })
               .send()
               .end((error, response) => {
@@ -60,8 +59,7 @@ testQueries.commentOnArticle()
               .patch('/api/v1/articles/comments/10009222222222222222222222100000000000000000000000000000000000000029999999999999999999999999999999999993333333333333333333444444444444444444444444444444444444444443/flag')
               .set({
                 Accept: 'application/json',
-                Authorization: `token: ${authorizeduserSecret.data.token}`,
-                userId: authorizeduserSecret.data.userId,
+                Authorization: `token: ${authorizeduserSecret.data.token} userId: ${authorizeduserSecret.data.userId}`,
               })
               .send()
               .end((error, response) => {
@@ -85,8 +83,7 @@ testQueries.commentOnArticle()
               .patch(`/api/v1/articles/comments/${commentId}/flag`)
               .set({
                 Accept: 'application/json',
-                Authorization: `token: ${authorizeduserSecret.data.token}`,
-                userId: authorizeduserSecret.data.userId,
+                Authorization: `token: ${authorizeduserSecret.data.token} userId: ${authorizeduserSecret.data.userId}`,
               })
               .send()
               .end((error, response) => {
@@ -106,15 +103,14 @@ testQueries.commentOnArticle()
       });
 
       describe('user is unauthorized', () => {
-        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj', userId: 10001, isAdmin: true };
+        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj' };
         const data = {};
         before((done) => {
           chai.request(app)
             .patch(`/api/v1/articles/comments/${commentId}/flag`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${maliciousSecret.token}`,
-              userId: 10001,
+              Authorization: `token: ${maliciousSecret.token} userId: 10001`,
             })
             .send()
             .end((error, response) => {
@@ -137,4 +133,3 @@ testQueries.commentOnArticle()
     console.log(e);
     console.error('Test article comment query returnd no article, something wrong with create article test?');
   })
-;

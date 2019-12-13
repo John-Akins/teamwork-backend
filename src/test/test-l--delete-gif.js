@@ -35,8 +35,7 @@ testQueries.getMaxGif()
             .delete(`/api/v1/gifs/${gif.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${gifOwnerSecrets.data.token}`,
-              userId: gifOwnerSecrets.data.userId,
+              Authorization: `token: ${gifOwnerSecrets.data.token} userId: ${gifOwnerSecrets.data.userId}`,
             })
             .send({
               id: gif.body.id,
@@ -79,8 +78,7 @@ testQueries.getMaxGif()
             .delete(`/api/v1/gifs/${gif.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send({
               id: gif.body.id,
@@ -100,15 +98,14 @@ testQueries.getMaxGif()
         });
       });
       describe('user is unauthorized', () => {
-        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj', userId: 10001, isAdmin: true };
+        const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj' };
         const data = {};
         before((done) => {
           chai.request(app)
             .delete(`/api/v1/gifs/${gif.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${maliciousSecret.token}`,
-              userId: 100001,
+              Authorization: `token: ${maliciousSecret.token} userId: 100001`,
             })
             .send({
               isAdmin: maliciousSecret.isAdmin,

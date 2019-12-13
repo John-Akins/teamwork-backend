@@ -7,7 +7,7 @@ chai.use(chatHttp);
 const { expect } = chai;
 
 describe('get feeds', () => {
-  const adminSecrets = {};
+  const userSecrets = {};
   before((done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
@@ -17,7 +17,7 @@ describe('get feeds', () => {
         password: 'password',
       })
       .end((error, response) => {
-        adminSecrets.data = response.body.data;
+        userSecrets.data = response.body.data;
         done();
       });
   });
@@ -29,12 +29,10 @@ describe('get feeds', () => {
         .get('/api/v1/feed')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${adminSecrets.data.token}`,
-          userId: adminSecrets.data.userId,
+          Authorization: `token: ${userSecrets.data.token} userId: ${userSecrets.data.userId}`,
         })
         .send()
         .end((error, response) => {
-          console.log(response.body.data);
           data.status = response.statusCode;
           data.body = response.body;
           done();
@@ -53,15 +51,14 @@ describe('get feeds', () => {
   });
 
   describe('user is unauthorized', () => {
-    const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj', userId: 10001 };
+    const maliciousSecret = { token: 'd@u30ur8038###(09@)(@(29299safosfshaj' };
     const data = {};
     before((done) => {
       chai.request(app)
         .get('/api/v1/feed')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${maliciousSecret.token}`,
-          userId: 10001,
+          Authorization: `token: ${maliciousSecret.token} userId: 10001`,
         })
         .send()
         .end((error, response) => {

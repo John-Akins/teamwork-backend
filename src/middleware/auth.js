@@ -10,7 +10,6 @@ auth.allUsers = (req, res, next) => {
     const userIdMatch = req.headers.authorization.split(' ')[3];
     const decodedToken = jwt.verify(token, tokenSecret);
     const { userId } = decodedToken;
-    console.log("userId :::::::::",userId,"userIdMatch :::::::::",userIdMatch)
 
     try {
       if (userId !== userIdMatch) {
@@ -22,7 +21,7 @@ auth.allUsers = (req, res, next) => {
       return responseUtility.error(res, 401, e.message);
     }
   } catch (e) {
-    return responseUtility.error(res, 401, 'Unauthorized request'+e);
+    return responseUtility.error(res, 401, 'Unauthorized request');
   }
   return false;
 };
@@ -31,7 +30,6 @@ auth.adminOnly = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const userIdMatch = req.headers.authorization.split(' ')[3];
-    console.log('userIdMatch :::::::::',userIdMatch)
     const decodedToken = jwt.verify(token, tokenSecret);
     const { userId, isAdmin } = decodedToken;
 
