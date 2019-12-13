@@ -1,16 +1,13 @@
 /* eslint-disable linebreak-style */
-import path from 'path';
-import Datauri from 'datauri';
 import responseUtility from '../utilities/responseUtility';
 import cloudinary from '../config/cloudinary';
 import db from '../db';
 import comments from './comments';
+import parseImageToStream from '../utilities/parseImageToStream'
 
 const gifController = {};
-const dUri = new Datauri();
 const { uploader } = cloudinary;
 
-const parseImageToStream = (req) => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer).content;
 
 gifController.createGif = (req, res) => {
   if (!req.file) {

@@ -11,7 +11,7 @@
     "start": "set NODE_ENV=development &&  node build/src/server.js",
     "build": "rm -rf ./build && babel -d build/src ./src -s",
     "dev": "set NODE_ENV=development && nodemon --exec babel-node src/server.js",
-    "test": "set NODE_ENV=test && nyc --require @babel/register  mocha ./src/test/ --timeout 40000 --exit",
+    "test": "set NODE_ENV=test && nyc --require @babel/register  mocha ./src/test/test-j--create-gif.js --timeout 40000 --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "npm run generate-lcov && npm run coveralls-coverage"
