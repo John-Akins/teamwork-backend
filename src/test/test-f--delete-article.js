@@ -34,8 +34,7 @@ testQueries.getMaxArticle()
             .delete(`/api/v1/articles/${article.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${articleOwnerSecrets.data.token}`,
-              userId: articleOwnerSecrets.data.userId,
+              Authorization: `token: ${articleOwnerSecrets.data.token} userId: ${articleOwnerSecrets.data.userId}`,
             })
             .send({
               id: article.body.id,
@@ -78,8 +77,7 @@ testQueries.getMaxArticle()
             .delete(`/api/v1/articles/${article.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${userSecret.data.token}`,
-              userId: userSecret.data.userId,
+              Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
             })
             .send({
               id: article.body.id,
@@ -106,8 +104,7 @@ testQueries.getMaxArticle()
             .delete(`/api/v1/articles/${article.body.id}`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${maliciousSecret.token}`,
-              userId: 10001,
+              Authorization: `token: ${maliciousSecret.token} userId: 10001`,
             })
             .send()
             .end((error, response) => {

@@ -1,16 +1,19 @@
 import jwt from 'jsonwebtoken';
 import responseUtility from '../utilities/responseUtility';
+require('dotenv').config();
 
 const auth = {};
-const tokenSecret = '$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf';
+const { TOKEN_SECRET } = process.env;
 
 auth.allUsers = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, tokenSecret);
+    const userIdMatch = req.headers.authorization.split(' ')[3];
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
+    const { userId } = decodedToken;
+
     try {
-      const { userId } = decodedToken;
-      if (req.headers.userId && req.headers.userId !== userId) {
+      if (userId !== userIdMatch) {
         throw new Error('Invalid user ID');
       } else {
         next();
@@ -27,11 +30,11 @@ auth.allUsers = (req, res, next) => {
 auth.adminOnly = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, tokenSecret);
+    const userIdMatch = req.headers.authorization.split(' ')[3];
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
     const { userId, isAdmin } = decodedToken;
-
     try {
-      if (req.headers.userId && req.headers.userId !== userId) {
+      if (userId !== userIdMatch) {
         throw new Error('Invalid user ID');
       }
       if (isAdmin !== true) {
@@ -51,7 +54,7 @@ auth.adminOnly = (req, res, next) => {
 auth.userIdMatchesAuthorId = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, tokenSecret);
+    const decodedToken = jwt.verify(token, TOKEN_SECRET);
     const { userId } = decodedToken;
 
     try {

@@ -35,8 +35,7 @@ testQueries.getMaxArticle()
             .patch(`/api/v1/articles/${article.body.id}/flag`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${authorizeduserSecret.data.token}`,
-              userId: authorizeduserSecret.data.userId,
+              Authorization: `token: ${authorizeduserSecret.data.token} userId: ${authorizeduserSecret.data.userId}`,
             })
             .send()
             .end((error, response) => {
@@ -61,8 +60,7 @@ testQueries.getMaxArticle()
             .patch(`/api/v1/articles/${article.body.id}/flag`)
             .set({
               Accept: 'application/json',
-              Authorization: `token: ${maliciousSecret.token}`,
-              userId: 10001,
+              Authorization: `token: ${maliciousSecret.token} userId: 10001`,
             })
             .send()
             .end((error, response) => {
@@ -85,4 +83,3 @@ testQueries.getMaxArticle()
     console.log(e);
     console.error('Test article query returnd no article, something wrong with create article test?');
   })
-;

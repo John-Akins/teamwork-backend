@@ -33,8 +33,7 @@ describe('create article', () => {
           .post('/api/v1/articles')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             title: 'Lorium Ipsium',
@@ -61,8 +60,8 @@ describe('create article', () => {
           .post('/api/v1/articles')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Accept: 'application/json',
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             title: '',
@@ -89,8 +88,8 @@ describe('create article', () => {
           .post('/api/v1/articles')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Accept: 'application/json',
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             title: 'Lorum Ipsium',
@@ -99,6 +98,7 @@ describe('create article', () => {
           .end((error, response) => {
             data.status = response.statusCode;
             data.body = response.body;
+            console.log('response.body article: ', response.body)
             done();
           });
       });
@@ -117,8 +117,7 @@ describe('create article', () => {
           .post('/api/v1/articles')
           .set({
             Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token}`,
-            userId: adminSecrets.data.userId,
+            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
           })
           .send({
             title: 'Lorium Ipsium',
@@ -148,8 +147,7 @@ describe('create article', () => {
         .post('/api/v1/articles')
         .set({
           Accept: 'application/json',
-          Authorization: `token: ${maliciousSecret.token}`,
-          userId: 10001,
+          Authorization: `token: ${maliciousSecret.token} userId: 100001`,
         })
         .send({
           title: 'Lorium Ipsium',
