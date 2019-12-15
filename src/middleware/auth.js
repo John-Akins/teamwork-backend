@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import responseUtility from '../utilities/responseUtility';
+require('dotenv').config();
 
 const auth = {};
-const tokenSecret = '$hdsJmzjQ7,E.m2y$12$1iTvLIHS60iMROUjADnu8tdiUguselTrWjDo6SxVf';
+const { tokenSecret } = process.env;
 
 auth.allUsers = (req, res, next) => {
   try {
@@ -13,7 +14,7 @@ auth.allUsers = (req, res, next) => {
 
     try {
       if (userId !== userIdMatch) {
-        throw new Error('Invalid user ID'+userIdMatch);
+        throw new Error('Invalid user ID');
       } else {
         next();
       }
@@ -32,7 +33,6 @@ auth.adminOnly = (req, res, next) => {
     const userIdMatch = req.headers.authorization.split(' ')[3];
     const decodedToken = jwt.verify(token, tokenSecret);
     const { userId, isAdmin } = decodedToken;
-
     try {
       if (userId !== userIdMatch) {
         throw new Error('Invalid user ID');

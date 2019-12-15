@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chatHttp from 'chai-http';
 import 'chai/register-should';
+import fs from 'fs';
 import app from '../app';
 
 chai.use(chatHttp);
@@ -22,28 +23,27 @@ describe('create user', () => {
           done();
         });
     });
-
+    /*
     describe('input existing email', () => {
       const data = {};
       before((done) => {
         chai.request(app)
           .post('/api/v1/auth/create-user')
-          .set({
-            Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
-          })
-          .send({
-            firstName: 'akins',
-            lastName: 'akin',
-            email: 'turan@gmail.com',
-            address: 'akins street',
-            password: 'dfjdskjfsk',
-            gender: 'male',
-            jobRole: 'Engineer',
-            department: 'IT',
-            isAdmin: true,
-          })
+          .set('Authorization', `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`)
+
+          .field('firstName', 'akins')
+          .field('lastName', 'akin')
+          .field('email', 'turan@gmail.com')
+          .field('address', 'akins street')
+          .field('password', 'dfjdskjfsk')
+          .field('gender', 'male')
+          .field('jobRole', 'Engineer')
+          .field('department', 'IT')
+          .field('isAdmin', true)
+
+          .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
           .end((error, response) => {
+            console.log("response.body: existing ",response.body)
             data.status = response.statusCode;
             data.body = response.body;
             done();
@@ -63,21 +63,17 @@ describe('create user', () => {
       before((done) => {
         chai.request(app)
           .post('/api/v1/auth/create-user')
-          .set({
-            Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
-          })
-          .send({
-            firstName: '',
-            lastName: '',
-            email: '',
-            address: '',
-            password: '',
-            gender: '',
-            jobRole: '',
-            department: '',
-            isAdmin: false,
-          })
+          .set('Authorization', `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`)
+          .field('firstName', 'a')
+          .field('lastName', 'a')
+          .field('email', 'a')
+          .field('address', 'a')
+          .field('password', 'a')
+          .field('gender', 'a')
+          .field('jobRole', 'a')
+          .field('department', 'a')
+          .field('isAdmin', true)
+          .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
           .end((error, response) => {
             data.status = response.statusCode;
             data.body = response.body;
@@ -92,28 +88,28 @@ describe('create user', () => {
         expect(data.body.error).to.be.an('array');
       });
     });
-
+*/
     describe('input new user', () => {
       const data = {};
       const id = new Date().getTime();
+
       before((done) => {
         chai.request(app)
           .post('/api/v1/auth/create-user')
-          .set({
-            Accept: 'application/json',
-            Authorization: `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`
-          })
-          .send({
-            firstName: 'akins',
-            lastName: 'akin',
-            email: `${id}turana@gmail.com`,
-            address: 'akins street',
-            password: 'dfjdskjfsk',
-            gender: 'male',
-            jobRole: 'Engineer',
-            department: 'IT',
-            isAdmin: true,
-          })
+          .set('Authorization', `token: ${adminSecrets.data.token} userId: ${adminSecrets.data.userId}`)
+
+          .field('firstName', 'sola')
+          .field('lastName', 'akin')
+          .field('email', `${id}turana@gmail.com`)
+          .field('address', 'akins street')
+          .field('password', 'dfjdskjfsk')
+          .field('gender', 'male')
+          .field('jobRole', 'Engineer')
+          .field('department', 'IT')
+          .field('isAdmin', true)
+
+          .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
+
           .end((error, response) => {
             data.status = response.statusCode;
             data.body = response.body;
@@ -128,8 +124,9 @@ describe('create user', () => {
         expect(data.body.data.message).eql('User account successfully created');
       });
     });
-  });
 
+  });
+/*
   describe('user create employee', () => {
     const userSecret = {};
 
@@ -152,21 +149,17 @@ describe('create user', () => {
       before((done) => {
         chai.request(app)
           .post('/api/v1/auth/create-user')
-          .set({
-            Accept: 'application/json',
-            Authorization: `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`,
-          })
-          .send({
-            firstName: 'sola',
-            lastName: 'akin',
-            email: 'akins@gmail.com',
-            address: 'akins street',
-            password: 'dfjdskjfsk',
-            gender: 'male',
-            jobRole: 'Engineer',
-            department: 'IT',
-            isAdmin: false,
-          })
+          .set('Authorization', `token: ${userSecret.data.token} userId: ${userSecret.data.userId}`)
+          .field('firstName', 'sola')
+          .field('lastName', 'akin')
+          .field('email', 'akins@gmail.com')
+          .field('address', 'akins street')
+          .field('password', 'dfjdskjfsk')
+          .field('gender', 'male')
+          .field('jobRole', 'Engineer')
+          .field('department', 'IT')
+          .field('isAdmin', true)
+          .attach('image', fs.readFileSync(`${__dirname}//test-upload-image//Gif-008-T_large.gif`), `${__dirname}//test-upload-image//Gif-008-T_large.gif`)
           .end((error, response) => {
             data.status = response.statusCode;
             data.body = response.body;
@@ -181,6 +174,6 @@ describe('create user', () => {
         expect(data.body.error).eql('Elevated access rights required');
       });
     });
-  });
-})
-;
+  }); */
+});
+
