@@ -23,7 +23,7 @@ describe('create user', () => {
           done();
         });
     });
-    /*
+
     describe('input existing email', () => {
       const data = {};
       before((done) => {
@@ -88,7 +88,7 @@ describe('create user', () => {
         expect(data.body.error).to.be.an('array');
       });
     });
-*/
+
     describe('input new user', () => {
       const data = {};
       const id = new Date().getTime();
@@ -126,7 +126,7 @@ describe('create user', () => {
     });
 
   });
-/*
+
   describe('user create employee', () => {
     const userSecret = {};
 
@@ -174,6 +174,6 @@ describe('create user', () => {
         expect(data.body.error).eql('Elevated access rights required');
       });
     });
-  }); */
+  });
 });
 
