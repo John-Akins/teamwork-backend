@@ -8,7 +8,6 @@ import parseImageToStream from '../utilities/parseImageToStream'
 const gifController = {};
 const { uploader } = cloudinary;
 
-
 gifController.createGif = (req, res) => {
   if (!req.file) {
     return responseUtility.error(res, 401, 'Please select a gif file to upload');
@@ -31,12 +30,10 @@ gifController.createGif = (req, res) => {
           responseUtility.success(res, data);
         })
         .catch((error) => {
-          console.log(error);
           responseUtility.error(res, 400, 'someting went wrong while processing your request');
         });
     })
     .catch((error) => {
-      console.log(error);
       responseUtility.error(res, 400, 'someting went wrong while processing your request');
     });
 };
@@ -68,7 +65,7 @@ gifController.commentGif = (req, res) => {
       return responseUtility.success(res, data);
     })
     .catch(() => {
-      responseUtility.error(res, 500, 'server error');
+      responseUtility.error(res, 400, 'server error');
     });
 };
 

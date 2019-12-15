@@ -40,7 +40,7 @@ articlesController.createArticle = (req, res) => {
       responseUtility.success(res, data);
     })
     .catch((error) => {
-      responseUtility.error(res, 500, 'someting went wrong while processing your request');
+      responseUtility.error(res, 400, 'someting went wrong while processing your request');
     });
 };
 
@@ -56,7 +56,7 @@ articlesController.commentArticle = (req, res) => {
       };
       return responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.editArticle = (req, res) => {
@@ -73,7 +73,7 @@ articlesController.editArticle = (req, res) => {
       };
       responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.flagArticle = (req, res) => {
@@ -93,7 +93,7 @@ articlesController.flagArticle = (req, res) => {
       const data = { message: 'Article successfully flagged as inappropriate' };
       responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.flagArticleComment = (req, res) => {
@@ -105,7 +105,7 @@ articlesController.flagArticleComment = (req, res) => {
       const data = { message: 'Comment successfully flagged as inappropriate' };
       responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.deleteFlaggedComment = (req, res) => {
@@ -117,7 +117,7 @@ articlesController.deleteFlaggedComment = (req, res) => {
       const data = { message: 'Comment successfully deleted' };
       return responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.deleteFlaggedArticle = (req, res) => {
@@ -137,9 +137,9 @@ articlesController.deleteFlaggedArticle = (req, res) => {
           };
           responseUtility.success(res, data);
         })
-        .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+        .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.getArticlesByTag = (req, res) => {
@@ -151,7 +151,7 @@ articlesController.getArticlesByTag = (req, res) => {
     .then((response) => {
       responseUtility.success(res, response.rows);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 articlesController.getArticlesById = (req, res) => {
@@ -168,7 +168,7 @@ articlesController.getArticlesById = (req, res) => {
       }
       responseUtility.error(res, 400, 'This article does not exist');
     } catch (error) {
-      responseUtility.error(res, 500, 'someting went wrong while processing your request');
+      responseUtility.error(res, 400, 'someting went wrong while processing your request');
     }
   })();
 };
@@ -183,7 +183,7 @@ articlesController.deleteArticlesById = (req, res) => {
       const data = { message: 'Article successfully deleted' };
       responseUtility.success(res, data);
     })
-    .catch((error) => responseUtility.error(res, 500, 'someting went wrong while processing your request'));
+    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 export default articlesController;
