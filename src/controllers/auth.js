@@ -10,7 +10,7 @@ dotenv.config();
 
 const authController = {};
 const { uploader } = cloudinary;
-const { tokenSecret } = process.env;
+const { TOKEN_SECRET } = process.env;
 
 authController.signin = (req, res) => {
   const query = {
@@ -29,7 +29,7 @@ authController.signin = (req, res) => {
             responseUtility.error(res, 401, 'incorrect email or password');
           }
 
-          const token = jwt.sign({ userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin }, tokenSecret, { expiresIn: '24h' });
+          const token = jwt.sign({ userId: user.rows[0].userId, isAdmin: user.rows[0].isAdmin }, TOKEN_SECRET, { expiresIn: '24h' });
           const data = { token, userId: user.rows[0].userId, jobRole: user.rows[0].jobRole };
 
           responseUtility.success(res, data);
