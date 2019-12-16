@@ -109,6 +109,12 @@ inputValidator.getArticlesById = [
   sanitizeBody('isAdmin').toBoolean(),
 ];
 
+inputValidator.deleteUser = [
+  param('userId').not().isEmpty(),
+
+  sanitizeParam('userId').trim().escape(),
+];
+
 inputValidator.getFeeds = [
   sanitizeBody('userId').trim().escape(),
 ];

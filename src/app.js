@@ -4,6 +4,7 @@ import authRoutes from './routes/auth';
 import articlesRoutes from './routes/articles';
 import gifRoutes from './routes/gif';
 import feedRoutes from './routes/feeds';
+import usersRoutes from './routes/users'
 import cloudinary from './config/cloudinary';
 
 const app = express();
@@ -22,5 +23,6 @@ app.use('/api/v1/gifs', cloudinary.cloudinaryConfig, gifRoutes);
 app.use('/api/v1/auth', cloudinary.cloudinaryConfig, authRoutes);
 app.use('/api/v1/articles', articlesRoutes);
 app.use('/api/v1/feed', feedRoutes);
+app.use('/api/v1/users', cloudinary.cloudinaryConfig, usersRoutes);
 
 export default app;

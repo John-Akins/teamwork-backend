@@ -42,7 +42,7 @@ authController.signin = (req, res) => {
 };
 
 
-const emailExists = (email) => new Promise((resolve, reject) => {
+authController.emailExists = (email) => new Promise((resolve, reject) => {
   const query = {
     // give the query a unique name
     name: 'fetch-user',
@@ -73,7 +73,7 @@ authController.createUser = async (req, res) => {
   } = req.body;
 
   try {
-    const isDuplicate = await emailExists(email);
+    const isDuplicate = await authController.emailExists(email);
     if (isDuplicate === true) {
       return responseUtility.error(res, 402, 'this email already exists');
     }
