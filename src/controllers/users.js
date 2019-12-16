@@ -9,11 +9,7 @@ const usersController = {};
 const { uploader } = cloudinary;
 
 usersController.getAllUsers = (req, res) => {
-<<<<<<< HEAD
   const query = 'SELECT "firstName", "lastName", email, address, gender, "jobRole", department, "isAdmin", "userId", "imageUrl" FROM users';
-=======
-  const query = 'SELECT "firstName", "lastName", "email", "address", "gender", "jobRole", "department", "isAdmin", "userId", "imageUrl", FROM users';
->>>>>>> 7a244107dcd22c0c582b68bb033212afc29b1c57
   db.query(query)
     .then((response) => {
       responseUtility.success(res, response.rows);
