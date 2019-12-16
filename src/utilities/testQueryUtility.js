@@ -87,4 +87,20 @@ testQueries.createAndFlagArticle = () => new Promise((resolve, reject) => {
     });
 });
 
+testQueries.createUser = () => new Promise((resolve, reject) => {
+  const randId = new Date().getTime();
+
+  const query = {
+    text: 'INSERT INTO users("userId", "firstName", "lastName", "email", "address", "password", "gender", "jobRole", "department", "isAdmin", "imageUrl", "isNewAccount") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', values: [randId, 'demo', 'demo', `${randId}email@gmail.com`, 'address', 'hash', 'gender', 'jobRole', 'department', false, 'image.url', true],
+  };
+
+  db.query(query)
+    .then(() => {
+      resolve(randId);
+    })
+    .catch((error) => {
+      reject(new Error(error));
+    });
+});
+
 export default testQueries;
